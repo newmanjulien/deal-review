@@ -1,0 +1,109 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --font-geist-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-geist-mono: "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --radius: 0.75rem;
+  --background: #f3f3f2;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #efefef;
+  --secondary-foreground: #18181b;
+  --muted: #efefef;
+  --muted-foreground: #6e6e75;
+  --accent: #ededed;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #4f46e5;
+  --canvas-bg: #f3f3f2;
+  --panel-bg: #ffffff;
+  --panel-border: #e5e5e5;
+  --icon-muted: #767676;
+  --icon-active: #1f1f1f;
+}
+
+.dark {
+  --background: #101013;
+  --foreground: #fafafa;
+  --card: #16161a;
+  --card-foreground: #fafafa;
+  --popover: #16161a;
+  --popover-foreground: #fafafa;
+  --primary: #f4f4f5;
+  --primary-foreground: #16161a;
+  --secondary: #27272a;
+  --secondary-foreground: #f4f4f5;
+  --muted: #27272a;
+  --muted-foreground: #9f9fa9;
+  --accent: #2d2d31;
+  --accent-foreground: #f4f4f5;
+  --destructive: #f87171;
+  --border: rgb(255 255 255 / 0.12);
+  --input: rgb(255 255 255 / 0.18);
+  --ring: #818cf8;
+  --canvas-bg: #1a1a1d;
+  --panel-bg: #16161a;
+  --panel-border: rgb(255 255 255 / 0.14);
+  --icon-muted: #9f9fa9;
+  --icon-active: #f4f4f5;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply text-foreground;
+    background: var(--canvas-bg);
+    font-family: var(--font-geist-sans), sans-serif;
+  }
+}
+
+@layer components {
+  .sidebar-nav-indicator {
+    top: var(--sidebar-nav-indicator-top, 0);
+    left: var(--sidebar-nav-indicator-left, 0);
+    width: var(--sidebar-nav-indicator-width, 0);
+    height: var(--sidebar-nav-indicator-height, 0);
+    opacity: var(--sidebar-nav-indicator-opacity, 0);
+  }
+}
