@@ -13,8 +13,8 @@ export function NotesPanel() {
               Private notes
             </label>
             <p className="text-xs leading-relaxed text-zinc-400">
-              Capture personal context, open questions, and follow-up items that
-              should stay
+              Capture private notes for yourself and for your meeting with your
+              rep
             </p>
             <textarea
               id="private-notes"
@@ -33,8 +33,8 @@ export function NotesPanel() {
               Feedback
             </label>
             <p className="text-xs leading-relaxed text-zinc-400">
-              Share structured feedback for the data scientist who prepared this
-              insight
+              Share feedback which the data scientist who prepared this insight
+              will read
             </p>
             <textarea
               id="scientist-feedback"

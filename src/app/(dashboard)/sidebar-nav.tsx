@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import type { MutableRefObject, RefObject } from "react";
+import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,7 @@ type SidebarNavProps = {
   setHoveredHref: (href: string | null) => void;
   navRef: RefObject<HTMLElement | null>;
   indicatorRef: RefObject<HTMLSpanElement | null>;
-  itemRefs: MutableRefObject<Record<string, HTMLSpanElement | null>>;
+  itemRefs: RefObject<Record<string, HTMLSpanElement | null>>;
 };
 
 export function SidebarNav({

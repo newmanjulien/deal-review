@@ -20,7 +20,7 @@ type NavItem = {
 
 const primaryNavItems: NavItem[] = [
   { href: "/", label: "Activity", icon: Activity },
-  { href: "/grid", label: "Layout Grid", icon: LayoutGrid },
+  { href: "/forecast", label: "Forecast", icon: LayoutGrid },
   { href: "/questions", label: "Questions", icon: CircleQuestionMark },
   { href: "/ideas", label: "Ideas", icon: Lightbulb },
 ];
