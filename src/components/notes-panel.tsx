@@ -1,97 +1,42 @@
 "use client";
 
-import { Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-type DraftQuestion = {
+export type DraftQuestion = {
   id: string;
   text: string;
 };
 
-function createDraftQuestion(text: string): DraftQuestion {
-  return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    text,
-  };
-}
+type NotesPanelProps = {
+  draftQuestions: DraftQuestion[];
+  onQuestionChange: (id: string, text: string) => void;
+  onQuestionDelete: (id: string) => void;
+  onSendAll: () => void;
+};
 
-export function NotesPanel() {
-  const [composerValue, setComposerValue] = useState("");
-  const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([]);
-
-  const canAddQuestion = composerValue.trim().length > 0;
+export function NotesPanel({
+  draftQuestions,
+  onQuestionChange,
+  onQuestionDelete,
+  onSendAll,
+}: NotesPanelProps) {
   const sendableCount = draftQuestions.filter(
     (question) => question.text.trim().length > 0,
   ).length;
   const canSend = sendableCount > 0;
-
-  const handleAddQuestion = () => {
-    if (!canAddQuestion) return;
-
-    const trimmed = composerValue.trim();
-
-    setDraftQuestions((current) => [...current, createDraftQuestion(trimmed)]);
-    setComposerValue("");
-  };
-
-  const handleQuestionChange = (id: string, text: string) => {
-    setDraftQuestions((current) =>
-      current.map((question) =>
-        question.id === id ? { ...question, text } : question,
-      ),
-    );
-  };
-
-  const handleDeleteQuestion = (id: string) => {
-    setDraftQuestions((current) =>
-      current.filter((question) => question.id !== id),
-    );
-  };
-
-  const handleSendAll = () => {
-    if (!canSend) return;
-  };
 
   return (
     <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden border-l border-zinc-100 bg-white">
       <div className="flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
           <header className="mb-5 space-y-1.5">
-            <h2 className="text-sm font-medium text-zinc-900">
-              Notes for Juan
-            </h2>
-            <p className="text-xs leading-relaxed text-zinc-500">
+            <h2 className="text-sm text-zinc-900">Notes for Juan</h2>
+            <p className="text-xs leading-relaxed tracking-wide text-zinc-500">
               We can send your questions as meeting notes so Juan can start
               preparing answers ahead of your meeting
             </p>
           </header>
-
-          <section className="pb-9">
-            <textarea
-              value={composerValue}
-              onChange={(event) => setComposerValue(event.target.value)}
-              rows={3}
-              placeholder="Add a question"
-              className="w-full resize-y rounded-md border border-zinc-200/50 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
-            />
-            <div className="mt-2 flex justify-end">
-              <Button
-                type="button"
-                size="xs"
-                variant="secondary"
-                className="h-6 bg-white px-2.5 text-xs text-zinc-500 hover:bg-zinc-100 disabled:text-zinc-400"
-                onClick={handleAddQuestion}
-                disabled={!canAddQuestion}
-                title={
-                  !canAddQuestion ? "Type a question to enable Add" : undefined
-                }
-              >
-                <Plus className="size-3" />
-                Add
-              </Button>
-            </div>
-          </section>
 
           <section className="space-y-5">
             {draftQuestions.map((question) => (
@@ -106,7 +51,7 @@ export function NotesPanel() {
                     size="icon-xs"
                     aria-label="aria"
                     className="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
-                    onClick={() => handleDeleteQuestion(question.id)}
+                    onClick={() => onQuestionDelete(question.id)}
                   >
                     <Trash2 className="size-3" />
                   </Button>
@@ -114,7 +59,7 @@ export function NotesPanel() {
                 <textarea
                   value={question.text}
                   onChange={(event) =>
-                    handleQuestionChange(question.id, event.target.value)
+                    onQuestionChange(question.id, event.target.value)
                   }
                   rows={3}
                   placeholder="Ask a clear, specific question"
@@ -135,7 +80,7 @@ export function NotesPanel() {
             type="button"
             variant="secondary"
             className="h-8 w-full rounded-md border border-zinc-200 bg-zinc-100/70 text-xs font-medium text-zinc-700 hover:bg-zinc-100 disabled:border-zinc-200 disabled:bg-zinc-50 disabled:text-zinc-400"
-            onClick={handleSendAll}
+            onClick={onSendAll}
             disabled={!canSend}
           >
             Send to Juan {canSend ? `(${sendableCount})` : ""}
