@@ -77,21 +77,15 @@ export function MobileNavDrawer({
   }
 
   return (
-    <div className="fixed inset-0 z-50 transition-opacity duration-200 md:hidden">
-      <button
-        type="button"
-        aria-label="Close navigation menu"
-        className="absolute inset-0 bg-zinc-950/35"
-        onClick={onClose}
-      />
+    <div className="fixed inset-0 z-50 bg-white md:hidden">
       <aside
         id="mobile-nav-drawer"
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation"
-        className="absolute inset-y-0 left-0 flex w-72 max-w-[84vw] flex-col border-r border-zinc-200 bg-white p-4 shadow-lg transition-transform duration-200 ease-out"
+        className="flex h-full flex-col"
       >
-        <div className="mb-6 flex items-center justify-between">
+        <header className="flex h-12 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)]">
           <div className="overflow-hidden rounded-sm">
             <Image
               src="/logo.png"
@@ -106,19 +100,22 @@ export function MobileNavDrawer({
             ref={closeButtonRef}
             type="button"
             aria-label="Close navigation menu"
-            className="inline-flex size-8 items-center justify-center rounded-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+            className="ml-auto inline-flex size-8 items-center justify-center rounded-sm text-zinc-700 transition-colors hover:bg-zinc-100"
             onClick={onClose}
           >
             <X className="size-4" />
           </button>
-        </div>
+        </header>
 
-        <SidebarNav
-          items={primaryNavItems}
-          activeHref={activeHref}
-          variant="drawer"
-          onItemSelect={onClose}
-        />
+        <div className="flex-1 overflow-y-auto p-4">
+          <SidebarNav
+            items={primaryNavItems}
+            activeHref={activeHref}
+            variant="drawer"
+            onItemSelect={onClose}
+            className="mt-2"
+          />
+        </div>
       </aside>
     </div>
   );
