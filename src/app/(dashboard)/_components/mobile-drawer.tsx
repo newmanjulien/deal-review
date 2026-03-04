@@ -4,28 +4,23 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { isNavItemActive, primaryNavItems } from "./sidebar-nav";
-import { SidebarNav } from "./sidebar-nav";
-
-type MobileDrawerProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  triggerRef: RefObject<HTMLButtonElement | null>;
-};
+import { getActiveHref, Nav, primaryNavItems } from "./nav";
 
 export function MobileDrawer({
   isOpen,
   onClose,
   triggerRef,
-}: MobileDrawerProps) {
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  triggerRef: RefObject<HTMLButtonElement | null>;
+}) {
   const pathname = usePathname();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousPathnameRef = useRef(pathname);
   const wasOpenRef = useRef(false);
 
-  const activeHref =
-    primaryNavItems.find((item) => isNavItemActive(pathname, item.href))
-      ?.href ?? null;
+  const activeHref = getActiveHref(pathname, primaryNavItems);
 
   useEffect(() => {
     const previousPathname = previousPathnameRef.current;
@@ -108,7 +103,7 @@ export function MobileDrawer({
         </header>
 
         <div className="flex-1 overflow-y-auto p-4">
-          <SidebarNav
+          <Nav
             items={primaryNavItems}
             activeHref={activeHref}
             variant="drawer"

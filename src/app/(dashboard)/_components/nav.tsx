@@ -1,7 +1,15 @@
+//navigation which is used by both mobile-drawer and sidebar
+
 "use client";
 
 import Link from "next/link";
-import { Activity, CircleQuestionMark, LayoutGrid, Lightbulb, type LucideIcon } from "lucide-react";
+import {
+  Activity,
+  CircleQuestionMark,
+  LayoutGrid,
+  Lightbulb,
+  type LucideIcon,
+} from "lucide-react";
 import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,10 +21,14 @@ export type NavItem = {
 };
 
 export const primaryNavItems: NavItem[] = [
-  { href: "/", label: "Activity", icon: Activity },
+  { href: "/", label: "Since last meeting", icon: Activity },
   { href: "/forecast", label: "Forecast", icon: LayoutGrid },
-  { href: "/questions", label: "Questions", icon: CircleQuestionMark },
-  { href: "/ideas", label: "Ideas", icon: Lightbulb },
+  {
+    href: "/questions",
+    label: "Missing data and timelines",
+    icon: CircleQuestionMark,
+  },
+  { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
 ];
 
 export function isNavItemActive(pathname: string, href: string): boolean {
@@ -27,29 +39,38 @@ export function isNavItemActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-type SidebarNavProps = {
+export function getActiveHref(
+  pathname: string,
+  items: NavItem[],
+): string | null {
+  return (
+    items.find((item) => isNavItemActive(pathname, item.href))?.href ?? null
+  );
+}
+
+type NavProps = {
   items: NavItem[];
   activeHref: string | null;
   setHoveredHref?: (href: string | null) => void;
   navRef?: RefObject<HTMLElement | null>;
   indicatorRef?: RefObject<HTMLSpanElement | null>;
-  itemRefs?: RefObject<Record<string, HTMLSpanElement | null>>;
+  setItemRef?: (href: string, el: HTMLSpanElement | null) => void;
   variant?: "rail" | "drawer";
   onItemSelect?: () => void;
   className?: string;
 };
 
-export function SidebarNav({
+export function Nav({
   items,
   activeHref,
   setHoveredHref,
   navRef,
   indicatorRef,
-  itemRefs,
+  setItemRef,
   variant = "rail",
   onItemSelect,
   className,
-}: SidebarNavProps) {
+}: NavProps) {
   const isRail = variant === "rail";
 
   return (
@@ -74,8 +95,8 @@ export function SidebarNav({
         <span
           key={item.href}
           ref={(el) => {
-            if (!isRail || !itemRefs) return;
-            itemRefs.current[item.href] = el;
+            if (!isRail || !setItemRef) return;
+            setItemRef(item.href, el);
           }}
           onMouseEnter={isRail ? () => setHoveredHref?.(item.href) : undefined}
           className="relative z-10 inline-flex"

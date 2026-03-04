@@ -4,17 +4,15 @@ import Image from "next/image";
 import type { RefObject } from "react";
 import { Calendar, Menu } from "lucide-react";
 
-type MobileHeaderProps = {
-  isNavOpen: boolean;
-  onToggleNav: () => void;
-  menuButtonRef: RefObject<HTMLButtonElement | null>;
-};
-
 export function MobileHeader({
   isNavOpen,
   onToggleNav,
   menuButtonRef,
-}: MobileHeaderProps) {
+}: {
+  isNavOpen: boolean;
+  onToggleNav: () => void;
+  menuButtonRef: RefObject<HTMLButtonElement | null>;
+}) {
   return (
     <header className="relative flex h-12 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)] md:hidden">
       <div className="overflow-hidden rounded-sm">

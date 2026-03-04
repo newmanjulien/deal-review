@@ -7,11 +7,7 @@ import { MobileDrawer } from "./_components/mobile-drawer";
 import { NotesPanel } from "./_components/notes-panel";
 import { Sidebar } from "./_components/sidebar";
 
-type DashboardShellProps = {
-  children: ReactNode;
-};
-
-export function LayoutClient({ children }: DashboardShellProps) {
+export function LayoutClient({ children }: { children: ReactNode }) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
