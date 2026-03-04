@@ -5,7 +5,7 @@ import type { RefObject } from "react";
 import { Calendar, Menu } from "lucide-react";
 
 export function MobileHeader({
-  isNavOpen,
+  isNavOpen: _isNavOpen,
   onToggleNav,
   menuButtonRef,
 }: {
@@ -28,9 +28,8 @@ export function MobileHeader({
       <button
         ref={menuButtonRef}
         type="button"
-        aria-label={
-          isNavOpen ? "Close navigation menu" : "Open navigation menu"
-        }
+        aria-label="aria"
+        data-open={_isNavOpen ? "true" : "false"}
         className="ml-auto inline-flex size-8 items-center justify-center rounded-sm text-zinc-700 transition-colors hover:bg-zinc-100"
         onClick={onToggleNav}
       >
@@ -39,7 +38,7 @@ export function MobileHeader({
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-14">
         <button
           type="button"
-          aria-label="Open date selector"
+          aria-label="aria"
           className="pointer-events-auto inline-flex h-8 min-w-0 max-w-full items-center justify-center gap-1.5 rounded-sm px-2 text-center text-xs font-medium tracking-wide text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
         >
           <Calendar className="size-3.5 shrink-0" />

@@ -1,66 +1,145 @@
 "use client";
 
+import { Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+
+type DraftQuestion = {
+  id: string;
+  text: string;
+};
+
+function createDraftQuestion(text: string): DraftQuestion {
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    text,
+  };
+}
+
 export function NotesPanel() {
+  const [composerValue, setComposerValue] = useState("");
+  const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([]);
+
+  const canAddQuestion = composerValue.trim().length > 0;
+  const sendableCount = draftQuestions.filter(
+    (question) => question.text.trim().length > 0,
+  ).length;
+  const canSend = sendableCount > 0;
+
+  const handleAddQuestion = () => {
+    if (!canAddQuestion) return;
+
+    const trimmed = composerValue.trim();
+
+    setDraftQuestions((current) => [...current, createDraftQuestion(trimmed)]);
+    setComposerValue("");
+  };
+
+  const handleQuestionChange = (id: string, text: string) => {
+    setDraftQuestions((current) =>
+      current.map((question) =>
+        question.id === id ? { ...question, text } : question,
+      ),
+    );
+  };
+
+  const handleDeleteQuestion = (id: string) => {
+    setDraftQuestions((current) =>
+      current.filter((question) => question.id !== id),
+    );
+  };
+
+  const handleSendAll = () => {
+    if (!canSend) return;
+  };
+
   return (
-    <aside className="min-h-0 w-95 border-l border-zinc-100">
-      <div className="h-full overflow-y-auto p-4">
-        <div className="space-y-5">
-          <section className="space-y-2">
-            <label
-              htmlFor="private-notes"
-              className="block text-xs font-medium text-zinc-700"
-            >
-              Private notes
-            </label>
-            <p className="text-xs leading-relaxed text-zinc-400">
-              Only you will see these notes
+    <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden border-l border-zinc-100 bg-white">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
+          <header className="mb-5 space-y-1.5">
+            <h2 className="text-sm font-medium text-zinc-900">
+              Notes for Juan
+            </h2>
+            <p className="text-xs leading-relaxed text-zinc-500">
+              We can send your questions as meeting notes so Juan can start
+              preparing answers ahead of your meeting
             </p>
+          </header>
+
+          <section className="pb-9">
             <textarea
-              id="private-notes"
-              name="private-notes"
-              rows={6}
-              placeholder="Leave notes for yourself"
-              className="w-full resize-y rounded-sm border border-zinc-100 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+              value={composerValue}
+              onChange={(event) => setComposerValue(event.target.value)}
+              rows={3}
+              placeholder="Add a question"
+              className="w-full resize-y rounded-md border border-zinc-200/50 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
+            <div className="mt-2 flex justify-end">
+              <Button
+                type="button"
+                size="xs"
+                variant="secondary"
+                className="h-6 bg-white px-2.5 text-xs text-zinc-500 hover:bg-zinc-100 disabled:text-zinc-400"
+                onClick={handleAddQuestion}
+                disabled={!canAddQuestion}
+                title={
+                  !canAddQuestion ? "Type a question to enable Add" : undefined
+                }
+              >
+                <Plus className="size-3" />
+                Add
+              </Button>
+            </div>
           </section>
-          <div aria-hidden="true" className="-mx-5 border-t border-zinc-100" />
-          <section className="space-y-2">
-            <label
-              htmlFor="scientist-feedback"
-              className="block text-xs font-medium text-zinc-700"
-            >
-              Feedback
-            </label>
-            <p className="text-xs leading-relaxed text-zinc-400">
-              Sent to the data scientist who prepared this insight
-            </p>
-            <textarea
-              id="scientist-feedback"
-              name="scientist-feedback"
-              rows={6}
-              placeholder="Share feedback"
-              className="w-full resize-y rounded-sm border border-zinc-100 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
-            />
+
+          <section className="space-y-5">
+            {draftQuestions.map((question) => (
+              <article
+                key={question.id}
+                className="rounded-md border border-zinc-200/50 bg-white px-3 py-2.5 transition-colors hover:border-zinc-300"
+              >
+                <div className="mb-1 flex justify-end">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-xs"
+                    aria-label="aria"
+                    className="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
+                    onClick={() => handleDeleteQuestion(question.id)}
+                  >
+                    <Trash2 className="size-3" />
+                  </Button>
+                </div>
+                <textarea
+                  value={question.text}
+                  onChange={(event) =>
+                    handleQuestionChange(question.id, event.target.value)
+                  }
+                  rows={3}
+                  placeholder="Ask a clear, specific question"
+                  className="w-full resize-y rounded-md border border-zinc-200/50 bg-zinc-50/40 px-2.5 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+                />
+                <div className="mt-2 px-1.5">
+                  <p className="text-xs leading-relaxed text-zinc-400/70">
+                    Juan may add a preliminary answer
+                  </p>
+                </div>
+              </article>
+            ))}
           </section>
-          <div aria-hidden="true" className="-mx-5 border-t border-zinc-100" />
-          <section className="space-y-2">
-            <label
-              htmlFor="seller-questions"
-              className="block text-xs font-medium text-zinc-700"
-            >
-              Questions for your seller
-            </label>
-            <p className="text-xs leading-relaxed text-zinc-400">
-              Sent to the seller before your meeting
-            </p>
-            <textarea
-              id="seller-questions"
-              name="seller-questions"
-              rows={6}
-              placeholder="Add questions for your seller"
-              className="w-full resize-y rounded-sm border border-zinc-100 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
-            />
-          </section>
+        </div>
+
+        <div className="border-t border-zinc-100 px-4 py-3">
+          <Button
+            type="button"
+            variant="secondary"
+            className="h-8 w-full rounded-md border border-zinc-200 bg-zinc-100/70 text-xs font-medium text-zinc-700 hover:bg-zinc-100 disabled:border-zinc-200 disabled:bg-zinc-50 disabled:text-zinc-400"
+            onClick={handleSendAll}
+            disabled={!canSend}
+          >
+            Send to Juan {canSend ? `(${sendableCount})` : ""}
+          </Button>
         </div>
       </div>
     </aside>

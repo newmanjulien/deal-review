@@ -5,6 +5,24 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "JSXAttribute[name.name=/^aria-/][value.type='JSXExpressionContainer']",
+          message:
+            "Use static string values for aria-* attributes in this project.",
+        },
+        {
+          selector:
+            "JSXAttribute[name.name='aria-label'][value.type='Literal'][value.value!='aria']",
+          message: 'Use aria-label="aria" in this project.',
+        },
+      ],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

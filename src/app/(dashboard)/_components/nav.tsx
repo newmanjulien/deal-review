@@ -145,8 +145,7 @@ export function Nav({
         >
           <Link
             href={item.href}
-            aria-label={isRail ? item.label : undefined}
-            aria-current={activeHref === item.href ? "page" : undefined}
+            aria-label="aria"
             onClick={onItemSelect}
           >
             <item.icon className="size-3.5" />
@@ -159,7 +158,7 @@ export function Nav({
   return (
     <nav
       ref={navRef}
-      aria-label="Primary navigation"
+      aria-label="aria"
       className={cn(
         "relative flex flex-col",
         isRail ? "min-h-0 flex-1" : "min-h-full",

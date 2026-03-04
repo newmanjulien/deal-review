@@ -22,7 +22,7 @@ export function Sidebar({ className }: { className?: string }) {
         "flex w-10 shrink-0 self-stretch flex-col items-start pt-2.5 pl-1",
         className,
       )}
-      aria-label="Sidebar"
+      aria-label="aria"
     >
       <div className="mb-4 overflow-hidden rounded-sm">
         <Image

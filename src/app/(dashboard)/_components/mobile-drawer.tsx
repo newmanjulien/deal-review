@@ -77,7 +77,7 @@ export function MobileDrawer({
         id="mobile-nav-drawer"
         role="dialog"
         aria-modal="true"
-        aria-label="Mobile navigation"
+        aria-label="aria"
         className="flex h-full flex-col"
       >
         <header className="flex h-12 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)]">
@@ -94,7 +94,7 @@ export function MobileDrawer({
           <button
             ref={closeButtonRef}
             type="button"
-            aria-label="Close navigation menu"
+            aria-label="aria"
             className="ml-auto inline-flex size-8 items-center justify-center rounded-sm text-zinc-700 transition-colors hover:bg-zinc-100"
             onClick={onClose}
           >

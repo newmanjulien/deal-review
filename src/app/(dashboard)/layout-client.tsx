@@ -24,24 +24,22 @@ export function LayoutClient({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-dvh bg-zinc-50">
+    <div className="h-dvh min-h-dvh overflow-hidden bg-zinc-50">
       <MobileDrawer
         isOpen={isMobileNavOpen}
         onClose={() => setIsMobileNavOpen(false)}
         triggerRef={menuButtonRef}
       />
-      <div className="dashboard-canvas flex min-h-dvh">
+      <div className="dashboard-canvas flex h-full min-h-0">
         <Sidebar className="hidden md:flex" />
-        <main className="min-w-0 flex-1 overflow-hidden bg-white md:rounded-sm md:border md:border-zinc-100">
-          <div className="flex min-h-full flex-col">
-            <MobileHeader
-              isNavOpen={isMobileNavOpen}
-              onToggleNav={() => setIsMobileNavOpen((current) => !current)}
-              menuButtonRef={menuButtonRef}
-            />
-            <Header />
-            <div className="min-h-0 flex-1">{children}</div>
-          </div>
+        <main className="min-w-0 flex min-h-0 flex-1 flex-col overflow-hidden bg-white md:rounded-sm md:border md:border-zinc-100">
+          <MobileHeader
+            isNavOpen={isMobileNavOpen}
+            onToggleNav={() => setIsMobileNavOpen((current) => !current)}
+            menuButtonRef={menuButtonRef}
+          />
+          <Header />
+          <div className="flex min-h-0 flex-1 overflow-hidden">{children}</div>
         </main>
       </div>
     </div>

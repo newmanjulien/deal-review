@@ -1,12 +1,13 @@
 import Image from "next/image";
-import { Calendar, ChevronRight, MoreHorizontal, Plus } from "lucide-react";
+import { Calendar, ChevronRight, Plus } from "lucide-react";
+import { PeoplePopover } from "./people-popover";
 
 export function Header() {
   return (
     <header className="hidden items-center border-b border-zinc-100 p-1.5 md:flex">
       <button
         type="button"
-        aria-label="Open date selector"
+        aria-label="aria"
         className="mr-2 ml-1 flex items-center gap-3 text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
       >
         <Calendar className="h-3 w-3" />
@@ -20,7 +21,7 @@ export function Header() {
         <div className="flex items-center -space-x-2">
           <button
             type="button"
-            aria-label="Open avatar 1"
+            aria-label="aria"
             className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-white"
           >
             <Image
@@ -33,7 +34,7 @@ export function Header() {
           </button>
           <button
             type="button"
-            aria-label="Open avatar 2"
+            aria-label="aria"
             className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-white"
           >
             <Image
@@ -46,25 +47,14 @@ export function Header() {
           </button>
           <button
             type="button"
-            aria-label="Open avatar 3"
-            className="inline-flex h-7 w-7 shrink-0 rounded-full border border-white bg-gradient-to-br from-zinc-200 to-zinc-400"
-          />
-          <button
-            type="button"
-            aria-label="Add person"
+            aria-label="aria"
             className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"
           >
             <Plus className="h-3 w-3" />
           </button>
         </div>
       </div>
-      <button
-        type="button"
-        aria-label="More options"
-        className="flex h-7 w-7 items-center justify-center rounded-sm border border-zinc-100 text-zinc-700 transition-colors hover:bg-zinc-100"
-      >
-        <MoreHorizontal className="h-3 w-3" />
-      </button>
+      <PeoplePopover />
     </header>
   );
 }
