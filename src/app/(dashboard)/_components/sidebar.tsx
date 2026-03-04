@@ -18,7 +18,10 @@ export function Sidebar({ className }: { className?: string }) {
 
   return (
     <aside
-      className={cn("flex h-full w-10 shrink-0 flex-col items-start p-2", className)}
+      className={cn(
+        "flex h-full w-10 shrink-0 flex-col items-start pt-2.5 pl-1",
+        className,
+      )}
       aria-label="Sidebar"
     >
       <div className="mb-4 overflow-hidden rounded-sm">

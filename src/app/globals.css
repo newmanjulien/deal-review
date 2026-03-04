@@ -102,6 +102,16 @@
 }
 
 @layer components {
+  .dashboard-canvas {
+    padding: 0;
+  }
+
+  @media (min-width: 768px) {
+    .dashboard-canvas {
+      padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+    }
+  }
+
   .sidebar-nav-indicator {
     top: var(--sidebar-nav-indicator-top, 0);
     left: var(--sidebar-nav-indicator-left, 0);
