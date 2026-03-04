@@ -6,11 +6,11 @@ import {
 } from "@/components/ui/popover";
 
 const dates = [
-  "January 26 meeting",
-  "January 12 meeting",
-  "December 29 meeting",
-  "December 15 meeting",
-  "December 1 meeting",
+  "January 26",
+  "January 12",
+  "December 29",
+  "December 15",
+  "December 1",
 ];
 
 const datesPopoverContentId = "header-dates-popover-content";
@@ -33,6 +33,9 @@ export function Date() {
         align="start"
         className="w-64 p-0.5"
       >
+        <p className="px-3 pt-3 pb-1 text-[11px] font-medium tracking-wide text-zinc-500">
+          Select meeting date
+        </p>
         <ul className="m-1 space-y-2">
           {dates.map((date) => (
             <li key={date}>

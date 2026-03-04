@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Header } from "./_components/header";
-import { MobileHeader } from "./_components/mobile-header";
-import { MobileDrawer } from "./_components/mobile-drawer";
+import { Header } from "./_components/header/header";
+import { MobileHeader } from "./_components/mobile/mobile-header";
+import { MobileDrawer } from "./_components/mobile/mobile-drawer";
 import { Sidebar } from "./_components/sidebar";
 
 export function LayoutClient({ children }: { children: ReactNode }) {

@@ -35,6 +35,9 @@ export function Switch() {
         align="end"
         className="w-64 py-0.5 px-1"
       >
+        <p className="px-3 pt-3 pb-1 text-[11px] font-medium tracking-wide text-zinc-500">
+          Switch to another seller
+        </p>
         <ul className="mt-1 space-y-1">
           {people.map((person) => (
             <li key={person.name}>

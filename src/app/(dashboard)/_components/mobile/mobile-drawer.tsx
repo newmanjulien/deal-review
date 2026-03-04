@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { getActiveHref, Nav, primaryNavGroups } from "./nav";
+import { getActiveHref, Nav, primaryNavGroups } from "../nav";
 
 export function MobileDrawer({
   isOpen,
