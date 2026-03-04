@@ -3,7 +3,7 @@
 export function NotesPanel() {
   return (
     <aside className="min-h-0 w-95 border-l border-zinc-100">
-      <div className="h-full overflow-y-auto p-5">
+      <div className="h-full overflow-y-auto p-4">
         <div className="space-y-5">
           <section className="space-y-2">
             <label

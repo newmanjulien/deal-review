@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Header } from "./header";
-import { MobileHeader } from "./mobile-header";
-import { MobileNavDrawer } from "./mobile-nav-drawer";
-import { NotesPanel } from "./notes-panel";
-import { Sidebar } from "./sidebar";
+import { Header } from "./_components/header";
+import { MobileHeader } from "./_components/mobile-header";
+import { MobileNavDrawer } from "./_components/mobile-nav-drawer";
+import { NotesPanel } from "./_components/notes-panel";
+import { Sidebar } from "./_components/sidebar";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);

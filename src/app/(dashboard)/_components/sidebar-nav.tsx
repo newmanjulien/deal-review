@@ -56,9 +56,7 @@ export function SidebarNav({
             if (!isRail || !itemRefs) return;
             itemRefs.current[item.href] = el;
           }}
-          onMouseEnter={
-            isRail ? () => setHoveredHref?.(item.href) : undefined
-          }
+          onMouseEnter={isRail ? () => setHoveredHref?.(item.href) : undefined}
           className="relative z-10 inline-flex"
         >
           <Button
@@ -68,11 +66,9 @@ export function SidebarNav({
             className={cn(
               isRail
                 ? "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
-                : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2",
+                : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
               activeHref === item.href &&
-                (isRail
-                  ? "text-zinc-900"
-                  : "bg-zinc-100 text-zinc-900"),
+                (isRail ? "text-zinc-900" : "bg-zinc-100/70 text-zinc-900"),
             )}
           >
             <Link

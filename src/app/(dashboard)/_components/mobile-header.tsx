@@ -30,9 +30,9 @@ export function MobileHeader({
       <button
         ref={menuButtonRef}
         type="button"
-        aria-label={isNavOpen ? "Close navigation menu" : "Open navigation menu"}
-        aria-controls="mobile-nav-drawer"
-        aria-expanded={isNavOpen}
+        aria-label={
+          isNavOpen ? "Close navigation menu" : "Open navigation menu"
+        }
         className="ml-auto inline-flex size-8 items-center justify-center rounded-sm text-zinc-700 transition-colors hover:bg-zinc-100"
         onClick={onToggleNav}
       >
