@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   Activity,
   CircleQuestionMark,
+  CircleOff,
   LayoutGrid,
   Lightbulb,
   List,
@@ -38,11 +39,13 @@ export const primaryNavGroups: NavGroups = {
     {
       href: "/questions",
       label: "Missing data and timelines",
-      icon: CircleQuestionMark,
+      icon: CircleOff,
     },
     { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
   ],
-  secondary: [{ href: "/conversations", label: "All conversations", icon: List }],
+  secondary: [
+    { href: "/conversations", label: "All conversations", icon: List },
+  ],
   tertiary: [
     {
       href: "/contact-support",
@@ -64,7 +67,11 @@ export function getActiveHref(
   pathname: string,
   groups: NavGroups,
 ): string | null {
-  const items = [...groups.main, ...groups.secondary, ...(groups.tertiary ?? [])];
+  const items = [
+    ...groups.main,
+    ...groups.secondary,
+    ...(groups.tertiary ?? []),
+  ];
   return (
     items.find((item) => isNavItemActive(pathname, item.href))?.href ?? null
   );
@@ -109,7 +116,9 @@ export function Nav({
           setItemRef(item.href, el);
         }}
         onMouseEnter={
-          isRail && section !== "tertiary" ? () => setHoveredHref?.(item.href) : undefined
+          isRail && section !== "tertiary"
+            ? () => setHoveredHref?.(item.href)
+            : undefined
         }
         className={cn(
           "relative z-10 inline-flex",
@@ -124,13 +133,13 @@ export function Nav({
             isRail && section !== "tertiary"
               ? "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
               : section === "tertiary" && isRail
-                ? "size-7 rounded-full border border-zinc-300 bg-zinc-100 text-zinc-500 shadow-[0_1px_2px_rgba(24,24,27,0.1)] transition-colors hover:bg-zinc-200 hover:text-zinc-700 focus-visible:ring-2"
+                ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 shadow-[0_1px_2px_rgba(24,24,27,0.1)] transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
                 : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
             activeHref === item.href &&
               (isRail && section !== "tertiary"
                 ? "text-zinc-900"
                 : section === "tertiary" && isRail
-                  ? "border-zinc-300 bg-zinc-200 text-zinc-900"
+                  ? "border-zinc-300 bg-white text-zinc-900"
                   : "bg-zinc-100/70 text-zinc-900"),
           )}
         >
@@ -183,7 +192,9 @@ export function Nav({
         </div>
       </div>
       {tertiaryItems.length > 0 ? (
-        <div className={cn("mt-auto flex flex-col", isRail ? "pb-1 pt-3" : "pt-6")}>
+        <div
+          className={cn("mt-auto flex flex-col", isRail ? "pb-1 pt-3" : "pt-6")}
+        >
           <div className={cn("flex flex-col", itemGapClass)}>
             {renderItems(tertiaryItems, "tertiary")}
           </div>
