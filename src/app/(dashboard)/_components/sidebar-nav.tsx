@@ -1,10 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import { Activity, CircleQuestionMark, LayoutGrid, Lightbulb, type LucideIcon } from "lucide-react";
 import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { NavItem } from "./nav-config";
+
+export type NavItem = {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+};
+
+export const primaryNavItems: NavItem[] = [
+  { href: "/", label: "Activity", icon: Activity },
+  { href: "/forecast", label: "Forecast", icon: LayoutGrid },
+  { href: "/questions", label: "Questions", icon: CircleQuestionMark },
+  { href: "/ideas", label: "Ideas", icon: Lightbulb },
+];
+
+export function isNavItemActive(pathname: string, href: string): boolean {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 type SidebarNavProps = {
   items: NavItem[];

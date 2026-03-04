@@ -4,20 +4,20 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { isNavItemActive, primaryNavItems } from "./nav-config";
+import { isNavItemActive, primaryNavItems } from "./sidebar-nav";
 import { SidebarNav } from "./sidebar-nav";
 
-type MobileNavDrawerProps = {
+type MobileDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
 };
 
-export function MobileNavDrawer({
+export function MobileDrawer({
   isOpen,
   onClose,
   triggerRef,
-}: MobileNavDrawerProps) {
+}: MobileDrawerProps) {
   const pathname = usePathname();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousPathnameRef = useRef(pathname);

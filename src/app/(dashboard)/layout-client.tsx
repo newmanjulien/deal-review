@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Header } from "./_components/header";
 import { MobileHeader } from "./_components/mobile-header";
-import { MobileNavDrawer } from "./_components/mobile-nav-drawer";
+import { MobileDrawer } from "./_components/mobile-drawer";
 import { NotesPanel } from "./_components/notes-panel";
 import { Sidebar } from "./_components/sidebar";
 
@@ -30,7 +30,7 @@ export function LayoutClient({ children }: DashboardShellProps) {
 
   return (
     <div className="min-h-dvh bg-zinc-50">
-      <MobileNavDrawer
+      <MobileDrawer
         isOpen={isMobileNavOpen}
         onClose={() => setIsMobileNavOpen(false)}
         triggerRef={menuButtonRef}

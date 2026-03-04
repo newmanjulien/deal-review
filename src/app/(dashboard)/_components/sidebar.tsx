@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { isNavItemActive, primaryNavItems } from "./nav-config";
+import { isNavItemActive, primaryNavItems } from "./sidebar-nav";
 import { SidebarNav } from "./sidebar-nav";
 
 type SidebarProps = {
