@@ -58,6 +58,8 @@
   --panel-border: #e5e5e5;
   --icon-muted: #767676;
   --icon-active: #1f1f1f;
+  --shell-gutter-mobile: 0.75rem;
+  --shell-gutter-tablet: 1rem;
 }
 
 .dark {
@@ -95,6 +97,7 @@
     @apply text-foreground;
     background: var(--canvas-bg);
     font-family: var(--font-geist-sans), sans-serif;
+    overflow-x: hidden;
   }
 }
 

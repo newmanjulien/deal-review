@@ -3,37 +3,15 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import {
-  Activity,
-  CircleQuestionMark,
-  LayoutGrid,
-  Lightbulb,
-  type LucideIcon,
-} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { isNavItemActive, primaryNavItems } from "./nav-config";
 import { SidebarNav } from "./sidebar-nav";
 
-type NavItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
+type SidebarProps = {
+  className?: string;
 };
 
-const primaryNavItems: NavItem[] = [
-  { href: "/", label: "Activity", icon: Activity },
-  { href: "/forecast", label: "Forecast", icon: LayoutGrid },
-  { href: "/questions", label: "Questions", icon: CircleQuestionMark },
-  { href: "/ideas", label: "Ideas", icon: Lightbulb },
-];
-
-function isNavItemActive(pathname: string, href: string): boolean {
-  if (href === "/") {
-    return pathname === "/";
-  }
-
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-export function Sidebar() {
+export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -131,7 +109,10 @@ export function Sidebar() {
   }, [activeHref, hoveredHref, updateIndicator]);
 
   return (
-    <aside className="flex h-full flex-col items-start p-2">
+    <aside
+      className={cn("flex h-full w-10 shrink-0 flex-col items-start p-2", className)}
+      aria-label="Sidebar"
+    >
       <div className="mb-4 overflow-hidden rounded-sm">
         <Image
           src="/logo.png"
@@ -150,6 +131,7 @@ export function Sidebar() {
         navRef={navRef}
         indicatorRef={indicatorRef}
         itemRefs={itemRefs}
+        variant="rail"
       />
     </aside>
   );

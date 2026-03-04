@@ -3,7 +3,7 @@ import { Calendar, ChevronRight, MoreHorizontal, Plus } from "lucide-react";
 
 export function Header() {
   return (
-    <header className="flex items-center border-b border-zinc-100 p-1.5">
+    <header className="hidden items-center border-b border-zinc-100 p-1.5 md:flex">
       <button
         type="button"
         aria-label="Open date selector"
