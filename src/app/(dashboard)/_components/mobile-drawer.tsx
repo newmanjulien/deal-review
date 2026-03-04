@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { getActiveHref, Nav, primaryNavItems } from "./nav";
+import { getActiveHref, Nav, primaryNavGroups } from "./nav";
 
 export function MobileDrawer({
   isOpen,
@@ -20,7 +20,7 @@ export function MobileDrawer({
   const previousPathnameRef = useRef(pathname);
   const wasOpenRef = useRef(false);
 
-  const activeHref = getActiveHref(pathname, primaryNavItems);
+  const activeHref = getActiveHref(pathname, primaryNavGroups);
 
   useEffect(() => {
     const previousPathname = previousPathnameRef.current;
@@ -104,7 +104,7 @@ export function MobileDrawer({
 
         <div className="flex-1 overflow-y-auto p-4">
           <Nav
-            items={primaryNavItems}
+            groups={primaryNavGroups}
             activeHref={activeHref}
             variant="drawer"
             onItemSelect={onClose}

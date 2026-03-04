@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useSidebarNavMotion } from "@/lib/sidebar-nav-motion";
 import { cn } from "@/lib/utils";
-import { getActiveHref, Nav, primaryNavItems } from "./nav";
+import { getActiveHref, Nav, primaryNavGroups } from "./nav";
 
 export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
-  const activeHref = getActiveHref(pathname, primaryNavItems);
+  const activeHref = getActiveHref(pathname, primaryNavGroups);
   const { navRef, indicatorRef, setItemRef } = useSidebarNavMotion({
     activeHref,
     hoveredHref,
@@ -33,7 +33,7 @@ export function Sidebar({ className }: { className?: string }) {
       </div>
 
       <Nav
-        items={primaryNavItems}
+        groups={primaryNavGroups}
         activeHref={activeHref}
         setHoveredHref={setHoveredHref}
         navRef={navRef}

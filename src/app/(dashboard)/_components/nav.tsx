@@ -1,4 +1,4 @@
-//navigation which is used by both mobile-drawer and sidebar
+// Navigation shared by mobile drawer and sidebar.
 
 "use client";
 
@@ -19,25 +19,26 @@ export type NavItem = {
   href: string;
   label: string;
   icon: LucideIcon;
-  section?: "main" | "secondary";
 };
 
-export const primaryNavItems: NavItem[] = [
-  { href: "/", label: "Since last meeting", icon: Activity },
-  { href: "/forecast", label: "Forecast", icon: LayoutGrid },
-  {
-    href: "/questions",
-    label: "Missing data and timelines",
-    icon: CircleQuestionMark,
-  },
-  { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
-  {
-    href: "/conversations",
-    label: "All conversations",
-    icon: List,
-    section: "secondary",
-  },
-];
+export type NavGroups = {
+  main: NavItem[];
+  secondary: NavItem[];
+};
+
+export const primaryNavGroups: NavGroups = {
+  main: [
+    { href: "/", label: "Since last meeting", icon: Activity },
+    { href: "/forecast", label: "Forecast", icon: LayoutGrid },
+    {
+      href: "/questions",
+      label: "Missing data and timelines",
+      icon: CircleQuestionMark,
+    },
+    { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
+  ],
+  secondary: [{ href: "/conversations", label: "All conversations", icon: List }],
+};
 
 export function isNavItemActive(pathname: string, href: string): boolean {
   if (href === "/") {
@@ -49,15 +50,16 @@ export function isNavItemActive(pathname: string, href: string): boolean {
 
 export function getActiveHref(
   pathname: string,
-  items: NavItem[],
+  groups: NavGroups,
 ): string | null {
+  const items = [...groups.main, ...groups.secondary];
   return (
     items.find((item) => isNavItemActive(pathname, item.href))?.href ?? null
   );
 }
 
 type NavProps = {
-  items: NavItem[];
+  groups: NavGroups;
   activeHref: string | null;
   setHoveredHref?: (href: string | null) => void;
   navRef?: RefObject<HTMLElement | null>;
@@ -69,7 +71,7 @@ type NavProps = {
 };
 
 export function Nav({
-  items,
+  groups,
   activeHref,
   setHoveredHref,
   navRef,
@@ -80,9 +82,6 @@ export function Nav({
   className,
 }: NavProps) {
   const isRail = variant === "rail";
-  const mainItems = items.filter((item) => item.section !== "secondary");
-  const secondaryItems = items.filter((item) => item.section === "secondary");
-  const hasSecondaryItems = secondaryItems.length > 0;
   const itemGapClass = isRail ? "gap-1" : "gap-1.5";
 
   const renderItems = (sectionItems: NavItem[]) =>
@@ -140,24 +139,22 @@ export function Nav({
         />
       ) : null}
       <div className={cn("flex flex-col", itemGapClass)}>
-        {renderItems(mainItems)}
+        {renderItems(groups.main)}
       </div>
-      {hasSecondaryItems ? (
-        <div className={cn("flex flex-col")}>
-          <div className={cn(isRail ? "py-3" : "py-4")}>
-            <span
-              aria-hidden="true"
-              className={cn(
-                "block h-px bg-zinc-200/50",
-                isRail ? "mx-auto w-4" : "w-full",
-              )}
-            />
-          </div>
-          <div className={cn("flex flex-col", itemGapClass)}>
-            {renderItems(secondaryItems)}
-          </div>
+      <div className={cn("flex flex-col")}>
+        <div className={cn(isRail ? "py-3" : "py-4")}>
+          <span
+            aria-hidden="true"
+            className={cn(
+              "block h-px bg-zinc-200/50",
+              isRail ? "mx-auto w-4" : "w-full",
+            )}
+          />
         </div>
-      ) : null}
+        <div className={cn("flex flex-col", itemGapClass)}>
+          {renderItems(groups.secondary)}
+        </div>
+      </div>
     </nav>
   );
 }
