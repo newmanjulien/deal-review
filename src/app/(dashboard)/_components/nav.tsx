@@ -24,6 +24,7 @@ export type NavItem = {
 export type NavGroups = {
   main: NavItem[];
   secondary: NavItem[];
+  tertiary?: NavItem[];
 };
 
 export const primaryNavGroups: NavGroups = {
@@ -42,6 +43,13 @@ export const primaryNavGroups: NavGroups = {
     { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
   ],
   secondary: [{ href: "/conversations", label: "All conversations", icon: List }],
+  tertiary: [
+    {
+      href: "/contact-support",
+      label: "Contact support",
+      icon: CircleQuestionMark,
+    },
+  ],
 };
 
 export function isNavItemActive(pathname: string, href: string): boolean {
@@ -56,7 +64,7 @@ export function getActiveHref(
   pathname: string,
   groups: NavGroups,
 ): string | null {
-  const items = [...groups.main, ...groups.secondary];
+  const items = [...groups.main, ...groups.secondary, ...(groups.tertiary ?? [])];
   return (
     items.find((item) => isNavItemActive(pathname, item.href))?.href ?? null
   );
@@ -87,28 +95,43 @@ export function Nav({
 }: NavProps) {
   const isRail = variant === "rail";
   const itemGapClass = isRail ? "gap-1" : "gap-1.5";
+  const tertiaryItems = groups.tertiary ?? [];
 
-  const renderItems = (sectionItems: NavItem[]) =>
+  const renderItems = (
+    sectionItems: NavItem[],
+    section: "main" | "secondary" | "tertiary",
+  ) =>
     sectionItems.map((item) => (
       <span
         key={item.href}
         ref={(el) => {
-          if (!isRail || !setItemRef) return;
+          if (!isRail || !setItemRef || section === "tertiary") return;
           setItemRef(item.href, el);
         }}
-        onMouseEnter={isRail ? () => setHoveredHref?.(item.href) : undefined}
-        className="relative z-10 inline-flex"
+        onMouseEnter={
+          isRail && section !== "tertiary" ? () => setHoveredHref?.(item.href) : undefined
+        }
+        className={cn(
+          "relative z-10 inline-flex",
+          isRail && section === "tertiary" ? "self-center" : "",
+        )}
       >
         <Button
           asChild
           variant="ghost"
           size={isRail ? "icon-sm" : "default"}
           className={cn(
-            isRail
+            isRail && section !== "tertiary"
               ? "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
-              : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
+              : section === "tertiary" && isRail
+                ? "size-7 rounded-full border border-zinc-300 bg-zinc-100 text-zinc-500 shadow-[0_1px_2px_rgba(24,24,27,0.1)] transition-colors hover:bg-zinc-200 hover:text-zinc-700 focus-visible:ring-2"
+                : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
             activeHref === item.href &&
-              (isRail ? "text-zinc-900" : "bg-zinc-100/70 text-zinc-900"),
+              (isRail && section !== "tertiary"
+                ? "text-zinc-900"
+                : section === "tertiary" && isRail
+                  ? "border-zinc-300 bg-zinc-200 text-zinc-900"
+                  : "bg-zinc-100/70 text-zinc-900"),
           )}
         >
           <Link
@@ -129,8 +152,8 @@ export function Nav({
       ref={navRef}
       aria-label="Primary navigation"
       className={cn(
-        "relative flex min-h-full flex-col",
-        isRail ? "flex-1" : "",
+        "relative flex flex-col",
+        isRail ? "min-h-0 flex-1" : "min-h-full",
         className,
       )}
       onMouseLeave={isRail ? () => setHoveredHref?.(null) : undefined}
@@ -143,7 +166,7 @@ export function Nav({
         />
       ) : null}
       <div className={cn("flex flex-col", itemGapClass)}>
-        {renderItems(groups.main)}
+        {renderItems(groups.main, "main")}
       </div>
       <div className={cn("flex flex-col")}>
         <div className={cn(isRail ? "py-3" : "py-4")}>
@@ -156,9 +179,16 @@ export function Nav({
           />
         </div>
         <div className={cn("flex flex-col", itemGapClass)}>
-          {renderItems(groups.secondary)}
+          {renderItems(groups.secondary, "secondary")}
         </div>
       </div>
+      {tertiaryItems.length > 0 ? (
+        <div className={cn("mt-auto flex flex-col", isRail ? "pb-1 pt-3" : "pt-6")}>
+          <div className={cn("flex flex-col", itemGapClass)}>
+            {renderItems(tertiaryItems, "tertiary")}
+          </div>
+        </div>
+      ) : null}
     </nav>
   );
 }

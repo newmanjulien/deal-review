@@ -13,8 +13,7 @@ export function NotesPanel() {
               Private notes
             </label>
             <p className="text-xs leading-relaxed text-zinc-400">
-              Capture private notes for yourself and for your meeting with your
-              rep
+              Only you will see these notes
             </p>
             <textarea
               id="private-notes"
@@ -33,14 +32,32 @@ export function NotesPanel() {
               Feedback
             </label>
             <p className="text-xs leading-relaxed text-zinc-400">
-              Share feedback which the data scientist who prepared this insight
-              will read
+              Sent to the data scientist who prepared this insight
             </p>
             <textarea
               id="scientist-feedback"
               name="scientist-feedback"
               rows={6}
               placeholder="Share feedback"
+              className="w-full resize-y rounded-sm border border-zinc-100 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+          </section>
+          <div aria-hidden="true" className="-mx-5 border-t border-zinc-100" />
+          <section className="space-y-2">
+            <label
+              htmlFor="seller-questions"
+              className="block text-xs font-medium text-zinc-700"
+            >
+              Questions for your seller
+            </label>
+            <p className="text-xs leading-relaxed text-zinc-400">
+              Sent to the seller before your meeting
+            </p>
+            <textarea
+              id="seller-questions"
+              name="seller-questions"
+              rows={6}
+              placeholder="Add questions for your seller"
               className="w-full resize-y rounded-sm border border-zinc-100 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
           </section>

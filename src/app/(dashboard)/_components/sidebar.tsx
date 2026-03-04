@@ -19,7 +19,7 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <aside
       className={cn(
-        "flex h-full w-10 shrink-0 flex-col items-start pt-2.5 pl-1",
+        "flex w-10 shrink-0 self-stretch flex-col items-start pt-2.5 pl-1",
         className,
       )}
       aria-label="Sidebar"

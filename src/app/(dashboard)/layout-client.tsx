@@ -31,7 +31,7 @@ export function LayoutClient({ children }: { children: ReactNode }) {
         triggerRef={menuButtonRef}
       />
       <div className="dashboard-canvas flex min-h-dvh">
-        <Sidebar className="hidden h-full md:flex" />
+        <Sidebar className="hidden md:flex" />
         <main className="min-w-0 flex-1 overflow-hidden bg-white md:rounded-sm md:border md:border-zinc-100">
           <div className="flex min-h-full flex-col">
             <MobileHeader
