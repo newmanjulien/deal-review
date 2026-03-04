@@ -28,7 +28,11 @@ export type NavGroups = {
 
 export const primaryNavGroups: NavGroups = {
   main: [
-    { href: "/", label: "Since last meeting", icon: Activity },
+    {
+      href: "/since-last-meeting",
+      label: "Since last meeting",
+      icon: Activity,
+    },
     { href: "/forecast", label: "Forecast", icon: LayoutGrid },
     {
       href: "/questions",

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Header } from "./_components/header";
 import { MobileHeader } from "./_components/mobile-header";
 import { MobileDrawer } from "./_components/mobile-drawer";
-import { NotesPanel } from "../../components/notes-panel";
 import { Sidebar } from "./_components/sidebar";
 
 export function LayoutClient({ children }: { children: ReactNode }) {
@@ -41,14 +40,7 @@ export function LayoutClient({ children }: { children: ReactNode }) {
               menuButtonRef={menuButtonRef}
             />
             <Header />
-            <div className="flex min-h-0 flex-1">
-              <section className="min-h-0 min-w-0 flex-1 overflow-x-hidden">
-                {children}
-              </section>
-              <div className="hidden lg:block">
-                <NotesPanel />
-              </div>
-            </div>
+            <div className="min-h-0 flex-1">{children}</div>
           </div>
         </main>
       </div>

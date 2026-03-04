@@ -1,3 +1,5 @@
-export default function HomePage() {
-  return null;
+import { redirect } from "next/navigation";
+
+export default function DashboardIndexPage() {
+  redirect("/since-last-meeting");
 }
