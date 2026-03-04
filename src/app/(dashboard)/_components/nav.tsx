@@ -8,6 +8,7 @@ import {
   CircleQuestionMark,
   LayoutGrid,
   Lightbulb,
+  List,
   type LucideIcon,
 } from "lucide-react";
 import type { RefObject } from "react";
@@ -18,6 +19,7 @@ export type NavItem = {
   href: string;
   label: string;
   icon: LucideIcon;
+  section?: "main" | "secondary";
 };
 
 export const primaryNavItems: NavItem[] = [
@@ -29,6 +31,12 @@ export const primaryNavItems: NavItem[] = [
     icon: CircleQuestionMark,
   },
   { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
+  {
+    href: "/conversations",
+    label: "All conversations",
+    icon: List,
+    section: "secondary",
+  },
 ];
 
 export function isNavItemActive(pathname: string, href: string): boolean {
@@ -72,14 +80,54 @@ export function Nav({
   className,
 }: NavProps) {
   const isRail = variant === "rail";
+  const mainItems = items.filter((item) => item.section !== "secondary");
+  const secondaryItems = items.filter((item) => item.section === "secondary");
+  const hasSecondaryItems = secondaryItems.length > 0;
+  const itemGapClass = isRail ? "gap-1" : "gap-1.5";
+
+  const renderItems = (sectionItems: NavItem[]) =>
+    sectionItems.map((item) => (
+      <span
+        key={item.href}
+        ref={(el) => {
+          if (!isRail || !setItemRef) return;
+          setItemRef(item.href, el);
+        }}
+        onMouseEnter={isRail ? () => setHoveredHref?.(item.href) : undefined}
+        className="relative z-10 inline-flex"
+      >
+        <Button
+          asChild
+          variant="ghost"
+          size={isRail ? "icon-sm" : "default"}
+          className={cn(
+            isRail
+              ? "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
+              : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
+            activeHref === item.href &&
+              (isRail ? "text-zinc-900" : "bg-zinc-100/70 text-zinc-900"),
+          )}
+        >
+          <Link
+            href={item.href}
+            aria-label={isRail ? item.label : undefined}
+            aria-current={activeHref === item.href ? "page" : undefined}
+            onClick={onItemSelect}
+          >
+            <item.icon className="size-3.5" />
+            {!isRail ? <span>{item.label}</span> : null}
+          </Link>
+        </Button>
+      </span>
+    ));
 
   return (
     <nav
       ref={navRef}
       aria-label="Primary navigation"
       className={cn(
-        "relative flex flex-col",
-        isRail ? "flex-1 gap-1" : "gap-1.5",
+        "relative flex min-h-full flex-col",
+        isRail ? "flex-1" : "",
         className,
       )}
       onMouseLeave={isRail ? () => setHoveredHref?.(null) : undefined}
@@ -91,40 +139,25 @@ export function Nav({
           className="sidebar-nav-indicator pointer-events-none absolute rounded-sm bg-zinc-200 transition-[top,left,width,height,opacity] duration-200 ease-out"
         />
       ) : null}
-      {items.map((item) => (
-        <span
-          key={item.href}
-          ref={(el) => {
-            if (!isRail || !setItemRef) return;
-            setItemRef(item.href, el);
-          }}
-          onMouseEnter={isRail ? () => setHoveredHref?.(item.href) : undefined}
-          className="relative z-10 inline-flex"
-        >
-          <Button
-            asChild
-            variant="ghost"
-            size={isRail ? "icon-sm" : "default"}
-            className={cn(
-              isRail
-                ? "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
-                : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
-              activeHref === item.href &&
-                (isRail ? "text-zinc-900" : "bg-zinc-100/70 text-zinc-900"),
-            )}
-          >
-            <Link
-              href={item.href}
-              aria-label={isRail ? item.label : undefined}
-              aria-current={activeHref === item.href ? "page" : undefined}
-              onClick={onItemSelect}
-            >
-              <item.icon className="size-3.5" />
-              {!isRail ? <span>{item.label}</span> : null}
-            </Link>
-          </Button>
-        </span>
-      ))}
+      <div className={cn("flex flex-col", itemGapClass)}>
+        {renderItems(mainItems)}
+      </div>
+      {hasSecondaryItems ? (
+        <div className={cn("flex flex-col")}>
+          <div className={cn(isRail ? "py-3" : "py-4")}>
+            <span
+              aria-hidden="true"
+              className={cn(
+                "block h-px bg-zinc-200/50",
+                isRail ? "mx-auto w-4" : "w-full",
+              )}
+            />
+          </div>
+          <div className={cn("flex flex-col", itemGapClass)}>
+            {renderItems(secondaryItems)}
+          </div>
+        </div>
+      ) : null}
     </nav>
   );
 }
