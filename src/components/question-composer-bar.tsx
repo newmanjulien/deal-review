@@ -1,6 +1,6 @@
 "use client";
 
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 type QuestionComposerBarProps = {
@@ -9,8 +9,27 @@ type QuestionComposerBarProps = {
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const maxHeight = 160;
 
   const canAdd = value.trim().length > 0;
+
+  const resizeTextarea = () => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    textarea.style.overflowY = "hidden";
+    textarea.style.height = "auto";
+    const scrollHeight = textarea.scrollHeight;
+    const nextHeight = Math.min(scrollHeight, maxHeight);
+    textarea.style.height = `${nextHeight}px`;
+    textarea.style.overflowY =
+      scrollHeight > maxHeight ? "auto" : "hidden";
+  };
+
+  useLayoutEffect(() => {
+    resizeTextarea();
+  }, [value]);
 
   const handleAdd = () => {
     if (!canAdd) return;
@@ -36,14 +55,15 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden lg:block">
       <div className="h-20 bg-gradient-to-t from-white via-white/85 to-transparent" />
       <div className="pointer-events-auto -mt-8 px-4 pb-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 rounded-lg bg-zinc-100/60 px-3 py-2">
+        <div className="flex items-end gap-2 rounded-lg bg-zinc-100/60 px-3 py-2">
           <textarea
+            ref={textareaRef}
             value={value}
             onChange={(event) => setValue(event.target.value)}
             onKeyDown={handleKeyDown}
             rows={1}
             placeholder="Type a potential question"
-            className="min-h-6 max-h-24 flex-1 resize-none bg-transparent py-1 text-[13px] tracking-wide text-zinc-700 placeholder:text-zinc-500 focus-visible:outline-none"
+            className="min-h-6 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
           />
           <Button
             type="button"

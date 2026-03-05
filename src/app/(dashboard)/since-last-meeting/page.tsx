@@ -1,5 +1,5 @@
-import { CanvasPageShell } from "@/components/canvas-page-shell";
+import { SinceLastMeetingPageClient } from "./page-client";
 
 export default function SinceLastMeetingPage() {
-  return <CanvasPageShell />;
+  return <SinceLastMeetingPageClient />;
 }

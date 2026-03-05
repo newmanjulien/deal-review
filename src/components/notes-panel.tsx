@@ -79,7 +79,7 @@ export function NotesPanel({
           <Button
             type="button"
             variant="secondary"
-            className="h-8 w-full rounded-md border border-zinc-200 bg-zinc-100/70 text-xs font-medium text-zinc-700 hover:bg-zinc-100 disabled:border-zinc-200 disabled:bg-zinc-50 disabled:text-zinc-400"
+            className="h-8 w-full rounded-md border border-zinc-200 bg-zinc-100/70 text-xs font-medium leading-relaxed text-zinc-700 hover:bg-zinc-100 disabled:border-zinc-200 disabled:bg-zinc-50 disabled:text-zinc-400"
             onClick={onSendAll}
             disabled={!canSend}
           >

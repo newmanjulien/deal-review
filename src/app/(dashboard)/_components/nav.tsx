@@ -5,6 +5,7 @@
 import Link from "next/link";
 import {
   Activity,
+  Box,
   CircleQuestionMark,
   CircleOff,
   LayoutGrid,
@@ -45,6 +46,7 @@ export const primaryNavGroups: NavGroups = {
   ],
   secondary: [
     { href: "/conversations", label: "All conversations", icon: List },
+    { href: "/optional-apps", label: "Optional apps", icon: Box },
   ],
   tertiary: [
     {
