@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Header } from "@/components/header";
-import { NotesPanel, type DraftQuestion } from "@/components/notes-panel";
-import { QuestionComposerBar } from "@/components/question-composer-bar";
+import { Header } from "@/components/canvas/header/header";
+import {
+  NotesPanel,
+  type DraftQuestion,
+} from "@/components/canvas/notes-panel";
+import { QuestionComposerBar } from "@/components/canvas/question-composer-bar";
 
 function createDraftQuestion(text: string): DraftQuestion {
   return {
@@ -17,11 +20,13 @@ export type CanvasPageShellMode = "full" | "canvas-only";
 type CanvasPageShellProps = {
   children?: ReactNode;
   mode?: CanvasPageShellMode;
+  contentMaxWidthClassName?: string;
 };
 
 export function CanvasPageShell({
   children,
   mode = "full",
+  contentMaxWidthClassName = "max-w-3xl",
 }: CanvasPageShellProps) {
   const showNotesExperience = mode === "full";
   const showHeader = mode !== "canvas-only";
@@ -61,7 +66,9 @@ export function CanvasPageShell({
         }`}
       >
         <section className="min-h-0 min-w-0 overflow-hidden">
-          <div className="relative mx-auto h-full w-full max-w-3xl">
+          <div
+            className={`relative mx-auto h-full w-full ${contentMaxWidthClassName}`}
+          >
             <div
               className={`min-h-0 h-full overflow-x-hidden px-4 sm:px-6 lg:px-8 ${
                 showNotesExperience ? "lg:pb-24" : ""
@@ -99,4 +106,12 @@ export function CanvasPageShellWithNotes({
 
 export function CanvasOnlyPageShell({ children }: { children?: ReactNode }) {
   return <CanvasPageShell mode="canvas-only">{children}</CanvasPageShell>;
+}
+
+export function CanvasWidePageShell({ children }: { children?: ReactNode }) {
+  return (
+    <CanvasPageShell mode="canvas-only" contentMaxWidthClassName="max-w-6xl">
+      {children}
+    </CanvasPageShell>
+  );
 }

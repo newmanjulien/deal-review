@@ -1,7 +1,7 @@
 "use client";
 
-import { File, Mail, PhoneCall, type LucideIcon } from "lucide-react";
-import { CanvasOnlyPageShell } from "@/components/canvas-page-shell";
+import { File, MessageCircle, PhoneCall, type LucideIcon } from "lucide-react";
+import { CanvasOnlyPageShell } from "@/components/canvas/canvas-page-shell";
 import { Button } from "@/components/ui/button";
 
 type OptionalApp = {
@@ -24,10 +24,10 @@ const optionalAppSections: OptionalAppSection[] = [
     subtitle: "Included with your workspace",
     apps: [
       {
-        name: "Daily reminders",
+        name: "Whatsapp assistant",
         description:
-          "Send an email to your assistant when you want to remember to do something later. Then get a daily digest of the tasks you need to do",
-        icon: Mail,
+          "Send a Whatsapp message to your assistant when you want to remember to do something later. Then get a digest every morning with the tasks you need to do",
+        icon: MessageCircle,
       },
       {
         name: "Call transcriber",
