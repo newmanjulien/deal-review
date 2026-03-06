@@ -3,9 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { PRIMARY_NAV_GROUPS } from "../nav-config";
-import { useNav } from "../use-nav";
-import { Nav } from "../nav";
+import { Nav, PRIMARY_NAV_GROUPS, useNav } from "..";
 
 export function MobileDrawer({
   isOpen,

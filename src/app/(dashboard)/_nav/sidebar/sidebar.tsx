@@ -2,11 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { PRIMARY_NAV_GROUPS } from "./nav-config";
-import { useNav } from "./use-nav";
-import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/use-sidebar-nav-motion";
+import { Nav, PRIMARY_NAV_GROUPS, useNav } from "..";
+import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/sidebar/use-sidebar-nav-motion";
 import { cn } from "@/lib/utils";
-import { Nav } from "./nav";
 
 export function Sidebar({ className }: { className?: string }) {
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);

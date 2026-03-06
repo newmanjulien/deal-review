@@ -1,4 +1,4 @@
-import { CanvasOnlyPageShell } from "@/components/canvas/canvas-page";
+import { CanvasOnlyPage } from "@/components/canvas/canvas-page";
 import { Button } from "@/components/ui/button";
 import {
   OPTIONAL_APP_ICONS,
@@ -9,7 +9,7 @@ import { optionalApps } from "./optional-apps-data";
 
 export function OptionalAppsPageClient() {
   return (
-    <CanvasOnlyPageShell
+    <CanvasOnlyPage
       title={OPTIONAL_APPS_PAGE_CONFIG.title}
       description={OPTIONAL_APPS_PAGE_CONFIG.description}
     >
@@ -61,6 +61,6 @@ export function OptionalAppsPageClient() {
           );
         })}
       </div>
-    </CanvasOnlyPageShell>
+    </CanvasOnlyPage>
   );
 }

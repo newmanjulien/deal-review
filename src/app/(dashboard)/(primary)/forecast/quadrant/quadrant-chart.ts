@@ -1,11 +1,13 @@
 import {
+  buildQuadrantLayout,
+  projectQuadrantPoints,
   QUADRANT_BEHAVIOR_CONFIG,
   QUADRANT_EXAMPLE_CHART_CONFIG,
   QUADRANT_LAYOUT_CONFIG,
-} from "./quadrant-config";
-import { quadrantExamplePointSeeds } from "./quadrant-data";
-import type { QuadrantChartData, QuadrantPointSeed } from "./quadrant-types";
-import { buildQuadrantLayout, projectQuadrantPoints } from "./quadrant-utils";
+  quadrantExamplePointSeeds,
+  type QuadrantChartData,
+  type QuadrantPointSeed,
+} from ".";
 
 type CreateQuadrantChartDataOptions = {
   chart: {

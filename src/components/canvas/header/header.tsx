@@ -1,8 +1,8 @@
 import { ChevronRight, Ellipsis } from "lucide-react";
-import { CANVAS_HEADER_CONFIG } from "./header-config";
+import { CANVAS_HEADER_CONFIG } from ".";
 import { MeetingDateMenu } from "./meeting-date-menu";
 import { SellerSwitchMenu } from "./seller-switch-menu";
-import { Share } from "./share";
+import { ShareMenu } from "./share-menu";
 
 export function Header() {
   return (
@@ -12,7 +12,7 @@ export function Header() {
       <p className="ml-2 text-xs font-medium tracking-wide text-zinc-900">
         {CANVAS_HEADER_CONFIG.breadcrumbLabel}
       </p>
-      <Share />
+      <ShareMenu />
       <SellerSwitchMenu />
       <button
         type="button"

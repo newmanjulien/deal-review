@@ -18,11 +18,15 @@ export const PRIMARY_NAV_GROUPS: NavGroups = {
     },
     { href: "/forecast", label: "Forecast", icon: LayoutGrid },
     {
-      href: "/questions",
+      href: "/missing-data",
       label: "Missing data and timelines",
       icon: CircleOff,
     },
-    { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
+    {
+      href: "/opportunities",
+      label: "Opportunities and risks",
+      icon: Lightbulb,
+    },
   ],
   secondary: [
     { href: "/conversations", label: "All conversations", icon: List },

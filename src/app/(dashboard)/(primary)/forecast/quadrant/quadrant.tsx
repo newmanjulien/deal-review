@@ -1,10 +1,12 @@
 "use client";
 
-import { QuadrantAxes } from "./quadrant-axes";
-import { QuadrantPoints } from "./quadrant-points";
-import { QuadrantTooltip } from "./quadrant-tooltip";
-import type { QuadrantChartData } from "./quadrant-types";
-import { useQuadrant } from "./use-quadrant";
+import {
+  QuadrantAxes,
+  QuadrantPoints,
+  QuadrantTooltip,
+  type QuadrantChartData,
+  useQuadrant,
+} from ".";
 
 export function Quadrant({ chart }: { chart: QuadrantChartData }) {
   const {

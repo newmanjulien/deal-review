@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { DraftQuestion } from "@/components/canvas/canvas-types";
+import type { DraftQuestion } from "./questions-types";
 import {
   isQuestionSendable,
   normalizeQuestionText,

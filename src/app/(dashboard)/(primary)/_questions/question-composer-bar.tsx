@@ -1,13 +1,13 @@
 "use client";
 
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
-import { type QuestionComposerBarProps } from "@/components/canvas/canvas-types";
 import { Button } from "@/components/ui/button";
 import {
   isQuestionSendable,
   normalizeQuestionText,
-} from "./question-utils";
-import { QUESTION_COMPOSER_CONFIG } from "./questions-config";
+  QUESTION_COMPOSER_CONFIG,
+  type QuestionComposerBarProps,
+} from ".";
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");

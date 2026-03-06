@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 import {
   type DraftQuestion,
   type QuestionsPanelProps,
-} from "@/components/canvas/canvas-types";
+} from "./questions-types";
 import { Button } from "@/components/ui/button";
 import { countSendableQuestions } from "./question-utils";
 import { QUESTIONS_PANEL_CONFIG } from "./questions-config";

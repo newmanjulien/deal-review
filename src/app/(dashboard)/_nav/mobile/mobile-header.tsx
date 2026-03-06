@@ -3,8 +3,7 @@
 import Image from "next/image";
 import type { RefObject } from "react";
 import { Calendar, Menu } from "lucide-react";
-import { HEADER_MEETING_DATES } from "@/components/canvas/header/header-data";
-import { HEADER_MENU_CONFIG } from "@/components/canvas/header/header-config";
+import { HEADER_MEETING_DATES, HEADER_MENU_CONFIG } from "@/components/canvas/header";
 
 export function MobileHeader({
   isNavOpen: _isNavOpen,

@@ -8,8 +8,6 @@ export type CanvasPageShellProps = {
   contentMaxWidthClassName?: string;
   title?: string;
   description?: string;
-  bottomBarSlot?: ReactNode;
-  sidePanelSlot?: ReactNode;
 };
 
 export type CanvasPageContentProps = Pick<
@@ -17,28 +15,9 @@ export type CanvasPageContentProps = Pick<
   "children" | "title" | "description"
 >;
 
-export type CanvasPageVariantProps = CanvasPageContentProps &
-  Pick<CanvasPageShellProps, "mode" | "contentMaxWidthClassName">;
-
 export type CanvasSectionTitleProps = {
   title?: string;
   description?: string;
-};
-
-export type DraftQuestion = {
-  id: string;
-  text: string;
-};
-
-export type QuestionsPanelProps = {
-  draftQuestions: DraftQuestion[];
-  onQuestionChange: (id: string, text: string) => void;
-  onQuestionDelete: (id: string) => void;
-  onSendAll: () => void;
-};
-
-export type QuestionComposerBarProps = {
-  onAdd: (text: string) => void;
 };
 
 export type HeaderPerson = {

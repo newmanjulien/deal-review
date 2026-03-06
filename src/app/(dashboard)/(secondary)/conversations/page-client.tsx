@@ -1,4 +1,4 @@
-import { CanvasWidePageShell } from "@/components/canvas/canvas-page";
+import { CanvasWidePage } from "@/components/canvas/canvas-page";
 import {
   DashboardTable,
   DashboardTableBody,
@@ -16,7 +16,7 @@ import { conversationRows } from "./conversations-data";
 
 export function ConversationsPageClient() {
   return (
-    <CanvasWidePageShell
+    <CanvasWidePage
       title={CONVERSATIONS_PAGE_CONFIG.title}
       description={CONVERSATIONS_PAGE_CONFIG.description}
     >
@@ -61,6 +61,6 @@ export function ConversationsPageClient() {
           ))}
         </DashboardTableBody>
       </DashboardTable>
-    </CanvasWidePageShell>
+    </CanvasWidePage>
   );
 }

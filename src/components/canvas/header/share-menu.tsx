@@ -3,16 +3,16 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { HEADER_MENU_CONFIG } from "./header-config";
-import { HEADER_PEOPLE } from "./header-data";
 import {
+  HEADER_MENU_CONFIG,
+  HEADER_PEOPLE,
   HeaderMenu,
   HeaderMenuCheckboxItem,
   HeaderMenuList,
   HeaderMenuSectionLabel,
-} from "./header-menu";
+} from ".";
 
-export function Share() {
+export function ShareMenu() {
   const [selectedPeople, setSelectedPeople] = useState<string[]>(
     HEADER_PEOPLE.map((person) => person.name),
   );

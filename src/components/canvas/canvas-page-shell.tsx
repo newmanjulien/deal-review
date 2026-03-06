@@ -42,49 +42,33 @@ export function CanvasPageShell({
   contentMaxWidthClassName = "max-w-3xl",
   title,
   description,
-  bottomBarSlot,
-  sidePanelSlot,
 }: CanvasPageShellProps) {
-  const showTwoColumnLayout = mode === "full";
   const showHeader = mode !== "canvas-only";
-  const showBottomBar = mode === "full" && Boolean(bottomBarSlot);
-  const showSidePanel = mode === "full" && Boolean(sidePanelSlot);
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
       {showHeader ? <Header /> : null}
-      <div
-        className={cn(
-          "grid min-h-0 flex-1 grid-cols-1 overflow-hidden",
-          showTwoColumnLayout && "lg:grid-cols-[minmax(0,1fr)_22rem]",
-        )}
-      >
-        <section className="min-h-0 min-w-0 overflow-hidden">
+      <section className="min-h-0 min-w-0 flex-1 overflow-hidden">
+        <div
+          className={cn(
+            "relative mx-auto h-full w-full",
+            contentMaxWidthClassName,
+          )}
+        >
           <div
             className={cn(
-              "relative mx-auto h-full w-full",
-              contentMaxWidthClassName,
+              "min-h-0 h-full overflow-x-hidden px-4 sm:px-6 lg:px-8",
+              CANVAS_CONTENT_PADDING_TOP_CLASS_NAME,
             )}
+            style={{
+              paddingBottom: "calc(1.5rem + var(--canvas-content-bottom-inset, 0rem))",
+            }}
           >
-            <div
-              className={cn(
-                "min-h-0 h-full overflow-x-hidden px-4 pb-6 sm:px-6 lg:px-8",
-                CANVAS_CONTENT_PADDING_TOP_CLASS_NAME,
-                showBottomBar && "lg:pb-24",
-              )}
-            >
-              <CanvasSectionTitle title={title} description={description} />
-              {children}
-            </div>
-            {showBottomBar ? bottomBarSlot : null}
+            <CanvasSectionTitle title={title} description={description} />
+            {children}
           </div>
-        </section>
-        {showSidePanel ? (
-          <div className="hidden h-full min-h-0 overflow-hidden lg:block">
-            {sidePanelSlot}
-          </div>
-        ) : null}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

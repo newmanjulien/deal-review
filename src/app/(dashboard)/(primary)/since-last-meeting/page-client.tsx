@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CanvasPageShell } from "@/components/canvas/canvas-page";
+import { CanvasPage } from "@/components/canvas/canvas-page";
 import {
   LAST_MEETING_DEFAULT_TAB_ID,
   LAST_MEETING_PAGE_CONFIG,
@@ -18,7 +18,7 @@ export function SinceLastMeetingPageClient() {
   );
 
   return (
-    <CanvasPageShell
+    <CanvasPage
       title={LAST_MEETING_PAGE_CONFIG.title}
       description={LAST_MEETING_PAGE_CONFIG.description}
     >
@@ -28,6 +28,6 @@ export function SinceLastMeetingPageClient() {
         {activeTab === "accounts" ? <AccountsSection /> : null}
         {activeTab === "opportunities" ? <OpportunitiesSection /> : null}
       </section>
-    </CanvasPageShell>
+    </CanvasPage>
   );
 }
