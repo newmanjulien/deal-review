@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { HEADER_PEOPLE } from "@/components/canvas/canvas-data";
+import { HEADER_MENU_CONFIG } from "./header-config";
+import { HEADER_PEOPLE } from "./header-data";
 import {
   HeaderMenu,
   HeaderMenuItem,
@@ -7,12 +8,10 @@ import {
   HeaderMenuSectionLabel,
 } from "./header-menu";
 
-const HEADER_PEOPLE_POPOVER_CONTENT_ID = "header-people-popover-content";
-
 export function SellerSwitchMenu() {
   return (
     <HeaderMenu
-      id={HEADER_PEOPLE_POPOVER_CONTENT_ID}
+      id={HEADER_MENU_CONFIG.sellerSwitch.id}
       align="end"
       trigger={
         <button
@@ -20,11 +19,13 @@ export function SellerSwitchMenu() {
           aria-label="aria"
           className="mr-2 flex h-7 items-center justify-center rounded-sm border border-zinc-100 px-2 text-xs font-medium text-zinc-500 tracking-wide transition-colors hover:bg-zinc-100"
         >
-          Switch
+          {HEADER_MENU_CONFIG.sellerSwitch.triggerLabel}
         </button>
       }
     >
-      <HeaderMenuSectionLabel>Switch to another seller</HeaderMenuSectionLabel>
+      <HeaderMenuSectionLabel>
+        {HEADER_MENU_CONFIG.sellerSwitch.sectionLabel}
+      </HeaderMenuSectionLabel>
       <HeaderMenuList>
         {HEADER_PEOPLE.map((person) => (
           <li key={person.name}>

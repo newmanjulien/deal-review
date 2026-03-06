@@ -1,31 +1,6 @@
-import {
-  buildQuadrantLayout,
-  projectQuadrantPoints,
-} from "./quadrant-utils";
-import type { QuadrantChartData, QuadrantPointSeed } from "./quadrant-types";
+import type { QuadrantPointSeed } from "./quadrant-types";
 
-const CHART_DIMENSIONS = {
-  width: 720,
-  height: 520,
-};
-
-const CHART_PADDING = {
-  top: 28,
-  right: 24,
-  bottom: 64,
-  left: 72,
-};
-
-const AXIS_LABEL_OFFSET = {
-  x: 50,
-  y: 36,
-};
-
-const DISAGREE_THRESHOLD = 6;
-const xMid = 50;
-const yMid = 50;
-
-const basePoints: QuadrantPointSeed[] = [
+export const quadrantExamplePointSeeds: QuadrantPointSeed[] = [
   {
     id: "q1",
     label: "Caterpillar",
@@ -203,31 +178,3 @@ const basePoints: QuadrantPointSeed[] = [
       "Procurement paused onboarding and asked to wait for direction. The buyer said they are reducing tool count. Their acquisition plan is pushing standardization and vendor cuts.",
   },
 ];
-
-const layout = buildQuadrantLayout({
-  dimensions: CHART_DIMENSIONS,
-  padding: CHART_PADDING,
-  axisLabelOffset: AXIS_LABEL_OFFSET,
-  xMid,
-  yMid,
-});
-
-const points = projectQuadrantPoints(basePoints, layout, {
-  xMid,
-  yMid,
-  disagreeThreshold: DISAGREE_THRESHOLD,
-});
-
-export const quadrantExample: QuadrantChartData = {
-  id: "example-quadrant",
-  title: "Find opportunities by comparing your two forecasts",
-  subtitle:
-    "Overbase does an in-depth audit which gives you a second forecast that you can compare with your current forecast to find hidden sales opportunities.",
-  xLabel: "Current close probability",
-  yLabel: "Overbase close probability",
-  xMid,
-  yMid,
-  disagreeThreshold: DISAGREE_THRESHOLD,
-  layout,
-  points,
-};

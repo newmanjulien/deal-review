@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { primaryNavGroups } from "./nav-utils";
+import { PRIMARY_NAV_GROUPS } from "./nav-config";
 import { useNav } from "./use-nav";
 import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/use-sidebar-nav-motion";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ export function Sidebar({ className }: { className?: string }) {
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const {
     state: { activeHref },
-  } = useNav(primaryNavGroups);
+  } = useNav(PRIMARY_NAV_GROUPS);
   const { refs, actions } = useSidebarNavMotion({
     activeHref,
     hoveredHref,
@@ -38,7 +38,7 @@ export function Sidebar({ className }: { className?: string }) {
       </div>
 
       <Nav
-        groups={primaryNavGroups}
+        groups={PRIMARY_NAV_GROUPS}
         activeHref={activeHref}
         setHoveredHref={setHoveredHref}
         navRef={refs.navRef}

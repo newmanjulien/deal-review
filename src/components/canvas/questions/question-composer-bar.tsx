@@ -7,8 +7,7 @@ import {
   isQuestionSendable,
   normalizeQuestionText,
 } from "./question-utils";
-
-const QUESTION_COMPOSER_MAX_HEIGHT = 160;
+import { QUESTION_COMPOSER_CONFIG } from "./questions-config";
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");
@@ -23,10 +22,10 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
     textarea.style.overflowY = "hidden";
     textarea.style.height = "auto";
     const scrollHeight = textarea.scrollHeight;
-    const nextHeight = Math.min(scrollHeight, QUESTION_COMPOSER_MAX_HEIGHT);
+    const nextHeight = Math.min(scrollHeight, QUESTION_COMPOSER_CONFIG.maxHeightPx);
     textarea.style.height = `${nextHeight}px`;
     textarea.style.overflowY =
-      scrollHeight > QUESTION_COMPOSER_MAX_HEIGHT ? "auto" : "hidden";
+      scrollHeight > QUESTION_COMPOSER_CONFIG.maxHeightPx ? "auto" : "hidden";
   };
 
   useLayoutEffect(() => {
@@ -64,7 +63,7 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
             onChange={(event) => setValue(event.target.value)}
             onKeyDown={handleKeyDown}
             rows={1}
-            placeholder="Type a potential question"
+            placeholder={QUESTION_COMPOSER_CONFIG.placeholder}
             className="min-h-6 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
           />
           <Button
@@ -74,7 +73,7 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
             disabled={!canAdd}
             onClick={handleAdd}
           >
-            Add
+            {QUESTION_COMPOSER_CONFIG.addButtonLabel}
           </Button>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import { Grid3x3, KeyRound, LoaderCircle, UserRound } from "lucide-react";
-import { opportunities } from "../last-meeting-data";
+import { lastMeetingOpportunities } from "../last-meeting-data";
 
 export function OpportunitiesSection() {
   return (
     <ol className="space-y-2.5 pt-1">
-      {opportunities.map((opportunity) => (
+      {lastMeetingOpportunities.map((opportunity) => (
         <li
           key={opportunity.id}
           className="rounded-lg border border-zinc-200 bg-zinc-100/80 px-3 py-3 shadow-[0_1px_1px_rgba(24,24,27,0.04)]"

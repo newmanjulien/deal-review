@@ -3,15 +3,14 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { HEADER_PEOPLE } from "@/components/canvas/canvas-data";
+import { HEADER_MENU_CONFIG } from "./header-config";
+import { HEADER_PEOPLE } from "./header-data";
 import {
   HeaderMenu,
   HeaderMenuCheckboxItem,
   HeaderMenuList,
   HeaderMenuSectionLabel,
 } from "./header-menu";
-
-const HEADER_SHARE_MENU_CONTENT_ID = "header-share-menu-content";
 
 export function Share() {
   const [selectedPeople, setSelectedPeople] = useState<string[]>(
@@ -45,7 +44,7 @@ export function Share() {
           </span>
         ))}
         <HeaderMenu
-          id={HEADER_SHARE_MENU_CONTENT_ID}
+          id={HEADER_MENU_CONFIG.share.id}
           align="end"
           trigger={
             <button
@@ -58,7 +57,7 @@ export function Share() {
           }
         >
           <HeaderMenuSectionLabel>
-            Share with a team member
+            {HEADER_MENU_CONFIG.share.sectionLabel}
           </HeaderMenuSectionLabel>
           <HeaderMenuList>
             {HEADER_PEOPLE.map((person) => (

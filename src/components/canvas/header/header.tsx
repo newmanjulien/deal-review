@@ -1,4 +1,5 @@
 import { ChevronRight, Ellipsis } from "lucide-react";
+import { CANVAS_HEADER_CONFIG } from "./header-config";
 import { MeetingDateMenu } from "./meeting-date-menu";
 import { SellerSwitchMenu } from "./seller-switch-menu";
 import { Share } from "./share";
@@ -9,7 +10,7 @@ export function Header() {
       <MeetingDateMenu />
       <ChevronRight className="h-3 w-3 text-zinc-200" />
       <p className="ml-2 text-xs font-medium tracking-wide text-zinc-900">
-        Since last meeting
+        {CANVAS_HEADER_CONFIG.breadcrumbLabel}
       </p>
       <Share />
       <SellerSwitchMenu />

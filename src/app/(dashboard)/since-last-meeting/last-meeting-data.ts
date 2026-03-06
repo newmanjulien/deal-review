@@ -1,12 +1,10 @@
-export const tabs = [
-  { id: "activity", label: "Activity" },
-  { id: "accounts", label: "Accounts" },
-  { id: "opportunities", label: "Opportunities" },
-] as const;
+import type {
+  LastMeetingAccountBreakdownRow,
+  LastMeetingActivityItem,
+  LastMeetingOpportunity,
+} from "./last-meeting-types";
 
-export type TabId = (typeof tabs)[number]["id"];
-
-export const activityItems = [
+export const lastMeetingActivityItems: LastMeetingActivityItem[] = [
   {
     id: "new-issue",
     title: "New issue detected",
@@ -21,13 +19,13 @@ export const activityItems = [
   },
 ] as const;
 
-export const accountsBreakdown = [
+export const lastMeetingAccountsBreakdown: LastMeetingAccountBreakdownRow[] = [
   { account: "Mobile web", impacted: "7,214", share: "56%" },
   { account: "Desktop web", impacted: "4,790", share: "37%" },
   { account: "API clients", impacted: "877", share: "7%" },
 ] as const;
 
-export const opportunities = [
+export const lastMeetingOpportunities: LastMeetingOpportunity[] = [
   {
     id: "112",
     title: "Reset password flow issue",

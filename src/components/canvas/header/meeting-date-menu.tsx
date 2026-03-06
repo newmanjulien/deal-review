@@ -1,5 +1,6 @@
 import { Calendar } from "lucide-react";
-import { HEADER_MEETING_DATES } from "@/components/canvas/canvas-data";
+import { HEADER_MENU_CONFIG } from "./header-config";
+import { HEADER_MEETING_DATES } from "./header-data";
 import {
   HeaderMenu,
   HeaderMenuItem,
@@ -7,12 +8,10 @@ import {
   HeaderMenuSectionLabel,
 } from "./header-menu";
 
-const HEADER_DATES_POPOVER_CONTENT_ID = "header-dates-popover-content";
-
 export function MeetingDateMenu() {
   return (
     <HeaderMenu
-      id={HEADER_DATES_POPOVER_CONTENT_ID}
+      id={HEADER_MENU_CONFIG.meetingDate.id}
       align="start"
       trigger={
         <button
@@ -21,11 +20,15 @@ export function MeetingDateMenu() {
           className="mr-2 ml-1 flex items-center gap-3 text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
         >
           <Calendar className="h-3 w-3" />
-          <span>{HEADER_MEETING_DATES[0]} meeting</span>
+          <span>
+            {HEADER_MEETING_DATES[0]} {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
+          </span>
         </button>
       }
     >
-      <HeaderMenuSectionLabel>Select meeting date</HeaderMenuSectionLabel>
+      <HeaderMenuSectionLabel>
+        {HEADER_MENU_CONFIG.meetingDate.sectionLabel}
+      </HeaderMenuSectionLabel>
       <HeaderMenuList>
         {HEADER_MEETING_DATES.map((date) => (
           <li key={date}>

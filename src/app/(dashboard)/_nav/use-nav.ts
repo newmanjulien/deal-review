@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { getActiveHref, type NavGroups } from "./nav-utils";
+import { getActiveHref } from "./nav-utils";
+import type { NavGroups } from "./nav-types";
 
 export function useNav(groups: NavGroups) {
   const pathname = usePathname();

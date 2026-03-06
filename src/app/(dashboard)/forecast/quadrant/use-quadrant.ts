@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { QUADRANT_BEHAVIOR_CONFIG } from "./quadrant-config";
 import type { QuadrantChartData, QuadrantPoint } from "./quadrant-types";
 
 type ClientPosition = { x: number; y: number };
@@ -13,7 +14,7 @@ type UseQuadrantOptions = {
 
 export function useQuadrant({
   chart,
-  defaultPointId = "q18",
+  defaultPointId = QUADRANT_BEHAVIOR_CONFIG.defaultPointId,
 }: UseQuadrantOptions) {
   const [hoveredPoint, setHoveredPoint] = useState<QuadrantPoint | null>(null);
   const [hoverPosition, setHoverPosition] = useState<{

@@ -7,6 +7,7 @@ import {
 } from "@/components/canvas/canvas-types";
 import { Button } from "@/components/ui/button";
 import { countSendableQuestions } from "./question-utils";
+import { QUESTIONS_PANEL_CONFIG } from "./questions-config";
 
 export type { DraftQuestion };
 
@@ -24,10 +25,9 @@ export function QuestionsPanel({
       <div className="flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
           <header className="mb-5 space-y-1.5">
-            <h2 className="text-sm text-zinc-900">Questions for Juan</h2>
+            <h2 className="text-sm text-zinc-900">{QUESTIONS_PANEL_CONFIG.title}</h2>
             <p className="text-xs leading-relaxed tracking-wide text-zinc-500">
-              We can send your questions as meeting notes so Juan can start
-              preparing answers ahead of your meeting
+              {QUESTIONS_PANEL_CONFIG.description}
             </p>
           </header>
 
@@ -55,12 +55,12 @@ export function QuestionsPanel({
                     onQuestionChange(question.id, event.target.value)
                   }
                   rows={3}
-                  placeholder="Ask a clear, specific question"
+                  placeholder={QUESTIONS_PANEL_CONFIG.questionPlaceholder}
                   className="w-full resize-y rounded-md border border-zinc-200/50 bg-zinc-50/40 px-2.5 py-2 text-xs leading-relaxed text-zinc-700 placeholder:text-zinc-400 focus-visible:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
                 />
                 <div className="mt-2 px-1.5">
                   <p className="text-xs leading-relaxed text-zinc-400/70">
-                    Juan may add a preliminary answer
+                    {QUESTIONS_PANEL_CONFIG.answerHint}
                   </p>
                 </div>
               </article>
@@ -76,7 +76,8 @@ export function QuestionsPanel({
             onClick={onSendAll}
             disabled={!canSend}
           >
-            Send to Juan {canSend ? `(${sendableCount})` : ""}
+            {QUESTIONS_PANEL_CONFIG.sendButtonLabel}{" "}
+            {canSend ? `(${sendableCount})` : ""}
           </Button>
         </div>
       </div>

@@ -8,23 +8,26 @@ import {
 } from "@/components/dashboard-table";
 import { Badge } from "@/components/ui/badge";
 import { TableCell } from "@/components/ui/table";
+import {
+  CONVERSATIONS_PAGE_CONFIG,
+  CONVERSATIONS_TABLE_COLUMNS,
+} from "./conversations-config";
 import { conversationRows } from "./conversations-data";
 
 export function ConversationsPageClient() {
   return (
     <CanvasWidePageShell
-      title="All conversations"
-      description="See the latest account conversations, owners, and deal stage at a glance"
+      title={CONVERSATIONS_PAGE_CONFIG.title}
+      description={CONVERSATIONS_PAGE_CONFIG.description}
     >
       <DashboardTable>
         <DashboardTableHeader>
           <DashboardTableRow>
-            <DashboardTableHead>Company</DashboardTableHead>
-            <DashboardTableHead>Contact</DashboardTableHead>
-            <DashboardTableHead>Topic</DashboardTableHead>
-            <DashboardTableHead>Owner</DashboardTableHead>
-            <DashboardTableHead>Stage</DashboardTableHead>
-            <DashboardTableHead>Last update</DashboardTableHead>
+            {CONVERSATIONS_TABLE_COLUMNS.map((column) => (
+              <DashboardTableHead key={column.key}>
+                {column.label}
+              </DashboardTableHead>
+            ))}
           </DashboardTableRow>
         </DashboardTableHeader>
 

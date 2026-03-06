@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { QUADRANT_TOOLTIP_CONFIG } from "./quadrant-config";
 import type { QuadrantPoint } from "./quadrant-types";
 
 type QuadrantTooltipProps = {
@@ -20,14 +21,16 @@ export function QuadrantTooltip({
   const absDelta = Math.abs(delta);
   const body =
     absDelta <= disagreeThreshold ? undefined : hoveredPoint.description;
-  const width = 320;
-  const offset = { x: 12, y: -92 };
+  const { width, offset, edgePadding } = QUADRANT_TOOLTIP_CONFIG;
   const style: CSSProperties = {
     left: Math.max(
-      12,
-      Math.min(hoverPosition.x + offset.x, hoverBounds.width - width - 12),
+      edgePadding,
+      Math.min(
+        hoverPosition.x + offset.x,
+        hoverBounds.width - width - edgePadding,
+      ),
     ),
-    top: Math.max(hoverPosition.y + offset.y, 12),
+    top: Math.max(hoverPosition.y + offset.y, edgePadding),
     width,
   };
 

@@ -3,6 +3,8 @@
 import Image from "next/image";
 import type { RefObject } from "react";
 import { Calendar, Menu } from "lucide-react";
+import { HEADER_MEETING_DATES } from "@/components/canvas/header/header-data";
+import { HEADER_MENU_CONFIG } from "@/components/canvas/header/header-config";
 
 export function MobileHeader({
   isNavOpen: _isNavOpen,
@@ -42,7 +44,9 @@ export function MobileHeader({
           className="pointer-events-auto inline-flex h-8 min-w-0 max-w-full items-center justify-center gap-1.5 rounded-sm px-2 text-center text-xs font-medium tracking-wide text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
         >
           <Calendar className="size-3.5 shrink-0" />
-          <span className="truncate">January 26</span>
+          <span className="truncate">
+            {HEADER_MEETING_DATES[0]} {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
+          </span>
         </button>
       </div>
     </header>

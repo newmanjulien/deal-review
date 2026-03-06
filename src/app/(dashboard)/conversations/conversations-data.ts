@@ -1,11 +1,4 @@
-export type ConversationRow = {
-  company: string;
-  contact: string;
-  topic: string;
-  owner: string;
-  stage: "Discovery" | "Proposal" | "Negotiation" | "Closed won";
-  lastUpdate: string;
-};
+import type { ConversationRow } from "./conversations-types";
 
 export const conversationRows: ConversationRow[] = [
   {

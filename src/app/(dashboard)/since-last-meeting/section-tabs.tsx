@@ -1,14 +1,15 @@
-import { tabs, type TabId } from "./last-meeting-data";
+import { LAST_MEETING_TABS } from "./last-meeting-config";
+import type { LastMeetingTabId } from "./last-meeting-types";
 
 type SectionTabsProps = {
-  activeTab: TabId;
-  onTabChange: (tabId: TabId) => void;
+  activeTab: LastMeetingTabId;
+  onTabChange: (tabId: LastMeetingTabId) => void;
 };
 
 export function SectionTabs({ activeTab, onTabChange }: SectionTabsProps) {
   return (
     <div className="flex items-center gap-6 border-b border-zinc-100">
-      {tabs.map((tab) => (
+      {LAST_MEETING_TABS.map((tab) => (
         <button
           key={tab.id}
           type="button"

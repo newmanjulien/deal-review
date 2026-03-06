@@ -6,7 +6,7 @@ import {
   DashboardTableRow,
 } from "@/components/dashboard-table";
 import { TableCell } from "@/components/ui/table";
-import { accountsBreakdown } from "../last-meeting-data";
+import { lastMeetingAccountsBreakdown } from "../last-meeting-data";
 
 export function AccountsSection() {
   return (
@@ -21,7 +21,7 @@ export function AccountsSection() {
         </DashboardTableHeader>
 
         <DashboardTableBody>
-          {accountsBreakdown.map((row) => (
+          {lastMeetingAccountsBreakdown.map((row) => (
             <DashboardTableRow key={row.account}>
               <TableCell className="whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900">
                 {row.account}

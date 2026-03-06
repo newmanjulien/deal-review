@@ -2,19 +2,25 @@
 
 import { useState } from "react";
 import { CanvasPageShell } from "@/components/canvas/canvas-page";
+import {
+  LAST_MEETING_DEFAULT_TAB_ID,
+  LAST_MEETING_PAGE_CONFIG,
+} from "./last-meeting-config";
 import { ActivitySection } from "./sections/activity-section";
 import { AccountsSection } from "./sections/accounts-section";
 import { OpportunitiesSection } from "./sections/opportunities-section";
-import { type TabId } from "./last-meeting-data";
+import { type LastMeetingTabId } from "./last-meeting-types";
 import { SectionTabs } from "./section-tabs";
 
 export function SinceLastMeetingPageClient() {
-  const [activeTab, setActiveTab] = useState<TabId>("activity");
+  const [activeTab, setActiveTab] = useState<LastMeetingTabId>(
+    LAST_MEETING_DEFAULT_TAB_ID,
+  );
 
   return (
     <CanvasPageShell
-      title="Since your last meeting with Juan"
-      description="A spike in users clicking on reset links but not completing the reset flow was detected. Error rates surged within ten minutes of the latest deployment."
+      title={LAST_MEETING_PAGE_CONFIG.title}
+      description={LAST_MEETING_PAGE_CONFIG.description}
     >
       <section className="space-y-4">
         <SectionTabs activeTab={activeTab} onTabChange={setActiveTab} />

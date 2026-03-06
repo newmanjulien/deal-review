@@ -1,12 +1,12 @@
-import { activityItems } from "../last-meeting-data";
+import { lastMeetingActivityItems } from "../last-meeting-data";
 
 export function ActivitySection() {
   return (
     <ol className="space-y-5 pt-1">
-      {activityItems.map((item, index) => (
+      {lastMeetingActivityItems.map((item, index) => (
         <li key={item.id} className="relative pl-5">
           <span className="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-300" />
-          {index < activityItems.length - 1 ? (
+          {index < lastMeetingActivityItems.length - 1 ? (
             <span className="absolute bottom-[-1.6rem] left-[2px] top-6 w-px bg-zinc-200" />
           ) : null}
           <div className="flex flex-wrap items-baseline gap-2">

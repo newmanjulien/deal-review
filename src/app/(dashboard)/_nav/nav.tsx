@@ -5,7 +5,8 @@
 import Link from "next/link";
 import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
-import { normalizeNavGroups, type NavGroups, type NavItem } from "./nav-utils";
+import { normalizeNavGroups } from "./nav-utils";
+import type { NavGroups, NavItem } from "./nav-types";
 import { cn } from "@/lib/utils";
 
 type NavSection = "main" | "secondary" | "tertiary";
