@@ -1,6 +1,6 @@
 import { CanvasPageShell } from "@/components/canvas/canvas-page";
-import { quadrantExample } from "./quadrant-data";
-import { Quadrant } from "./quadrant";
+import { quadrantExample } from "./quadrant/quadrant-data";
+import { Quadrant } from "./quadrant/quadrant";
 
 export function ForecastPageClient() {
   return (

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { HEADER_PEOPLE } from "@/components/canvas/dummy-data";
+import { HEADER_PEOPLE } from "@/components/canvas/canvas-data";
 import {
   HeaderMenu,
   HeaderMenuItem,

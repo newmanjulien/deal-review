@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import { HEADER_MEETING_DATES } from "@/components/canvas/dummy-data";
+import { HEADER_MEETING_DATES } from "@/components/canvas/canvas-data";
 import {
   HeaderMenu,
   HeaderMenuItem,

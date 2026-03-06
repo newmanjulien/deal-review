@@ -8,7 +8,7 @@ import {
 } from "@/components/dashboard-table";
 import { Badge } from "@/components/ui/badge";
 import { TableCell } from "@/components/ui/table";
-import { conversationRows } from "./dummy-data";
+import { conversationRows } from "./conversations-data";
 
 export function ConversationsPageClient() {
   return (

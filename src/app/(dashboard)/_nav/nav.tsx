@@ -3,83 +3,12 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Activity,
-  Box,
-  CircleQuestionMark,
-  CircleOff,
-  LayoutGrid,
-  Lightbulb,
-  List,
-  type LucideIcon,
-} from "lucide-react";
 import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
+import { normalizeNavGroups, type NavGroups, type NavItem } from "./nav-utils";
 import { cn } from "@/lib/utils";
 
-export type NavItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-};
-
-export type NavGroups = {
-  main: NavItem[];
-  secondary: NavItem[];
-  tertiary?: NavItem[];
-};
-
 type NavSection = "main" | "secondary" | "tertiary";
-
-export const primaryNavGroups: NavGroups = {
-  main: [
-    {
-      href: "/since-last-meeting",
-      label: "Since last meeting",
-      icon: Activity,
-    },
-    { href: "/forecast", label: "Forecast", icon: LayoutGrid },
-    {
-      href: "/questions",
-      label: "Missing data and timelines",
-      icon: CircleOff,
-    },
-    { href: "/ideas", label: "Opportunities and risks", icon: Lightbulb },
-  ],
-  secondary: [
-    { href: "/conversations", label: "All conversations", icon: List },
-    { href: "/optional-apps", label: "Optional apps", icon: Box },
-  ],
-  tertiary: [
-    {
-      href: "/contact-support",
-      label: "Contact support",
-      icon: CircleQuestionMark,
-    },
-  ],
-};
-
-export function isNavItemActive(pathname: string, href: string): boolean {
-  if (href === "/") {
-    return pathname === "/";
-  }
-
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-export function getActiveHref(
-  pathname: string,
-  groups: NavGroups,
-): string | null {
-  const items = [
-    ...groups.main,
-    ...groups.secondary,
-    ...(groups.tertiary ?? []),
-  ];
-  return (
-    items.find((item) => isNavItemActive(pathname, item.href))?.href ?? null
-  );
-}
 
 type NavProps = {
   groups: NavGroups;
@@ -184,7 +113,7 @@ export function Nav({
 }: NavProps) {
   const isRail = variant === "rail";
   const itemGapClass = isRail ? "gap-1" : "gap-1.5";
-  const tertiaryItems = groups.tertiary ?? [];
+  const normalizedGroups = normalizeNavGroups(groups);
 
   const renderItems = (sectionItems: NavItem[], section: NavSection) =>
     sectionItems.map((item) =>
@@ -227,28 +156,32 @@ export function Nav({
         />
       ) : null}
       <div className={cn("flex flex-col", itemGapClass)}>
-        {renderItems(groups.main, "main")}
+        {renderItems(normalizedGroups.main, "main")}
       </div>
-      <div className={cn("flex flex-col")}>
-        <div className={cn(isRail ? "py-3" : "py-4")}>
-          <span
-            aria-hidden="true"
-            className={cn(
-              "block h-px bg-zinc-200/50",
-              isRail ? "mx-auto w-4" : "w-full",
-            )}
-          />
+      {normalizedGroups.hasSecondary ? (
+        <div className={cn("flex flex-col")}>
+          {normalizedGroups.showMainSecondaryDivider ? (
+            <div className={cn(isRail ? "py-3" : "py-4")}>
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "block h-px bg-zinc-200/50",
+                  isRail ? "mx-auto w-4" : "w-full",
+                )}
+              />
+            </div>
+          ) : null}
+          <div className={cn("flex flex-col", itemGapClass)}>
+            {renderItems(normalizedGroups.secondary, "secondary")}
+          </div>
         </div>
-        <div className={cn("flex flex-col", itemGapClass)}>
-          {renderItems(groups.secondary, "secondary")}
-        </div>
-      </div>
-      {tertiaryItems.length > 0 ? (
+      ) : null}
+      {normalizedGroups.tertiary.length > 0 ? (
         <div
           className={cn("mt-auto flex flex-col", isRail ? "pb-1 pt-3" : "pt-6")}
         >
           <div className={cn("flex flex-col", itemGapClass)}>
-            {renderItems(tertiaryItems, "tertiary")}
+            {renderItems(normalizedGroups.tertiary, "tertiary")}
           </div>
         </div>
       ) : null}

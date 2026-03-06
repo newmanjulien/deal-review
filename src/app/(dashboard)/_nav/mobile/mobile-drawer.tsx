@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { getActiveHref, Nav, primaryNavGroups } from "../nav";
+import { primaryNavGroups } from "../nav-utils";
+import { useNav } from "../use-nav";
+import { Nav } from "../nav";
 
 export function MobileDrawer({
   isOpen,
@@ -15,12 +16,12 @@ export function MobileDrawer({
   onClose: () => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
 }) {
-  const pathname = usePathname();
+  const {
+    state: { activeHref, pathname },
+  } = useNav(primaryNavGroups);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousPathnameRef = useRef(pathname);
   const wasOpenRef = useRef(false);
-
-  const activeHref = getActiveHref(pathname, primaryNavGroups);
 
   useEffect(() => {
     const previousPathname = previousPathnameRef.current;

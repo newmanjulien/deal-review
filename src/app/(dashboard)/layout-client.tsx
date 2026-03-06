@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { MobileHeader } from "./_components/mobile/mobile-header";
-import { MobileDrawer } from "./_components/mobile/mobile-drawer";
-import { Sidebar } from "./_components/sidebar";
+import { MobileHeader } from "./_nav/mobile/mobile-header";
+import { MobileDrawer } from "./_nav/mobile/mobile-drawer";
+import { Sidebar } from "./_nav/sidebar";
 
 export function LayoutClient({ children }: { children: ReactNode }) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);

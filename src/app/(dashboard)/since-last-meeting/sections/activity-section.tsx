@@ -1,4 +1,4 @@
-import { activityItems } from "../dummy-data";
+import { activityItems } from "../last-meeting-data";
 
 export function ActivitySection() {
   return (

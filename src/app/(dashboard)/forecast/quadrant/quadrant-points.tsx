@@ -1,12 +1,19 @@
-import type { QuadrantPoint } from "./types";
+import type { QuadrantPoint } from "./quadrant-types";
 
 type QuadrantPointsProps = {
   points: QuadrantPoint[];
-  onHover: (point: QuadrantPoint, clientPosition: { x: number; y: number }) => void;
+  onHover: (
+    point: QuadrantPoint,
+    clientPosition: { x: number; y: number },
+  ) => void;
   onMove: (clientPosition: { x: number; y: number }) => void;
 };
 
-export function QuadrantPoints({ points, onHover, onMove }: QuadrantPointsProps) {
+export function QuadrantPoints({
+  points,
+  onHover,
+  onMove,
+}: QuadrantPointsProps) {
   return (
     <>
       {points.map((point) => {
@@ -26,7 +33,13 @@ export function QuadrantPoints({ points, onHover, onMove }: QuadrantPointsProps)
               });
             }}
           >
-            <circle cx={point.xPx} cy={point.yPx} r={6} fill={point.color} fillOpacity={0.85} />
+            <circle
+              cx={point.xPx}
+              cy={point.yPx}
+              r={6}
+              fill={point.color}
+              fillOpacity={0.85}
+            />
             <text
               x={point.xPx + point.labelOffset}
               y={point.yPx + 4}

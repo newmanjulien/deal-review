@@ -1,17 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useSidebarNavMotion } from "@/lib/use-sidebar-nav-motion";
+import { primaryNavGroups } from "./nav-utils";
+import { useNav } from "./use-nav";
+import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/use-sidebar-nav-motion";
 import { cn } from "@/lib/utils";
-import { getActiveHref, Nav, primaryNavGroups } from "./nav";
+import { Nav } from "./nav";
 
 export function Sidebar({ className }: { className?: string }) {
-  const pathname = usePathname();
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
-  const activeHref = getActiveHref(pathname, primaryNavGroups);
-  const { navRef, indicatorRef, setItemRef } = useSidebarNavMotion({
+  const {
+    state: { activeHref },
+  } = useNav(primaryNavGroups);
+  const { refs, actions } = useSidebarNavMotion({
     activeHref,
     hoveredHref,
   });
@@ -39,9 +41,9 @@ export function Sidebar({ className }: { className?: string }) {
         groups={primaryNavGroups}
         activeHref={activeHref}
         setHoveredHref={setHoveredHref}
-        navRef={navRef}
-        indicatorRef={indicatorRef}
-        setItemRef={setItemRef}
+        navRef={refs.navRef}
+        indicatorRef={refs.indicatorRef}
+        setItemRef={actions.setItemRef}
         variant="rail"
       />
     </aside>

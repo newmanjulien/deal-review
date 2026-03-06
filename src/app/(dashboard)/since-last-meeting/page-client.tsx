@@ -5,7 +5,7 @@ import { CanvasPageShell } from "@/components/canvas/canvas-page";
 import { ActivitySection } from "./sections/activity-section";
 import { AccountsSection } from "./sections/accounts-section";
 import { OpportunitiesSection } from "./sections/opportunities-section";
-import { type TabId } from "./dummy-data";
+import { type TabId } from "./last-meeting-data";
 import { SectionTabs } from "./section-tabs";
 
 export function SinceLastMeetingPageClient() {

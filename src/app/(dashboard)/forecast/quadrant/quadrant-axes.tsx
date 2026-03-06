@@ -1,4 +1,4 @@
-import type { QuadrantChartData, QuadrantChartLayout } from "./types";
+import type { QuadrantChartData, QuadrantChartLayout } from "./quadrant-types";
 
 type QuadrantAxesProps = {
   chart: QuadrantChartData;

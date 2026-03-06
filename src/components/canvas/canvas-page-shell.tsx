@@ -5,7 +5,7 @@ import {
   type CanvasPageShellMode,
   type CanvasPageShellProps,
   type CanvasSectionTitleProps,
-} from "@/types/canvas-types";
+} from "@/components/canvas/canvas-types";
 import { cn } from "@/lib/utils";
 
 export type { CanvasPageShellMode, CanvasPageShellProps };

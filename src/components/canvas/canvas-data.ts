@@ -1,4 +1,4 @@
-import type { HeaderPerson } from "@/types/canvas-types";
+import type { HeaderPerson } from "@/components/canvas/canvas-types";
 
 export const HEADER_MEETING_DATES = [
   "January 26",

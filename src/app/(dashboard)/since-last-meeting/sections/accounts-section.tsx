@@ -6,7 +6,7 @@ import {
   DashboardTableRow,
 } from "@/components/dashboard-table";
 import { TableCell } from "@/components/ui/table";
-import { accountsBreakdown } from "../dummy-data";
+import { accountsBreakdown } from "../last-meeting-data";
 
 export function AccountsSection() {
   return (

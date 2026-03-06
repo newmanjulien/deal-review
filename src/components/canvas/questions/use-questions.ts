@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import type { DraftQuestion } from "@/types/canvas-types";
-import { isQuestionSendable, normalizeQuestionText } from "@/lib/question-utils";
+import type { DraftQuestion } from "@/components/canvas/canvas-types";
+import {
+  isQuestionSendable,
+  normalizeQuestionText,
+} from "./question-utils";
 
 function createDraftQuestion(text: string): DraftQuestion {
   return {
@@ -51,10 +54,14 @@ export function useQuestions() {
   };
 
   return {
-    draftQuestions,
-    handleQuestionAdd,
-    handleQuestionChange,
-    handleQuestionDelete,
-    handleSendAll,
+    state: {
+      draftQuestions,
+    },
+    actions: {
+      handleQuestionAdd,
+      handleQuestionChange,
+      handleQuestionDelete,
+      handleSendAll,
+    },
   };
 }

@@ -91,8 +91,12 @@ export function useSidebarNavMotion({
   }, []);
 
   return {
-    navRef,
-    indicatorRef,
-    setItemRef,
+    refs: {
+      navRef,
+      indicatorRef,
+    },
+    actions: {
+      setItemRef,
+    },
   };
 }

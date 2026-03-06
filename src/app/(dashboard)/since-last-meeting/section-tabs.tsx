@@ -1,4 +1,4 @@
-import { tabs, type TabId } from "./dummy-data";
+import { tabs, type TabId } from "./last-meeting-data";
 
 type SectionTabsProps = {
   activeTab: TabId;

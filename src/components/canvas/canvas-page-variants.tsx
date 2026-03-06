@@ -6,7 +6,7 @@ import {
   type CanvasPageContentProps,
   type CanvasPageShellProps,
   type CanvasPageShellMode,
-} from "@/types/canvas-types";
+} from "@/components/canvas/canvas-types";
 
 function renderCanvasPageShell({
   children,

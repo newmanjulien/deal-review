@@ -1,14 +1,12 @@
 "use client";
 
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
-import {
-  type QuestionComposerBarProps,
-} from "@/types/canvas-types";
+import { type QuestionComposerBarProps } from "@/components/canvas/canvas-types";
 import { Button } from "@/components/ui/button";
 import {
   isQuestionSendable,
   normalizeQuestionText,
-} from "@/lib/question-utils";
+} from "./question-utils";
 
 const QUESTION_COMPOSER_MAX_HEIGHT = 160;
 

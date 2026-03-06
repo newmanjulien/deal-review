@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { HEADER_PEOPLE } from "@/components/canvas/dummy-data";
+import { HEADER_PEOPLE } from "@/components/canvas/canvas-data";
 import {
   HeaderMenu,
   HeaderMenuCheckboxItem,
@@ -57,7 +57,9 @@ export function Share() {
             </button>
           }
         >
-          <HeaderMenuSectionLabel>Share with a team member</HeaderMenuSectionLabel>
+          <HeaderMenuSectionLabel>
+            Share with a team member
+          </HeaderMenuSectionLabel>
           <HeaderMenuList>
             {HEADER_PEOPLE.map((person) => (
               <li key={person.name}>

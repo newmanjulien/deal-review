@@ -1,5 +1,8 @@
-import { linearScale, ticksLinear } from "./chart-scales";
-import type { QuadrantChartData, QuadrantPoint } from "./types";
+import {
+  buildQuadrantLayout,
+  projectQuadrantPoints,
+} from "./quadrant-utils";
+import type { QuadrantChartData, QuadrantPointSeed } from "./quadrant-types";
 
 const CHART_DIMENSIONS = {
   width: 720,
@@ -22,39 +25,7 @@ const DISAGREE_THRESHOLD = 6;
 const xMid = 50;
 const yMid = 50;
 
-const inner = {
-  width: CHART_DIMENSIONS.width - CHART_PADDING.left - CHART_PADDING.right,
-  height: CHART_DIMENSIONS.height - CHART_PADDING.top - CHART_PADDING.bottom,
-};
-
-const plotArea = {
-  left: CHART_PADDING.left,
-  right: CHART_PADDING.left + inner.width,
-  top: CHART_PADDING.top,
-  bottom: CHART_PADDING.top + inner.height,
-};
-
-const xScale = linearScale(0, 100, plotArea.left, plotArea.right);
-const yScale = linearScale(0, 100, plotArea.bottom, plotArea.top);
-const ticks = ticksLinear(100, 4);
-
-const tickPositions = ticks.map((value) => ({
-  value,
-  x: xScale(value),
-  y: yScale(value),
-}));
-
-const midLines = {
-  x: xScale(xMid),
-  y: yScale(yMid),
-};
-
-type QuadrantPointBase = Omit<
-  QuadrantPoint,
-  "xPx" | "yPx" | "labelOffset" | "labelAnchor" | "color"
->;
-
-const basePoints: QuadrantPointBase[] = [
+const basePoints: QuadrantPointSeed[] = [
   {
     id: "q1",
     label: "Caterpillar",
@@ -233,38 +204,18 @@ const basePoints: QuadrantPointBase[] = [
   },
 ];
 
-const getPointColor = (
-  point: QuadrantPointBase,
-  xMidValue: number,
-  yMidValue: number,
-  disagreeThreshold: number,
-) => {
-  const isRight = point.x >= xMidValue;
-  const isTop = point.y >= yMidValue;
-  const delta = point.y - point.x;
-  const isDisagreement = Math.abs(delta) > disagreeThreshold;
+const layout = buildQuadrantLayout({
+  dimensions: CHART_DIMENSIONS,
+  padding: CHART_PADDING,
+  axisLabelOffset: AXIS_LABEL_OFFSET,
+  xMid,
+  yMid,
+});
 
-  if (isDisagreement && ((isTop && isRight) || (!isTop && !isRight))) {
-    return delta > 0 ? "#86efac" : "#fca5a5";
-  }
-
-  if (isTop && isRight) return "#18181b";
-  if (isTop && !isRight) return "#16a34a";
-  if (!isTop && isRight) return "#dc2626";
-  return "#a1a1aa";
-};
-
-const points: QuadrantPoint[] = basePoints.map((point) => {
-  const isNearRightEdge = point.x > 78;
-
-  return {
-    ...point,
-    xPx: xScale(point.x),
-    yPx: yScale(point.y),
-    labelOffset: isNearRightEdge ? -8 : 8,
-    labelAnchor: isNearRightEdge ? "end" : "start",
-    color: getPointColor(point, xMid, yMid, DISAGREE_THRESHOLD),
-  };
+const points = projectQuadrantPoints(basePoints, layout, {
+  xMid,
+  yMid,
+  disagreeThreshold: DISAGREE_THRESHOLD,
 });
 
 export const quadrantExample: QuadrantChartData = {
@@ -277,12 +228,6 @@ export const quadrantExample: QuadrantChartData = {
   xMid,
   yMid,
   disagreeThreshold: DISAGREE_THRESHOLD,
-  layout: {
-    dimensions: CHART_DIMENSIONS,
-    plotArea,
-    axisLabelOffset: AXIS_LABEL_OFFSET,
-    ticks: tickPositions,
-    midLines,
-  },
+  layout,
   points,
 };

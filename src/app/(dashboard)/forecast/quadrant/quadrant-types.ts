@@ -11,6 +11,11 @@ export type QuadrantPoint = {
   color: string;
 };
 
+export type QuadrantPointSeed = Omit<
+  QuadrantPoint,
+  "xPx" | "yPx" | "labelOffset" | "labelAnchor" | "color"
+>;
+
 export type QuadrantChartLayout = {
   dimensions: { width: number; height: number };
   plotArea: { left: number; right: number; top: number; bottom: number };

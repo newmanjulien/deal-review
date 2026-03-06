@@ -3,8 +3,8 @@
 import { CanvasPageShell } from "@/components/canvas/canvas-page-shell";
 import { QuestionsPanel } from "@/components/canvas/questions/questions-panel";
 import { QuestionComposerBar } from "@/components/canvas/questions/question-composer-bar";
-import { useQuestions } from "@/lib/use-questions";
-import { type CanvasPageShellProps } from "@/types/canvas-types";
+import { useQuestions } from "@/components/canvas/questions/use-questions";
+import { type CanvasPageShellProps } from "@/components/canvas/canvas-types";
 
 type CanvasPageShellWithQuestionsClientProps = Omit<
   CanvasPageShellProps,
@@ -18,11 +18,13 @@ export function CanvasPageShellWithQuestionsClient({
   description,
 }: CanvasPageShellWithQuestionsClientProps) {
   const {
-    draftQuestions,
-    handleQuestionAdd,
-    handleQuestionChange,
-    handleQuestionDelete,
-    handleSendAll,
+    state: { draftQuestions },
+    actions: {
+      handleQuestionAdd,
+      handleQuestionChange,
+      handleQuestionDelete,
+      handleSendAll,
+    },
   } = useQuestions();
 
   return (

@@ -1,5 +1,5 @@
 import { Grid3x3, KeyRound, LoaderCircle, UserRound } from "lucide-react";
-import { opportunities } from "../dummy-data";
+import { opportunities } from "../last-meeting-data";
 
 export function OpportunitiesSection() {
   return (
