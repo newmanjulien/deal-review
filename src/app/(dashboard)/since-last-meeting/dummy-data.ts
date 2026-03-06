@@ -1,6 +1,7 @@
 export const tabs = [
   { id: "activity", label: "Activity" },
   { id: "accounts", label: "Accounts" },
+  { id: "opportunities", label: "Opportunities" },
 ] as const;
 
 export type TabId = (typeof tabs)[number]["id"];
@@ -24,4 +25,25 @@ export const accountsBreakdown = [
   { account: "Mobile web", impacted: "7,214", share: "56%" },
   { account: "Desktop web", impacted: "4,790", share: "37%" },
   { account: "API clients", impacted: "877", share: "7%" },
+] as const;
+
+export const opportunities = [
+  {
+    id: "112",
+    title: "Reset password flow issue",
+    statusLabel: "Investigating...",
+    priorityLabel: "Medium priority",
+  },
+  {
+    id: "118",
+    title: "Checkout confirmation email delay",
+    statusLabel: "Triaging...",
+    priorityLabel: "High priority",
+  },
+  {
+    id: "124",
+    title: "Duplicate invoice PDF generation",
+    statusLabel: "Monitoring...",
+    priorityLabel: "Low priority",
+  },
 ] as const;

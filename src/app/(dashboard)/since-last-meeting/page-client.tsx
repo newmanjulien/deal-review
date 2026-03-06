@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CanvasPageShell } from "@/components/canvas/canvas-page";
 import { ActivitySection } from "./sections/activity-section";
 import { AccountsSection } from "./sections/accounts-section";
+import { OpportunitiesSection } from "./sections/opportunities-section";
 import { type TabId } from "./dummy-data";
 import { SectionTabs } from "./section-tabs";
 
@@ -19,6 +20,7 @@ export function SinceLastMeetingPageClient() {
         <SectionTabs activeTab={activeTab} onTabChange={setActiveTab} />
         {activeTab === "activity" ? <ActivitySection /> : null}
         {activeTab === "accounts" ? <AccountsSection /> : null}
+        {activeTab === "opportunities" ? <OpportunitiesSection /> : null}
       </section>
     </CanvasPageShell>
   );
