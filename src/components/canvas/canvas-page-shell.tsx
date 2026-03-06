@@ -56,7 +56,7 @@ export function CanvasPageShell({
       <div
         className={cn(
           "grid min-h-0 flex-1 grid-cols-1 overflow-hidden",
-          showTwoColumnLayout && "lg:grid-cols-[minmax(0,1fr)_24rem]",
+          showTwoColumnLayout && "lg:grid-cols-[minmax(0,1fr)_22rem]",
         )}
       >
         <section className="min-h-0 min-w-0 overflow-hidden">

@@ -24,7 +24,7 @@ export function QuestionsPanel({
       <div className="flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
           <header className="mb-5 space-y-1.5">
-            <h2 className="text-sm text-zinc-900">Notes for Juan</h2>
+            <h2 className="text-sm text-zinc-900">Questions for Juan</h2>
             <p className="text-xs leading-relaxed tracking-wide text-zinc-500">
               We can send your questions as meeting notes so Juan can start
               preparing answers ahead of your meeting
