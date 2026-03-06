@@ -15,7 +15,9 @@ export function OptionalAppsPageClient() {
     >
       <div className="space-y-6">
         {OPTIONAL_APP_SECTION_CONFIGS.map((section) => {
-          const sectionApps = optionalApps.filter((app) => app.tier === section.id);
+          const sectionApps = optionalApps.filter(
+            (app) => app.tier === section.id,
+          );
 
           return (
             <section key={section.id} className="space-y-3">
@@ -42,7 +44,7 @@ export function OptionalAppsPageClient() {
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-medium tracking-wide text-zinc-900">
+                        <h3 className="text-xs font-medium tracking-wide text-zinc-900">
                           {app.name}
                         </h3>
                         <p className="mt-1 text-xs leading-relaxed tracking-wide text-zinc-500">
