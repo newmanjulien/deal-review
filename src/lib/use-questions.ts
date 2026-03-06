@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { DraftQuestion } from "@/types/canvas-types";
+import { isQuestionSendable, normalizeQuestionText } from "@/lib/question-utils";
 
 function createDraftQuestion(text: string): DraftQuestion {
   return {
@@ -14,7 +15,13 @@ export function useQuestions() {
   const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([]);
 
   const handleQuestionAdd = (text: string) => {
-    setDraftQuestions((current) => [...current, createDraftQuestion(text)]);
+    const normalizedText = normalizeQuestionText(text);
+    if (!normalizedText) return;
+
+    setDraftQuestions((current) => [
+      ...current,
+      createDraftQuestion(normalizedText),
+    ]);
   };
 
   const handleQuestionChange = (id: string, text: string) => {
@@ -32,10 +39,15 @@ export function useQuestions() {
   };
 
   const handleSendAll = () => {
-    const hasSendableQuestion = draftQuestions.some(
-      (question) => question.text.trim().length > 0,
-    );
-    if (!hasSendableQuestion) return;
+    setDraftQuestions((current) => {
+      const remainingQuestions = current.filter(
+        (question) => !isQuestionSendable(question.text),
+      );
+
+      return remainingQuestions.length === current.length
+        ? current
+        : remainingQuestions;
+    });
   };
 
   return {

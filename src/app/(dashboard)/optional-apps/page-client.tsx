@@ -1,5 +1,3 @@
-"use client";
-
 import { File, MessageCircle, PhoneCall, type LucideIcon } from "lucide-react";
 import { CanvasOnlyPageShell } from "@/components/canvas/canvas-page";
 import { Button } from "@/components/ui/button";

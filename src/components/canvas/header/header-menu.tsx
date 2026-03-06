@@ -1,7 +1,7 @@
 "use client";
 
 import type { ComponentProps } from "react";
-import { type HeaderMenuProps } from "@/components/canvas/canvas-types";
+import { type HeaderMenuProps } from "@/types/canvas-types";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,

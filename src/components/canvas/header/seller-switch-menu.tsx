@@ -9,7 +9,7 @@ import {
 
 const HEADER_PEOPLE_POPOVER_CONTENT_ID = "header-people-popover-content";
 
-export function Switch() {
+export function SellerSwitchMenu() {
   return (
     <HeaderMenu
       id={HEADER_PEOPLE_POPOVER_CONTENT_ID}

@@ -4,8 +4,9 @@ import { Trash2 } from "lucide-react";
 import {
   type DraftQuestion,
   type QuestionsPanelProps,
-} from "@/components/canvas/canvas-types";
+} from "@/types/canvas-types";
 import { Button } from "@/components/ui/button";
+import { countSendableQuestions } from "@/lib/question-utils";
 
 export type { DraftQuestion };
 
@@ -15,9 +16,7 @@ export function QuestionsPanel({
   onQuestionDelete,
   onSendAll,
 }: QuestionsPanelProps) {
-  const sendableCount = draftQuestions.filter(
-    (question) => question.text.trim().length > 0,
-  ).length;
+  const sendableCount = countSendableQuestions(draftQuestions);
   const canSend = sendableCount > 0;
 
   return (

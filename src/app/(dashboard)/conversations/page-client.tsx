@@ -1,5 +1,3 @@
-"use client";
-
 import { CanvasWidePageShell } from "@/components/canvas/canvas-page";
 import {
   DashboardTable,

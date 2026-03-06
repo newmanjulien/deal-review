@@ -29,6 +29,8 @@ export type NavGroups = {
   tertiary?: NavItem[];
 };
 
+type NavSection = "main" | "secondary" | "tertiary";
+
 export const primaryNavGroups: NavGroups = {
   main: [
     {
@@ -91,6 +93,84 @@ type NavProps = {
   className?: string;
 };
 
+type RailNavItemProps = {
+  item: NavItem;
+  section: NavSection;
+  isActive: boolean;
+  setHoveredHref?: (href: string | null) => void;
+  setItemRef?: (href: string, el: HTMLSpanElement | null) => void;
+  onItemSelect?: () => void;
+};
+
+function RailNavItem({
+  item,
+  section,
+  isActive,
+  setHoveredHref,
+  setItemRef,
+  onItemSelect,
+}: RailNavItemProps) {
+  const isTertiary = section === "tertiary";
+
+  return (
+    <span
+      ref={(el) => {
+        if (isTertiary) return;
+        setItemRef?.(item.href, el);
+      }}
+      onMouseEnter={!isTertiary ? () => setHoveredHref?.(item.href) : undefined}
+      className={cn("relative z-10 inline-flex", isTertiary && "self-center")}
+    >
+      <Button
+        asChild
+        variant="ghost"
+        size="icon-sm"
+        className={cn(
+          isTertiary
+            ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 shadow-[0_1px_2px_rgba(24,24,27,0.1)] transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
+            : "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2",
+          isActive &&
+            (isTertiary
+              ? "border-zinc-300 bg-white text-zinc-900"
+              : "text-zinc-900"),
+        )}
+      >
+        <Link href={item.href} onClick={onItemSelect}>
+          <item.icon className="size-3.5" />
+          <span className="sr-only">{item.label}</span>
+        </Link>
+      </Button>
+    </span>
+  );
+}
+
+type DrawerNavItemProps = {
+  item: NavItem;
+  isActive: boolean;
+  onItemSelect?: () => void;
+};
+
+function DrawerNavItem({ item, isActive, onItemSelect }: DrawerNavItemProps) {
+  return (
+    <span className="relative z-10 inline-flex">
+      <Button
+        asChild
+        variant="ghost"
+        size="default"
+        className={cn(
+          "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
+          isActive && "bg-zinc-100/70 text-zinc-900",
+        )}
+      >
+        <Link href={item.href} onClick={onItemSelect}>
+          <item.icon className="size-3.5" />
+          <span>{item.label}</span>
+        </Link>
+      </Button>
+    </span>
+  );
+}
+
 export function Nav({
   groups,
   activeHref,
@@ -106,56 +186,27 @@ export function Nav({
   const itemGapClass = isRail ? "gap-1" : "gap-1.5";
   const tertiaryItems = groups.tertiary ?? [];
 
-  const renderItems = (
-    sectionItems: NavItem[],
-    section: "main" | "secondary" | "tertiary",
-  ) =>
-    sectionItems.map((item) => (
-      <span
-        key={item.href}
-        ref={(el) => {
-          if (!isRail || !setItemRef || section === "tertiary") return;
-          setItemRef(item.href, el);
-        }}
-        onMouseEnter={
-          isRail && section !== "tertiary"
-            ? () => setHoveredHref?.(item.href)
-            : undefined
-        }
-        className={cn(
-          "relative z-10 inline-flex",
-          isRail && section === "tertiary" ? "self-center" : "",
-        )}
-      >
-        <Button
-          asChild
-          variant="ghost"
-          size={isRail ? "icon-sm" : "default"}
-          className={cn(
-            isRail && section !== "tertiary"
-              ? "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
-              : section === "tertiary" && isRail
-                ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 shadow-[0_1px_2px_rgba(24,24,27,0.1)] transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
-                : "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
-            activeHref === item.href &&
-              (isRail && section !== "tertiary"
-                ? "text-zinc-900"
-                : section === "tertiary" && isRail
-                  ? "border-zinc-300 bg-white text-zinc-900"
-                  : "bg-zinc-100/70 text-zinc-900"),
-          )}
-        >
-          <Link
-            href={item.href}
-            aria-label="aria"
-            onClick={onItemSelect}
-          >
-            <item.icon className="size-3.5" />
-            {!isRail ? <span>{item.label}</span> : null}
-          </Link>
-        </Button>
-      </span>
-    ));
+  const renderItems = (sectionItems: NavItem[], section: NavSection) =>
+    sectionItems.map((item) =>
+      isRail ? (
+        <RailNavItem
+          key={item.href}
+          item={item}
+          section={section}
+          isActive={activeHref === item.href}
+          setHoveredHref={setHoveredHref}
+          setItemRef={setItemRef}
+          onItemSelect={onItemSelect}
+        />
+      ) : (
+        <DrawerNavItem
+          key={item.href}
+          item={item}
+          isActive={activeHref === item.href}
+          onItemSelect={onItemSelect}
+        />
+      ),
+    );
 
   return (
     <nav

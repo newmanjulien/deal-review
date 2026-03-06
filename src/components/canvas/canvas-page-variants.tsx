@@ -6,10 +6,9 @@ import {
   type CanvasPageContentProps,
   type CanvasPageShellProps,
   type CanvasPageShellMode,
-  type CanvasPageVariantProps,
-} from "@/components/canvas/canvas-types";
+} from "@/types/canvas-types";
 
-function CanvasPageShellByMode({
+function renderCanvasPageShell({
   children,
   mode = "full",
   contentMaxWidthClassName,
@@ -20,48 +19,29 @@ function CanvasPageShellByMode({
 }: CanvasPageShellProps) {
   const hasCustomSlots = Boolean(bottomBarSlot) || Boolean(sidePanelSlot);
 
-  if (mode === "canvas-only" || hasCustomSlots) {
+  if (mode === "full" && !hasCustomSlots) {
     return (
-      <CanvasPageLayoutShell
-        mode={mode}
+      <CanvasPageShellWithQuestionsClient
         contentMaxWidthClassName={contentMaxWidthClassName}
         title={title}
         description={description}
-        bottomBarSlot={bottomBarSlot}
-        sidePanelSlot={sidePanelSlot}
       >
         {children}
-      </CanvasPageLayoutShell>
+      </CanvasPageShellWithQuestionsClient>
     );
   }
 
   return (
-    <CanvasPageShellWithQuestionsClient
-      contentMaxWidthClassName={contentMaxWidthClassName}
-      title={title}
-      description={description}
-    >
-      {children}
-    </CanvasPageShellWithQuestionsClient>
-  );
-}
-
-function CanvasPageVariant({
-  children,
-  title,
-  description,
-  mode,
-  contentMaxWidthClassName,
-}: CanvasPageVariantProps) {
-  return (
-    <CanvasPageShellByMode
+    <CanvasPageLayoutShell
       mode={mode}
       contentMaxWidthClassName={contentMaxWidthClassName}
       title={title}
       description={description}
+      bottomBarSlot={bottomBarSlot}
+      sidePanelSlot={sidePanelSlot}
     >
       {children}
-    </CanvasPageShellByMode>
+    </CanvasPageLayoutShell>
   );
 }
 
@@ -70,11 +50,7 @@ export function CanvasPage({
   title,
   description,
 }: CanvasPageContentProps) {
-  return (
-    <CanvasPageVariant mode="full" title={title} description={description}>
-      {children}
-    </CanvasPageVariant>
-  );
+  return renderCanvasPageShell({ children, mode: "full", title, description });
 }
 
 export function CanvasOnlyPage({
@@ -82,11 +58,12 @@ export function CanvasOnlyPage({
   title,
   description,
 }: CanvasPageContentProps) {
-  return (
-    <CanvasPageVariant mode="canvas-only" title={title} description={description}>
-      {children}
-    </CanvasPageVariant>
-  );
+  return renderCanvasPageShell({
+    children,
+    mode: "canvas-only",
+    title,
+    description,
+  });
 }
 
 export function CanvasWidePage({
@@ -94,56 +71,21 @@ export function CanvasWidePage({
   title,
   description,
 }: CanvasPageContentProps) {
-  return (
-    <CanvasPageVariant
-      mode="canvas-only"
-      contentMaxWidthClassName="max-w-6xl"
-      title={title}
-      description={description}
-    >
-      {children}
-    </CanvasPageVariant>
-  );
+  return renderCanvasPageShell({
+    children,
+    mode: "canvas-only",
+    contentMaxWidthClassName: "max-w-6xl",
+    title,
+    description,
+  });
 }
 
-export function CanvasPageShellWithNotes({
-  children,
-  title,
-  description,
-}: CanvasPageContentProps) {
-  return (
-    <CanvasPage title={title} description={description}>
-      {children}
-    </CanvasPage>
-  );
-}
-
-export function CanvasOnlyPageShell({
-  children,
-  title,
-  description,
-}: CanvasPageContentProps) {
-  return (
-    <CanvasOnlyPage title={title} description={description}>
-      {children}
-    </CanvasOnlyPage>
-  );
-}
-
-export function CanvasWidePageShell({
-  children,
-  title,
-  description,
-}: CanvasPageContentProps) {
-  return (
-    <CanvasWidePage title={title} description={description}>
-      {children}
-    </CanvasWidePage>
-  );
-}
+export const CanvasPageShellWithNotes = CanvasPage;
+export const CanvasOnlyPageShell = CanvasOnlyPage;
+export const CanvasWidePageShell = CanvasWidePage;
 
 export function CanvasPageShell(props: CanvasPageShellProps) {
-  return <CanvasPageShellByMode {...props} />;
+  return renderCanvasPageShell(props);
 }
 
 export type { CanvasPageShellMode, CanvasPageShellProps };

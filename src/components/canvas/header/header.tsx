@@ -1,18 +1,18 @@
 import { ChevronRight, Ellipsis } from "lucide-react";
-import { Date } from "./date";
-import { Switch } from "./switch";
+import { MeetingDateMenu } from "./meeting-date-menu";
+import { SellerSwitchMenu } from "./seller-switch-menu";
 import { Share } from "./share";
 
 export function Header() {
   return (
     <header className="hidden items-center border-b border-zinc-100 p-1.5 md:flex">
-      <Date />
+      <MeetingDateMenu />
       <ChevronRight className="h-3 w-3 text-zinc-200" />
       <p className="ml-2 text-xs font-medium tracking-wide text-zinc-900">
         Since last meeting
       </p>
       <Share />
-      <Switch />
+      <SellerSwitchMenu />
       <button
         type="button"
         aria-label="aria"

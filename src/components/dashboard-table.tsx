@@ -22,7 +22,7 @@ function DashboardTable({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-sm border border-zinc-100 bg-white",
+        "overflow-x-auto overflow-y-hidden rounded-sm border border-zinc-100 bg-white",
         containerClassName
       )}
     >

@@ -9,7 +9,7 @@ import {
 
 const HEADER_DATES_POPOVER_CONTENT_ID = "header-dates-popover-content";
 
-export function Date() {
+export function MeetingDateMenu() {
   return (
     <HeaderMenu
       id={HEADER_DATES_POPOVER_CONTENT_ID}

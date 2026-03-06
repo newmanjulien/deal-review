@@ -3,8 +3,12 @@
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
 import {
   type QuestionComposerBarProps,
-} from "@/components/canvas/canvas-types";
+} from "@/types/canvas-types";
 import { Button } from "@/components/ui/button";
+import {
+  isQuestionSendable,
+  normalizeQuestionText,
+} from "@/lib/question-utils";
 
 const QUESTION_COMPOSER_MAX_HEIGHT = 160;
 
@@ -12,7 +16,7 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const canAdd = value.trim().length > 0;
+  const canAdd = isQuestionSendable(value);
 
   const resizeTextarea = () => {
     const textarea = textareaRef.current;
@@ -34,7 +38,7 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const handleAdd = () => {
     if (!canAdd) return;
 
-    onAdd(value.trim());
+    onAdd(normalizeQuestionText(value));
     setValue("");
   };
 
