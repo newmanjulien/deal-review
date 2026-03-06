@@ -74,7 +74,7 @@ export function CanvasWidePage({
   return renderCanvasPageShell({
     children,
     mode: "canvas-only",
-    contentMaxWidthClassName: "max-w-6xl",
+    contentMaxWidthClassName: "max-w-8xl",
     title,
     description,
   });
