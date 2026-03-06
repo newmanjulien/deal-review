@@ -15,6 +15,7 @@ export function SellerSwitchMenu() {
       align="end"
       trigger={
         <button
+          id={HEADER_MENU_CONFIG.sellerSwitch.triggerId}
           type="button"
           aria-label="aria"
           className="mr-2 flex h-7 items-center justify-center rounded-sm border border-zinc-100 px-2 text-xs font-medium text-zinc-500 tracking-wide transition-colors hover:bg-zinc-100"

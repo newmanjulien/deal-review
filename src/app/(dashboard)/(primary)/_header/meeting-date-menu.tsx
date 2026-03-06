@@ -15,6 +15,7 @@ export function MeetingDateMenu() {
       align="start"
       trigger={
         <button
+          id={HEADER_MENU_CONFIG.meetingDate.triggerId}
           type="button"
           aria-label="aria"
           className="mr-2 ml-1 flex items-center gap-3 text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"

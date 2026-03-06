@@ -48,6 +48,7 @@ export function ShareMenu() {
           align="end"
           trigger={
             <button
+              id={HEADER_MENU_CONFIG.share.triggerId}
               type="button"
               aria-label="aria"
               className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"

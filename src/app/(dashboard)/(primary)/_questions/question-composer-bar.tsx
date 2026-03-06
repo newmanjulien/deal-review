@@ -1,6 +1,7 @@
 "use client";
 
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
+import { DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME } from "@/components/canvas/canvas-page-shell";
 import { Button } from "@/components/ui/button";
 import {
   isQuestionSendable,
@@ -54,27 +55,33 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden lg:block">
-      <div className="h-20 bg-gradient-to-t from-white via-white/85 to-transparent" />
-      <div className="pointer-events-auto -mt-8 px-4 pb-4 sm:px-6 lg:px-8">
-        <div className="flex items-end gap-2 rounded-lg bg-zinc-100/60 px-3 py-2">
-          <textarea
-            ref={textareaRef}
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-            onKeyDown={handleKeyDown}
-            rows={1}
-            placeholder={QUESTION_COMPOSER_CONFIG.placeholder}
-            className="min-h-6 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
-          />
-          <Button
-            type="button"
-            variant="secondary"
-            className="h-7 rounded-sm bg-zinc-300 px-3 text-[13px] text-zinc-500 tracking-wide hover:bg-zinc-200 disabled:text-zinc-400"
-            disabled={!canAdd}
-            onClick={handleAdd}
-          >
-            {QUESTION_COMPOSER_CONFIG.addButtonLabel}
-          </Button>
+      <div
+        className={`mx-auto w-full ${DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME}`}
+      >
+        <div className="h-20 px-4 sm:px-6 lg:px-8">
+          <div className="h-full bg-gradient-to-t from-white via-white/85 to-transparent" />
+        </div>
+        <div className="pointer-events-auto -mt-8 px-4 pb-4 sm:px-6 lg:px-8">
+          <div className="flex items-end gap-2 rounded-lg bg-zinc-100/60 px-3 py-2">
+            <textarea
+              ref={textareaRef}
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              onKeyDown={handleKeyDown}
+              rows={1}
+              placeholder={QUESTION_COMPOSER_CONFIG.placeholder}
+              className="min-h-6 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
+            />
+            <Button
+              type="button"
+              variant="secondary"
+              className="h-7 rounded-sm bg-zinc-300 px-3 text-[13px] text-zinc-500 tracking-wide hover:bg-zinc-200 disabled:text-zinc-400"
+              disabled={!canAdd}
+              onClick={handleAdd}
+            >
+              {QUESTION_COMPOSER_CONFIG.addButtonLabel}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

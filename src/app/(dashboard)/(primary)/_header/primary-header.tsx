@@ -4,7 +4,7 @@ import { MeetingDateMenu } from "./meeting-date-menu";
 import { SellerSwitchMenu } from "./seller-switch-menu";
 import { ShareMenu } from "./share-menu";
 
-export function Header() {
+export function PrimaryHeader() {
   return (
     <header className="hidden items-center border-b border-zinc-100 p-1.5 md:flex">
       <MeetingDateMenu />

@@ -1,6 +1,5 @@
 "use client";
 
-import { Header } from "@/components/canvas/header/header";
 import {
   type CanvasPageShellMode,
   type CanvasPageShellProps,
@@ -11,6 +10,7 @@ import { cn } from "@/lib/utils";
 export type { CanvasPageShellMode, CanvasPageShellProps };
 
 const CANVAS_CONTENT_PADDING_TOP_CLASS_NAME = "pt-10";
+export const DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME = "max-w-3xl";
 
 function CanvasSectionTitle({ title, description }: CanvasSectionTitleProps) {
   if (!title && !description) return null;
@@ -38,16 +38,12 @@ function CanvasSectionTitle({ title, description }: CanvasSectionTitleProps) {
 
 export function CanvasPageShell({
   children,
-  mode = "full",
-  contentMaxWidthClassName = "max-w-3xl",
+  contentMaxWidthClassName = DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME,
   title,
   description,
 }: CanvasPageShellProps) {
-  const showHeader = mode !== "canvas-only";
-
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
-      {showHeader ? <Header /> : null}
       <section className="min-h-0 min-w-0 flex-1 overflow-hidden">
         <div
           className={cn(

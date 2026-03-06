@@ -22,16 +22,31 @@ export function QuestionsPanel({
 
   return (
     <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden border-l border-zinc-100 bg-white">
-      <div className="flex min-h-0 flex-1 flex-col">
-        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
-          <header className="mb-5 space-y-1.5">
-            <h2 className="text-sm text-zinc-900">{QUESTIONS_PANEL_CONFIG.title}</h2>
-            <p className="text-xs leading-relaxed tracking-wide text-zinc-500">
-              {QUESTIONS_PANEL_CONFIG.description}
-            </p>
-          </header>
+      <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
+        <header className="space-y-1.5 pb-2">
+          <h2 className="text-sm text-zinc-900">
+            {QUESTIONS_PANEL_CONFIG.title}
+          </h2>
+          <p className="text-xs leading-relaxed tracking-wide text-zinc-500">
+            {QUESTIONS_PANEL_CONFIG.description}
+          </p>
+        </header>
 
-          <section className="space-y-5">
+        <div className="sticky top-0 z-10 bg-white py-3">
+          <Button
+            type="button"
+            variant="secondary"
+            className="h-8 w-full rounded-md border border-zinc-200 bg-zinc-100/70 text-xs font-medium leading-relaxed text-zinc-700 hover:bg-zinc-100 disabled:border-zinc-200 disabled:bg-zinc-50 disabled:text-zinc-400"
+            onClick={onSendAll}
+            disabled={!canSend}
+          >
+            {QUESTIONS_PANEL_CONFIG.sendButtonLabel}{" "}
+            {canSend ? `(${sendableCount})` : ""}
+          </Button>
+        </div>
+
+        {draftQuestions.length > 0 && (
+          <section className="mt-4 space-y-5 border-t border-zinc-100 pt-8">
             {draftQuestions.map((question) => (
               <article
                 key={question.id}
@@ -66,20 +81,7 @@ export function QuestionsPanel({
               </article>
             ))}
           </section>
-        </div>
-
-        <div className="border-t border-zinc-100 px-4 py-3">
-          <Button
-            type="button"
-            variant="secondary"
-            className="h-8 w-full rounded-md border border-zinc-200 bg-zinc-100/70 text-xs font-medium leading-relaxed text-zinc-700 hover:bg-zinc-100 disabled:border-zinc-200 disabled:bg-zinc-50 disabled:text-zinc-400"
-            onClick={onSendAll}
-            disabled={!canSend}
-          >
-            {QUESTIONS_PANEL_CONFIG.sendButtonLabel}{" "}
-            {canSend ? `(${sendableCount})` : ""}
-          </Button>
-        </div>
+        )}
       </div>
     </aside>
   );
