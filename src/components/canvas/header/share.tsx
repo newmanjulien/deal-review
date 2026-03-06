@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
+import { HEADER_PEOPLE } from "@/components/canvas/dummy-data";
 import {
   HeaderMenu,
   HeaderMenuCheckboxItem,
@@ -10,24 +11,11 @@ import {
   HeaderMenuSectionLabel,
 } from "./header-menu";
 
-const people = [
-  {
-    name: "Aditya Newman",
-    avatar: "/avatars/aditya.jpg",
-    added: true,
-  },
-  {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
-    added: true,
-  },
-];
-
-const shareMenuContentId = "header-share-menu-content";
+const HEADER_SHARE_MENU_CONTENT_ID = "header-share-menu-content";
 
 export function Share() {
   const [selectedPeople, setSelectedPeople] = useState<string[]>(
-    people.filter((person) => person.added).map((person) => person.name),
+    HEADER_PEOPLE.map((person) => person.name),
   );
 
   const selectedPeopleSet = useMemo(
@@ -35,7 +23,7 @@ export function Share() {
     [selectedPeople],
   );
 
-  const visibleAvatars = people.filter((person) =>
+  const visibleAvatars = HEADER_PEOPLE.filter((person) =>
     selectedPeopleSet.has(person.name),
   );
 
@@ -57,7 +45,7 @@ export function Share() {
           </span>
         ))}
         <HeaderMenu
-          id={shareMenuContentId}
+          id={HEADER_SHARE_MENU_CONTENT_ID}
           align="end"
           trigger={
             <button
@@ -71,7 +59,7 @@ export function Share() {
         >
           <HeaderMenuSectionLabel>Share with a team member</HeaderMenuSectionLabel>
           <HeaderMenuList>
-            {people.map((person) => (
+            {HEADER_PEOPLE.map((person) => (
               <li key={person.name}>
                 <HeaderMenuCheckboxItem
                   checked={selectedPeopleSet.has(person.name)}

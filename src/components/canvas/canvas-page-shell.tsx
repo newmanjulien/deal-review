@@ -1,117 +1,90 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
 import { Header } from "@/components/canvas/header/header";
 import {
-  NotesPanel,
-  type DraftQuestion,
-} from "@/components/canvas/notes-panel";
-import { QuestionComposerBar } from "@/components/canvas/question-composer-bar";
+  type CanvasPageShellMode,
+  type CanvasPageShellProps,
+  type CanvasSectionTitleProps,
+} from "@/components/canvas/canvas-types";
+import { cn } from "@/lib/utils";
 
-function createDraftQuestion(text: string): DraftQuestion {
-  return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    text,
-  };
+export type { CanvasPageShellMode, CanvasPageShellProps };
+
+const CANVAS_CONTENT_PADDING_TOP_CLASS_NAME = "pt-10";
+
+function CanvasSectionTitle({ title, description }: CanvasSectionTitleProps) {
+  if (!title && !description) return null;
+
+  return (
+    <header className="mb-6 border-b border-zinc-100 pb-4">
+      {title ? (
+        <h1 className="text-sm font-medium tracking-wide text-zinc-900">
+          {title}
+        </h1>
+      ) : null}
+      {description ? (
+        <p
+          className={cn(
+            "max-w-xl text-xs leading-relaxed tracking-wide text-zinc-500",
+            title && "mt-1",
+          )}
+        >
+          {description}
+        </p>
+      ) : null}
+    </header>
+  );
 }
-
-export type CanvasPageShellMode = "full" | "canvas-only";
-
-type CanvasPageShellProps = {
-  children?: ReactNode;
-  mode?: CanvasPageShellMode;
-  contentMaxWidthClassName?: string;
-};
 
 export function CanvasPageShell({
   children,
   mode = "full",
   contentMaxWidthClassName = "max-w-3xl",
+  title,
+  description,
+  bottomBarSlot,
+  sidePanelSlot,
 }: CanvasPageShellProps) {
-  const showNotesExperience = mode === "full";
+  const showTwoColumnLayout = mode === "full";
   const showHeader = mode !== "canvas-only";
-  const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([]);
-
-  const handleQuestionAdd = (text: string) => {
-    setDraftQuestions((current) => [...current, createDraftQuestion(text)]);
-  };
-
-  const handleQuestionChange = (id: string, text: string) => {
-    setDraftQuestions((current) =>
-      current.map((question) =>
-        question.id === id ? { ...question, text } : question,
-      ),
-    );
-  };
-
-  const handleQuestionDelete = (id: string) => {
-    setDraftQuestions((current) =>
-      current.filter((question) => question.id !== id),
-    );
-  };
-
-  const handleSendAll = () => {
-    const hasSendableQuestion = draftQuestions.some(
-      (question) => question.text.trim().length > 0,
-    );
-    if (!hasSendableQuestion) return;
-  };
+  const showBottomBar = mode === "full" && Boolean(bottomBarSlot);
+  const showSidePanel = mode === "full" && Boolean(sidePanelSlot);
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
       {showHeader ? <Header /> : null}
       <div
-        className={`grid min-h-0 flex-1 grid-cols-1 overflow-hidden ${
-          showNotesExperience ? "lg:grid-cols-[minmax(0,1fr)_24rem]" : ""
-        }`}
+        className={cn(
+          "grid min-h-0 flex-1 grid-cols-1 overflow-hidden",
+          showTwoColumnLayout && "lg:grid-cols-[minmax(0,1fr)_24rem]",
+        )}
       >
         <section className="min-h-0 min-w-0 overflow-hidden">
           <div
-            className={`relative mx-auto h-full w-full ${contentMaxWidthClassName}`}
+            className={cn(
+              "relative mx-auto h-full w-full",
+              contentMaxWidthClassName,
+            )}
           >
             <div
-              className={`min-h-0 h-full overflow-x-hidden px-4 sm:px-6 lg:px-8 ${
-                showNotesExperience ? "lg:pb-24" : ""
-              }`}
+              className={cn(
+                "min-h-0 h-full overflow-x-hidden px-4 pb-6 sm:px-6 lg:px-8",
+                CANVAS_CONTENT_PADDING_TOP_CLASS_NAME,
+                showBottomBar && "lg:pb-24",
+              )}
             >
+              <CanvasSectionTitle title={title} description={description} />
               {children}
             </div>
-            {showNotesExperience ? (
-              <QuestionComposerBar onAdd={handleQuestionAdd} />
-            ) : null}
+            {showBottomBar ? bottomBarSlot : null}
           </div>
         </section>
-        {showNotesExperience ? (
+        {showSidePanel ? (
           <div className="hidden h-full min-h-0 overflow-hidden lg:block">
-            <NotesPanel
-              draftQuestions={draftQuestions}
-              onQuestionChange={handleQuestionChange}
-              onQuestionDelete={handleQuestionDelete}
-              onSendAll={handleSendAll}
-            />
+            {sidePanelSlot}
           </div>
         ) : null}
       </div>
     </div>
-  );
-}
-
-export function CanvasPageShellWithNotes({
-  children,
-}: {
-  children?: ReactNode;
-}) {
-  return <CanvasPageShell mode="full">{children}</CanvasPageShell>;
-}
-
-export function CanvasOnlyPageShell({ children }: { children?: ReactNode }) {
-  return <CanvasPageShell mode="canvas-only">{children}</CanvasPageShell>;
-}
-
-export function CanvasWidePageShell({ children }: { children?: ReactNode }) {
-  return (
-    <CanvasPageShell mode="canvas-only" contentMaxWidthClassName="max-w-6xl">
-      {children}
-    </CanvasPageShell>
   );
 }

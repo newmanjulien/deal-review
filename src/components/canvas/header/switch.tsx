@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HEADER_PEOPLE } from "@/components/canvas/dummy-data";
 import {
   HeaderMenu,
   HeaderMenuItem,
@@ -6,23 +7,12 @@ import {
   HeaderMenuSectionLabel,
 } from "./header-menu";
 
-const people = [
-  {
-    name: "Aditya Newman",
-    avatar: "/avatars/aditya.jpg",
-  },
-  {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
-  },
-];
-
-const peoplePopoverContentId = "header-people-popover-content";
+const HEADER_PEOPLE_POPOVER_CONTENT_ID = "header-people-popover-content";
 
 export function Switch() {
   return (
     <HeaderMenu
-      id={peoplePopoverContentId}
+      id={HEADER_PEOPLE_POPOVER_CONTENT_ID}
       align="end"
       trigger={
         <button
@@ -36,7 +26,7 @@ export function Switch() {
     >
       <HeaderMenuSectionLabel>Switch to another seller</HeaderMenuSectionLabel>
       <HeaderMenuList>
-        {people.map((person) => (
+        {HEADER_PEOPLE.map((person) => (
           <li key={person.name}>
             <HeaderMenuItem>
               <span className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-zinc-200">

@@ -1,16 +1,16 @@
 "use client";
 
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
+import {
+  type QuestionComposerBarProps,
+} from "@/components/canvas/canvas-types";
 import { Button } from "@/components/ui/button";
 
-type QuestionComposerBarProps = {
-  onAdd: (text: string) => void;
-};
+const QUESTION_COMPOSER_MAX_HEIGHT = 160;
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const maxHeight = 160;
 
   const canAdd = value.trim().length > 0;
 
@@ -21,10 +21,10 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
     textarea.style.overflowY = "hidden";
     textarea.style.height = "auto";
     const scrollHeight = textarea.scrollHeight;
-    const nextHeight = Math.min(scrollHeight, maxHeight);
+    const nextHeight = Math.min(scrollHeight, QUESTION_COMPOSER_MAX_HEIGHT);
     textarea.style.height = `${nextHeight}px`;
     textarea.style.overflowY =
-      scrollHeight > maxHeight ? "auto" : "hidden";
+      scrollHeight > QUESTION_COMPOSER_MAX_HEIGHT ? "auto" : "hidden";
   };
 
   useLayoutEffect(() => {

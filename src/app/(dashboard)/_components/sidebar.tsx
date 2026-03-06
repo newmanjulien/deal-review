@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useSidebarNavMotion } from "@/lib/sidebar-nav-motion";
+import { useSidebarNavMotion } from "@/lib/use-sidebar-nav-motion";
 import { cn } from "@/lib/utils";
 import { getActiveHref, Nav, primaryNavGroups } from "./nav";
 
@@ -19,7 +19,7 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <aside
       className={cn(
-        "flex w-10 shrink-0 self-stretch flex-col items-start pt-2.5 pl-1",
+        "flex w-10 shrink-0 self-stretch flex-col items-start pt-2.5 pl-0.5",
         className,
       )}
       aria-label="aria"

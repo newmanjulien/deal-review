@@ -1,6 +1,7 @@
 "use client";
 
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type { ComponentProps } from "react";
+import { type HeaderMenuProps } from "@/components/canvas/canvas-types";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,18 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-
-type HeaderMenuProps = {
-  trigger: ReactElement;
-  children: ReactNode;
-  id?: string;
-  align?: ComponentProps<typeof DropdownMenuContent>["align"];
-  sideOffset?: number;
-  className?: string;
-} & Pick<
-  ComponentProps<typeof DropdownMenu>,
-  "open" | "defaultOpen" | "onOpenChange" | "modal"
->;
 
 export function HeaderMenu({
   trigger,
@@ -62,7 +51,7 @@ export function HeaderMenuSectionLabel({
   return (
     <DropdownMenuLabel
       className={cn(
-        "px-3 pt-3 pb-1 text-[11px] font-medium tracking-wide text-zinc-500",
+        "px-3 pt-3 pb-1 text-xs font-medium tracking-wide text-zinc-500",
         className,
       )}
       {...props}
@@ -70,10 +59,7 @@ export function HeaderMenuSectionLabel({
   );
 }
 
-export function HeaderMenuList({
-  className,
-  ...props
-}: ComponentProps<"ul">) {
+export function HeaderMenuList({ className, ...props }: ComponentProps<"ul">) {
   return <ul className={cn("mt-1 space-y-1", className)} {...props} />;
 }
 
