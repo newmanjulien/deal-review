@@ -54,14 +54,9 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   };
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden lg:block">
-      <div
-        className={`mx-auto w-full ${DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME}`}
-      >
-        <div className="h-20 px-4 sm:px-6 lg:px-8">
-          <div className="h-full bg-gradient-to-t from-white via-white/85 to-transparent" />
-        </div>
-        <div className="pointer-events-auto -mt-8 px-4 pb-4 sm:px-6 lg:px-8">
+    <div className="hidden border-t border-zinc-100 bg-white lg:block">
+      <div className={`mx-auto w-full ${DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME}`}>
+        <div className="px-4 pb-4 pt-3 sm:px-6 lg:px-8">
           <div className="flex items-end gap-2 rounded-lg bg-zinc-100/60 px-3 py-2">
             <textarea
               ref={textareaRef}

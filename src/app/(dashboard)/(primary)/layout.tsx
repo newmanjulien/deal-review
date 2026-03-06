@@ -19,12 +19,12 @@ export default function PrimaryLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[minmax(0,1fr)_22rem]">
-      <section className="flex min-h-0 min-w-0 flex-col overflow-hidden">
+      <section className="grid min-h-0 min-w-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden lg:grid-rows-[auto_minmax(0,1fr)_auto]">
         <PrimaryHeader key={pathname} />
-        <div className="relative min-h-0 min-w-0 flex-1 overflow-hidden [--canvas-content-bottom-inset:0rem] lg:[--canvas-content-bottom-inset:4.5rem]">
+        <div className="min-h-0 min-w-0 overflow-hidden">
           {children}
-          <QuestionComposerBar onAdd={handleQuestionAdd} />
         </div>
+        <QuestionComposerBar onAdd={handleQuestionAdd} />
       </section>
       <div className="hidden h-full min-h-0 overflow-hidden lg:block">
         <QuestionsPanel
