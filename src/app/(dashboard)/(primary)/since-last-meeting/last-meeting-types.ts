@@ -18,9 +18,12 @@ export type LastMeetingAccountBreakdownRow = {
   share: string;
 };
 
+export type LastMeetingOpportunityPriority = "high" | "medium" | "low";
+
 export type LastMeetingOpportunity = {
   id: string;
   title: string;
-  statusLabel: string;
+  dealLabel: string;
+  priority: LastMeetingOpportunityPriority;
   priorityLabel: string;
 };

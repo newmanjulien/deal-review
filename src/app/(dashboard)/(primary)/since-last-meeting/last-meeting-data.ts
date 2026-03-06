@@ -29,19 +29,22 @@ export const lastMeetingOpportunities: LastMeetingOpportunity[] = [
   {
     id: "112",
     title: "Reset password flow issue",
-    statusLabel: "Investigating...",
+    dealLabel: "Whirlpool",
+    priority: "medium",
     priorityLabel: "Medium priority",
   },
   {
     id: "118",
     title: "Checkout confirmation email delay",
-    statusLabel: "Triaging...",
+    dealLabel: "Honeywell",
+    priority: "high",
     priorityLabel: "High priority",
   },
   {
     id: "124",
     title: "Duplicate invoice PDF generation",
-    statusLabel: "Monitoring...",
+    dealLabel: "3M",
+    priority: "low",
     priorityLabel: "Low priority",
   },
 ] as const;
