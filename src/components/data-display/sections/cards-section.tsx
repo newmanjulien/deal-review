@@ -31,14 +31,14 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
   const isStacked = avatars.length === 2;
 
   return (
-    <div className={isStacked ? "relative h-[26px] w-7 shrink-0" : "flex items-center -space-x-1"}>
+    <div className={isStacked ? "relative h-5 w-7 shrink-0" : "flex items-center -space-x-1"}>
       {avatars.map((avatar, index) => (
         <span
           key={`${cardId}-${avatar}-${index}`}
           className={
             isStacked
               ? `absolute inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50 ${
-                  index === 0 ? "left-0 top-0 z-10" : "left-[8px] top-[7px]"
+                  index === 0 ? "left-0 top-0 z-10" : "left-[9px] top-0"
                 }`
               : "inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50"
           }

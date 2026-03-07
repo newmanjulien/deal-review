@@ -2,13 +2,13 @@ import {
   DashboardDataTable,
   type DashboardDataTableColumn,
 } from "@/components/table/table";
-import type { DataDisplayAccountBreakdownRow } from "@/components/data-display/data-display-types";
+import type { DataDisplayTableRow } from "@/components/data-display/data-display-types";
 
-type AccountsSectionProps = {
-  rows: DataDisplayAccountBreakdownRow[];
+type TableSectionProps = {
+  rows: DataDisplayTableRow[];
 };
 
-const ACCOUNTS_TABLE_COLUMNS: DashboardDataTableColumn<DataDisplayAccountBreakdownRow>[] =
+const TABLE_SECTION_COLUMNS: DashboardDataTableColumn<DataDisplayTableRow>[] =
   [
     {
       key: "account",
@@ -30,11 +30,11 @@ const ACCOUNTS_TABLE_COLUMNS: DashboardDataTableColumn<DataDisplayAccountBreakdo
     },
   ];
 
-export function AccountsSection({ rows }: AccountsSectionProps) {
+export function TableSection({ rows }: TableSectionProps) {
   return (
     <div className="space-y-3 pt-1">
       <DashboardDataTable
-        columns={ACCOUNTS_TABLE_COLUMNS}
+        columns={TABLE_SECTION_COLUMNS}
         rows={rows}
         getRowId={(row) => row.id}
       />

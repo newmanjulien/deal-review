@@ -1,22 +1,34 @@
 "use client";
 
 import { DataDisplay } from "@/components/data-display/data-display";
+import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
 import { LAST_MEETING_PAGE_CONFIG } from "./last-meeting-config";
 import {
-  lastMeetingAccountsBreakdown,
-  lastMeetingActivityItems,
-  lastMeetingCards,
+  lastMeetingTableRows,
+  lastMeetingTimelineItems,
 } from "./last-meeting-data";
+
+const LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
+  {
+    id: "timeline",
+    label: "Timeline",
+    kind: "timeline",
+    items: lastMeetingTimelineItems,
+  },
+  {
+    id: "table",
+    label: "Table",
+    kind: "table",
+    rows: lastMeetingTableRows,
+  },
+];
 
 export function SinceLastMeetingPageClient() {
   return (
     <DataDisplay
       title={LAST_MEETING_PAGE_CONFIG.title}
       description={LAST_MEETING_PAGE_CONFIG.description}
-      sections={["activity", "accounts", "cards"]}
-      activityItems={lastMeetingActivityItems}
-      accountsBreakdown={lastMeetingAccountsBreakdown}
-      cards={lastMeetingCards}
+      sections={LAST_MEETING_SECTIONS}
     />
   );
 }

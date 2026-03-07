@@ -1,6 +1,6 @@
 import type {
-  DataDisplayAccountBreakdownRow,
-  DataDisplayActivityItem,
+  DataDisplayTableRow,
+  DataDisplayTimelineItem,
   DataDisplayCard,
 } from "@/components/data-display/data-display-types";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
@@ -16,7 +16,7 @@ export const missingDataSharedPeople: HeaderPerson[] = [
   },
 ];
 
-export const missingDataActivityItems: DataDisplayActivityItem[] = [
+export const missingDataTimelineItems: DataDisplayTimelineItem[] = [
   {
     id: "new-issue",
     title: "New issue detected",
@@ -31,9 +31,14 @@ export const missingDataActivityItems: DataDisplayActivityItem[] = [
   },
 ] as const;
 
-export const missingDataAccountsBreakdown: DataDisplayAccountBreakdownRow[] = [
+export const missingDataTableRows: DataDisplayTableRow[] = [
   { id: "mobile-web", account: "Mobile web", impacted: "7,214", share: "56%" },
-  { id: "desktop-web", account: "Desktop web", impacted: "4,790", share: "37%" },
+  {
+    id: "desktop-web",
+    account: "Desktop web",
+    impacted: "4,790",
+    share: "37%",
+  },
   { id: "api-clients", account: "API clients", impacted: "877", share: "7%" },
 ] as const;
 
@@ -42,11 +47,33 @@ export const missingDataCards: DataDisplayCard[] = [
     id: "118",
     title: "Checkout confirmation email delay",
     dealLabel: "Honeywell",
-    avatars: [
-      missingDataSharedPeople[1].avatar,
-      missingDataSharedPeople[0].avatar,
-    ],
+    avatars: [missingDataSharedPeople[1].avatar],
     priority: "high",
     priorityLabel: "High priority",
+  },
+  {
+    id: "120",
+    title: "Missing attribution source on lead records",
+    dealLabel: "Data hygiene",
+    avatars: [
+      missingDataSharedPeople[0].avatar,
+      missingDataSharedPeople[1].avatar,
+    ],
+    priority: "medium",
+    priorityLabel: "Medium priority",
+  },
+] as const;
+
+export const missingDataTimelineCards: DataDisplayCard[] = [
+  {
+    id: "119",
+    title: "Password reset timeline anomaly",
+    dealLabel: "Timeline review",
+    avatars: [
+      missingDataSharedPeople[0].avatar,
+      missingDataSharedPeople[1].avatar,
+    ],
+    priority: "medium",
+    priorityLabel: "Medium priority",
   },
 ] as const;

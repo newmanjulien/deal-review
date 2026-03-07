@@ -1,7 +1,6 @@
 import type {
-  DataDisplayAccountBreakdownRow,
-  DataDisplayActivityItem,
-  DataDisplayCard,
+  DataDisplayTableRow,
+  DataDisplayTimelineItem,
 } from "@/components/data-display/data-display-types";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
 
@@ -16,7 +15,7 @@ export const lastMeetingSharedPeople: HeaderPerson[] = [
   },
 ];
 
-export const lastMeetingActivityItems: DataDisplayActivityItem[] = [
+export const lastMeetingTimelineItems: DataDisplayTimelineItem[] = [
   {
     id: "new-issue",
     title: "New issue detected",
@@ -31,22 +30,13 @@ export const lastMeetingActivityItems: DataDisplayActivityItem[] = [
   },
 ] as const;
 
-export const lastMeetingAccountsBreakdown: DataDisplayAccountBreakdownRow[] = [
+export const lastMeetingTableRows: DataDisplayTableRow[] = [
   { id: "mobile-web", account: "Mobile web", impacted: "7,214", share: "56%" },
-  { id: "desktop-web", account: "Desktop web", impacted: "4,790", share: "37%" },
-  { id: "api-clients", account: "API clients", impacted: "877", share: "7%" },
-] as const;
-
-export const lastMeetingCards: DataDisplayCard[] = [
   {
-    id: "118",
-    title: "Checkout confirmation email delay",
-    dealLabel: "Honeywell",
-    avatars: [
-      lastMeetingSharedPeople[1].avatar,
-      lastMeetingSharedPeople[0].avatar,
-    ],
-    priority: "high",
-    priorityLabel: "High priority",
+    id: "desktop-web",
+    account: "Desktop web",
+    impacted: "4,790",
+    share: "37%",
   },
+  { id: "api-clients", account: "API clients", impacted: "877", share: "7%" },
 ] as const;

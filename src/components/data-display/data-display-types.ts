@@ -1,18 +1,13 @@
-export type DataDisplayTabId = "activity" | "accounts" | "cards";
+export type DataDisplaySectionKind = "timeline" | "table" | "cards";
 
-export type DataDisplayTab = {
-  id: DataDisplayTabId;
-  label: string;
-};
-
-export type DataDisplayActivityItem = {
+export type DataDisplayTimelineItem = {
   id: string;
   title: string;
   date: string;
   body: string;
 };
 
-export type DataDisplayAccountBreakdownRow = {
+export type DataDisplayTableRow = {
   id: string;
   account: string;
   impacted: string;
@@ -30,3 +25,29 @@ export type DataDisplayCard = {
   priority: DataDisplayCardPriority;
   priorityLabel: string;
 };
+
+type DataDisplaySectionInstanceBase = {
+  id: string;
+  label: string;
+};
+
+export type DataDisplayTimelineSectionInstance =
+  DataDisplaySectionInstanceBase & {
+    kind: "timeline";
+    items: DataDisplayTimelineItem[];
+  };
+
+export type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "table";
+  rows: DataDisplayTableRow[];
+};
+
+export type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "cards";
+  cards: DataDisplayCard[];
+};
+
+export type DataDisplaySectionInstance =
+  | DataDisplayTimelineSectionInstance
+  | DataDisplayTableSectionInstance
+  | DataDisplayCardsSectionInstance;

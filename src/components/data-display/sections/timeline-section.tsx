@@ -1,10 +1,10 @@
-import type { DataDisplayActivityItem } from "@/components/data-display/data-display-types";
+import type { DataDisplayTimelineItem } from "@/components/data-display/data-display-types";
 
-type ActivitySectionProps = {
-  items: DataDisplayActivityItem[];
+type TimelineSectionProps = {
+  items: DataDisplayTimelineItem[];
 };
 
-export function ActivitySection({ items }: ActivitySectionProps) {
+export function TimelineSection({ items }: TimelineSectionProps) {
   return (
     <ol className="space-y-5 pt-1">
       {items.map((item, index) => (
