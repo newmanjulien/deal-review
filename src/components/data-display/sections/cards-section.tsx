@@ -31,7 +31,11 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
   const isStacked = avatars.length === 2;
 
   return (
-    <div className={isStacked ? "relative h-5 w-7 shrink-0" : "flex items-center -space-x-1"}>
+    <div
+      className={
+        isStacked ? "relative h-5 w-7 shrink-0" : "flex items-center -space-x-1"
+      }
+    >
       {avatars.map((avatar, index) => (
         <span
           key={`${cardId}-${avatar}-${index}`}
@@ -62,7 +66,7 @@ export function CardsSection({ cards }: CardsSectionProps) {
       {cards.map((card) => (
         <li
           key={card.id}
-          className="rounded-lg border border-zinc-100 px-3 py-3 shadow-[0_1px_1px_rgba(24,24,27,0.04)]"
+          className="rounded-md border border-zinc-100 px-3 py-3"
         >
           <div className="flex items-start justify-between gap-3">
             <p className="text-[10px] tracking-wide text-zinc-500">

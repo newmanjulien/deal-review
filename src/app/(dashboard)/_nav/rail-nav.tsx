@@ -40,7 +40,9 @@ function RailNavItem({
         if (isTertiary) return;
         setItemRef(item.href, el);
       }}
-      onMouseEnter={!isTertiary ? () => onHoveredHrefChange(item.href) : undefined}
+      onMouseEnter={
+        !isTertiary ? () => onHoveredHrefChange(item.href) : undefined
+      }
       className={cn("relative z-10 inline-flex", isTertiary && "self-center")}
     >
       <Button
@@ -49,7 +51,7 @@ function RailNavItem({
         size="icon-sm"
         className={cn(
           isTertiary
-            ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 shadow-[0_1px_2px_rgba(24,24,27,0.1)] transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
+            ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
             : "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2",
           isActive &&
             (isTertiary
@@ -104,12 +106,17 @@ export function RailNav({
         aria-hidden="true"
         className="sidebar-nav-indicator pointer-events-none absolute rounded-sm bg-zinc-200 transition-[top,left,width,height,opacity] duration-200 ease-out"
       />
-      <div className="flex flex-col gap-1">{renderItems(normalizedGroups.main, "main")}</div>
+      <div className="flex flex-col gap-1">
+        {renderItems(normalizedGroups.main, "main")}
+      </div>
       {normalizedGroups.hasSecondary ? (
         <div className="flex flex-col">
           {normalizedGroups.showMainSecondaryDivider ? (
             <div className="py-3">
-              <span aria-hidden="true" className="mx-auto block h-px w-4 bg-zinc-200/50" />
+              <span
+                aria-hidden="true"
+                className="mx-auto block h-px w-4 bg-zinc-200/50"
+              />
             </div>
           ) : null}
           <div className="flex flex-col gap-1">
