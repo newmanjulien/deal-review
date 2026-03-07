@@ -6,9 +6,13 @@ import {
   DashboardTableRow,
 } from "@/components/dashboard-table";
 import { TableCell } from "@/components/ui/table";
-import { lastMeetingAccountsBreakdown } from "../last-meeting-data";
+import type { DataDisplayAccountBreakdownRow } from "@/components/data-display/data-display-types";
 
-export function AccountsSection() {
+type AccountsSectionProps = {
+  rows: DataDisplayAccountBreakdownRow[];
+};
+
+export function AccountsSection({ rows }: AccountsSectionProps) {
   return (
     <div className="space-y-3 pt-1">
       <DashboardTable>
@@ -21,7 +25,7 @@ export function AccountsSection() {
         </DashboardTableHeader>
 
         <DashboardTableBody>
-          {lastMeetingAccountsBreakdown.map((row) => (
+          {rows.map((row) => (
             <DashboardTableRow key={row.account}>
               <TableCell className="whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900">
                 {row.account}
@@ -39,3 +43,4 @@ export function AccountsSection() {
     </div>
   );
 }
+
