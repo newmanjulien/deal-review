@@ -5,7 +5,7 @@ import {
   DashboardTableHead,
   DashboardTableHeader,
   DashboardTableRow,
-} from "@/components/dashboard-table";
+} from "@/components/table/table";
 import { Badge } from "@/components/ui/badge";
 import { TableCell } from "@/components/ui/table";
 import {

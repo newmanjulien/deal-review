@@ -4,7 +4,7 @@ import {
   DashboardTableHead,
   DashboardTableHeader,
   DashboardTableRow,
-} from "@/components/dashboard-table";
+} from "@/components/table/table";
 import { TableCell } from "@/components/ui/table";
 import type { DataDisplayAccountBreakdownRow } from "@/components/data-display/data-display-types";
 
@@ -43,4 +43,3 @@ export function AccountsSection({ rows }: AccountsSectionProps) {
     </div>
   );
 }
-

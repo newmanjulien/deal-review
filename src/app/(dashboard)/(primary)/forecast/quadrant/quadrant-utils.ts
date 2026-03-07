@@ -98,13 +98,15 @@ export function getQuadrantPointColor(
   const isDisagreement = Math.abs(delta) > disagreeThreshold;
 
   if (isDisagreement && ((isTop && isRight) || (!isTop && !isRight))) {
-    return delta > 0 ? "#86efac" : "#fca5a5";
+    return delta > 0
+      ? "text-emerald-400 dark:text-emerald-300"
+      : "text-red-400 dark:text-red-300";
   }
 
-  if (isTop && isRight) return "#18181b";
-  if (isTop && !isRight) return "#16a34a";
-  if (!isTop && isRight) return "#dc2626";
-  return "#a1a1aa";
+  if (isTop && isRight) return "text-foreground";
+  if (isTop && !isRight) return "text-emerald-600 dark:text-emerald-500";
+  if (!isTop && isRight) return "text-red-600 dark:text-red-500";
+  return "text-muted-foreground";
 }
 
 export function projectQuadrantPoints(
@@ -140,7 +142,11 @@ export function projectQuadrantPoints(
       yPx: yScale(point.y),
       labelOffset: isNearRightEdge ? -8 : 8,
       labelAnchor: isNearRightEdge ? "end" : "start",
-      color: getQuadrantPointColor(point, { xMid, yMid, disagreeThreshold }),
+      colorClassName: getQuadrantPointColor(point, {
+        xMid,
+        yMid,
+        disagreeThreshold,
+      }),
     };
   });
 }

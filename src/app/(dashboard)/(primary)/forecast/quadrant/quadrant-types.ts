@@ -8,12 +8,12 @@ export type QuadrantPoint = {
   yPx: number;
   labelOffset: number;
   labelAnchor: "start" | "end";
-  color: string;
+  colorClassName: string;
 };
 
 export type QuadrantPointSeed = Omit<
   QuadrantPoint,
-  "xPx" | "yPx" | "labelOffset" | "labelAnchor" | "color"
+  "xPx" | "yPx" | "labelOffset" | "labelAnchor" | "colorClassName"
 >;
 
 export type QuadrantChartLayout = {

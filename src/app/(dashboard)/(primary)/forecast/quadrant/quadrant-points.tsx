@@ -37,15 +37,13 @@ export function QuadrantPoints({
               cx={point.xPx}
               cy={point.yPx}
               r={6}
-              fill={point.color}
-              fillOpacity={0.85}
+              className={`fill-current opacity-[0.85] ${point.colorClassName}`}
             />
             <text
               x={point.xPx + point.labelOffset}
               y={point.yPx + 4}
               textAnchor={point.labelAnchor}
-              fontSize="12"
-              fill="#71717a"
+              className="fill-current text-[10px] text-muted-foreground"
             >
               {point.label}
             </text>

@@ -65,7 +65,7 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
               onKeyDown={handleKeyDown}
               rows={1}
               placeholder={QUESTION_COMPOSER_CONFIG.placeholder}
-              className="min-h-6 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
+              className="min-h-7 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
             />
             <Button
               type="button"

@@ -11,7 +11,11 @@ import {
 export function Quadrant({ chart }: { chart: QuadrantChartData }) {
   const {
     refs: { svgRef },
-    state: { displayedHoveredPoint, displayedHoverPosition, displayedHoverBounds },
+    state: {
+      displayedHoveredPoint,
+      displayedHoverPosition,
+      displayedHoverBounds,
+    },
     actions: {
       handleSvgMouseEnter,
       handleSvgMouseMove,
@@ -22,13 +26,13 @@ export function Quadrant({ chart }: { chart: QuadrantChartData }) {
   } = useQuadrant({ chart });
 
   return (
-    <div className="relative w-full rounded-sm border border-zinc-100 bg-white p-3 sm:p-4">
+    <div className="relative w-full">
       <svg
         ref={svgRef}
         width={chart.layout.dimensions.width}
         height={chart.layout.dimensions.height}
         viewBox={`0 0 ${chart.layout.dimensions.width} ${chart.layout.dimensions.height}`}
-        className="h-auto w-full text-zinc-400"
+        className="h-auto w-full text-muted-foreground"
         onMouseEnter={handleSvgMouseEnter}
         onMouseMove={handleSvgMouseMove}
         onMouseLeave={handleSvgMouseLeave}

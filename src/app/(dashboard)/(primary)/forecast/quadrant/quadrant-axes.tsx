@@ -20,21 +20,20 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
               x2={plotArea.right}
               y1={tick.y}
               y2={tick.y}
-              stroke="#f4f4f5"
+              className="stroke-border opacity-50"
             />
             <line
               x1={tick.x}
               x2={tick.x}
               y1={plotArea.top}
               y2={plotArea.bottom}
-              stroke="#f4f4f5"
+              className="stroke-border opacity-50"
             />
             <text
               x={plotArea.left - 12}
               y={tick.y + 4}
               textAnchor="end"
-              fontSize="12"
-              fill="currentColor"
+              className="fill-current text-xs"
             >
               {tick.value}%
             </text>
@@ -42,8 +41,7 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
               x={tick.x}
               y={plotArea.bottom + 22}
               textAnchor="middle"
-              fontSize="12"
-              fill="currentColor"
+              className="fill-current text-xs"
             >
               {tick.value}%
             </text>
@@ -56,24 +54,21 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
         x2={layout.midLines.x}
         y1={plotArea.top}
         y2={plotArea.bottom}
-        stroke="#d4d4d8"
-        strokeWidth={1.5}
+        className="stroke-border [stroke-width:1.5]"
       />
       <line
         x1={plotArea.left}
         x2={plotArea.right}
         y1={layout.midLines.y}
         y2={layout.midLines.y}
-        stroke="#d4d4d8"
-        strokeWidth={1.5}
+        className="stroke-border [stroke-width:1.5]"
       />
 
       <text
         x={plotArea.left - axisLabelOffset.x}
         y={chartCenterY}
         textAnchor="middle"
-        fontSize="12"
-        fill="currentColor"
+        className="fill-current text-xs"
         transform={`rotate(-90 ${plotArea.left - axisLabelOffset.x} ${chartCenterY})`}
       >
         {chart.yLabel}
@@ -82,8 +77,7 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
         x={chartCenterX}
         y={plotArea.bottom + axisLabelOffset.y}
         textAnchor="middle"
-        fontSize="12"
-        fill="currentColor"
+        className="fill-current text-xs"
       >
         {chart.xLabel}
       </text>
