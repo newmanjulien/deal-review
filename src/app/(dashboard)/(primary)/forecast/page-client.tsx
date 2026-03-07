@@ -1,3 +1,5 @@
+"use client";
+
 import { CanvasPage } from "@/components/canvas/canvas-page";
 import { FORECAST_PAGE_CONFIG } from "./forecast-config";
 import { quadrantExampleChart, Quadrant } from "./quadrant";

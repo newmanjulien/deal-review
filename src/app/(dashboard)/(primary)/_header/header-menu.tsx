@@ -65,7 +65,6 @@ export function HeaderMenuList({ className, ...props }: ComponentProps<"ul">) {
 
 export function HeaderMenuItem({
   className,
-  onSelect,
   ...props
 }: ComponentProps<typeof DropdownMenuItem>) {
   return (
@@ -74,10 +73,6 @@ export function HeaderMenuItem({
         "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs text-zinc-700 transition-colors hover:bg-zinc-100",
         className,
       )}
-      onSelect={(event) => {
-        onSelect?.(event);
-        event.preventDefault();
-      }}
       {...props}
     />
   );
@@ -85,16 +80,11 @@ export function HeaderMenuItem({
 
 export function HeaderMenuCheckboxItem({
   className,
-  onSelect,
   ...props
 }: ComponentProps<typeof DropdownMenuCheckboxItem>) {
   return (
     <DropdownMenuCheckboxItem
       className={cn("gap-2 rounded-md py-1 pr-2 text-xs", className)}
-      onSelect={(event) => {
-        onSelect?.(event);
-        event.preventDefault();
-      }}
       {...props}
     />
   );

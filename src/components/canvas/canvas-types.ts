@@ -1,10 +1,7 @@
 import type { ReactElement, ReactNode } from "react";
 
-export type CanvasPageShellMode = "full" | "canvas-only";
-
 export type CanvasPageShellProps = {
   children?: ReactNode;
-  mode?: CanvasPageShellMode;
   contentMaxWidthClassName?: string;
   title?: string;
   description?: string;

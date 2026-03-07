@@ -13,6 +13,7 @@ export type DataDisplayActivityItem = {
 };
 
 export type DataDisplayAccountBreakdownRow = {
+  id: string;
   account: string;
   impacted: string;
   share: string;

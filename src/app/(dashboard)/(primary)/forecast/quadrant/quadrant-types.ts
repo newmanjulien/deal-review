@@ -36,3 +36,10 @@ export type QuadrantChartData = {
   layout: QuadrantChartLayout;
   points: QuadrantPoint[];
 };
+
+export type QuadrantPointerContext = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};

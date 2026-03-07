@@ -14,7 +14,7 @@ export const optionalApps: OptionalApp[] = [
     id: "reminders",
     name: "Reminders",
     description:
-      "Send a text message message to your assistant when you want to remember to do something later. Then get a digest every morning with the tasks you need to do",
+      "Send a text message to your assistant when you want to remember to do something later. Then get a digest every morning with the tasks you need to do",
     tier: "free",
   },
   {

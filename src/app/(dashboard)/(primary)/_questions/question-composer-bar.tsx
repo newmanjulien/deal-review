@@ -3,12 +3,12 @@
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
 import { DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME } from "@/components/canvas/canvas-page-shell";
 import { Button } from "@/components/ui/button";
+import { QUESTION_COMPOSER_CONFIG } from "./questions-config";
 import {
   isQuestionSendable,
   normalizeQuestionText,
-  QUESTION_COMPOSER_CONFIG,
-  type QuestionComposerBarProps,
-} from ".";
+} from "./question-utils";
+import type { QuestionComposerBarProps } from "./questions-types";
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");

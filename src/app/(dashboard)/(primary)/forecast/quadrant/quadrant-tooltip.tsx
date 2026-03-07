@@ -1,11 +1,9 @@
-"use client";
-
-import { useEffect, useLayoutEffect, useRef } from "react";
 import { QUADRANT_TOOLTIP_CONFIG } from "./quadrant-config";
 import type { QuadrantPoint } from "./quadrant-types";
 
-const useIsomorphicLayoutEffect =
-  typeof window === "undefined" ? useEffect : useLayoutEffect;
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
 
 type QuadrantTooltipProps = {
   hoveredPoint: QuadrantPoint | null;
@@ -20,32 +18,18 @@ export function QuadrantTooltip({
   hoverBounds,
   disagreeThreshold,
 }: QuadrantTooltipProps) {
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
-
   const { width, offset, edgePadding } = QUADRANT_TOOLTIP_CONFIG;
 
   const position =
     !hoverPosition || !hoverBounds
       ? null
-      : {
-          left: Math.max(
-            edgePadding,
-            Math.min(
-              hoverPosition.x + offset.x,
-              hoverBounds.width - width - edgePadding,
-            ),
-          ),
-          top: Math.max(hoverPosition.y + offset.y, edgePadding),
-        };
-
-  useIsomorphicLayoutEffect(() => {
-    const element = tooltipRef.current;
-    if (!element || !position) return;
-
-    element.style.left = `${position.left}px`;
-    element.style.top = `${position.top}px`;
-    element.style.width = `${width}px`;
-  }, [position?.left, position?.top, width]);
+      : (() => {
+          const maxLeft = Math.max(edgePadding, hoverBounds.width - width - edgePadding);
+          return {
+            left: clamp(hoverPosition.x + offset.x, edgePadding, maxLeft),
+            top: Math.max(hoverPosition.y + offset.y, edgePadding),
+          };
+        })();
 
   if (!hoveredPoint || !hoverPosition || !hoverBounds) return null;
 
@@ -56,7 +40,11 @@ export function QuadrantTooltip({
 
   return (
     <div
-      ref={tooltipRef}
+      style={{
+        left: position?.left,
+        top: position?.top,
+        width,
+      }}
       className="pointer-events-none absolute rounded-sm border border-border bg-popover px-3 py-2 text-xs shadow-sm"
     >
       <div className="space-y-2">

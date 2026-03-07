@@ -1,6 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import {
+  createContext,
+  createElement,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
 import type { DraftQuestion } from "./questions-types";
 import {
   isQuestionSendable,
@@ -14,7 +20,21 @@ function createDraftQuestion(text: string): DraftQuestion {
   };
 }
 
-export function useQuestions() {
+type QuestionsContextValue = {
+  state: {
+    draftQuestions: DraftQuestion[];
+  };
+  actions: {
+    handleQuestionAdd: (text: string) => void;
+    handleQuestionChange: (id: string, text: string) => void;
+    handleQuestionDelete: (id: string) => void;
+    handleSendAll: () => void;
+  };
+};
+
+const QuestionsContext = createContext<QuestionsContextValue | null>(null);
+
+function useCreateQuestionsContextValue(): QuestionsContextValue {
   const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([]);
 
   const handleQuestionAdd = (text: string) => {
@@ -64,4 +84,17 @@ export function useQuestions() {
       handleSendAll,
     },
   };
+}
+
+export function QuestionsProvider({ children }: { children: ReactNode }) {
+  const value = useCreateQuestionsContextValue();
+  return createElement(QuestionsContext.Provider, { value }, children);
+}
+
+export function useQuestions() {
+  const context = useContext(QuestionsContext);
+  if (!context) {
+    throw new Error("useQuestions must be used within a QuestionsProvider");
+  }
+  return context;
 }

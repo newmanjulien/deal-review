@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import { HEADER_MENU_CONFIG } from "./header-config";
 import {
-  HEADER_MENU_CONFIG,
   HeaderMenu,
   HeaderMenuCheckboxItem,
   HeaderMenuList,
   HeaderMenuSectionLabel,
-} from ".";
+} from "./header-menu";
 
 type ShareMenuProps = {
   people: HeaderPerson[];

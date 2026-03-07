@@ -2,6 +2,7 @@ import type { ConversationRow } from "./conversations-types";
 
 export const conversationRows: ConversationRow[] = [
   {
+    id: "northwind-health-maya-rodriguez",
     company: "Northwind Health",
     contact: "Maya Rodriguez",
     topic: "Security review + legal timeline",
@@ -10,6 +11,7 @@ export const conversationRows: ConversationRow[] = [
     lastUpdate: "2h ago",
   },
   {
+    id: "aperture-labs-nolan-pierce",
     company: "Aperture Labs",
     contact: "Nolan Pierce",
     topic: "Procurement checklist and pricing",
@@ -18,6 +20,7 @@ export const conversationRows: ConversationRow[] = [
     lastUpdate: "Yesterday",
   },
   {
+    id: "bluebird-logistics-leah-kim",
     company: "Bluebird Logistics",
     contact: "Leah Kim",
     topic: "Pilot scope confirmation",
@@ -26,6 +29,7 @@ export const conversationRows: ConversationRow[] = [
     lastUpdate: "Yesterday",
   },
   {
+    id: "helix-financial-priya-nanda",
     company: "Helix Financial",
     contact: "Priya Nanda",
     topic: "Final redlines and signature",

@@ -1,9 +1,8 @@
-"use client";
-
 import * as React from "react";
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -72,7 +71,101 @@ function DashboardTableRow({
   );
 }
 
+export type DashboardDataTableColumn<Row> = {
+  key: Extract<keyof Row, string>;
+  label: string;
+  headClassName?: string;
+  cellClassName?: string;
+};
+
+export type DashboardDataTableFormatters<Row> = Partial<{
+  [K in Extract<keyof Row, string>]: (
+    value: Row[K],
+    row: Row,
+  ) => React.ReactNode;
+}>;
+
+function renderCellValue<Row, K extends Extract<keyof Row, string>>(
+  row: Row,
+  key: K,
+  formatters?: DashboardDataTableFormatters<Row>,
+) {
+  const rawValue = row[key];
+  const formatter = formatters?.[key] as
+    | ((value: Row[K], currentRow: Row) => React.ReactNode)
+    | undefined;
+  if (formatter) {
+    return formatter(rawValue, row);
+  }
+
+  return rawValue as React.ReactNode;
+}
+
+type DashboardDataTableProps<Row> = {
+  columns: readonly DashboardDataTableColumn<Row>[];
+  rows: readonly Row[];
+  getRowId: (row: Row) => string;
+  formatters?: DashboardDataTableFormatters<Row>;
+  containerClassName?: string;
+  tableClassName?: string;
+  headerClassName?: string;
+  bodyClassName?: string;
+  rowClassName?: string;
+  emptyState?: React.ReactNode;
+};
+
+function DashboardDataTable<Row>({
+  columns,
+  rows,
+  getRowId,
+  formatters,
+  containerClassName,
+  tableClassName,
+  headerClassName,
+  bodyClassName,
+  rowClassName,
+  emptyState,
+}: DashboardDataTableProps<Row>) {
+  return (
+    <DashboardTable className={tableClassName} containerClassName={containerClassName}>
+      <DashboardTableHeader className={headerClassName}>
+        <DashboardTableRow>
+          {columns.map((column) => (
+            <DashboardTableHead key={column.key} className={column.headClassName}>
+              {column.label}
+            </DashboardTableHead>
+          ))}
+        </DashboardTableRow>
+      </DashboardTableHeader>
+
+      <DashboardTableBody className={bodyClassName}>
+        {rows.length > 0
+          ? rows.map((row) => (
+              <DashboardTableRow key={getRowId(row)} className={rowClassName}>
+                {columns.map((column) => (
+                  <TableCell key={column.key} className={column.cellClassName}>
+                    {renderCellValue(row, column.key, formatters)}
+                  </TableCell>
+                ))}
+              </DashboardTableRow>
+            ))
+          : emptyState && (
+              <DashboardTableRow className={rowClassName}>
+                <TableCell
+                  colSpan={columns.length}
+                  className="px-4 py-8 text-center text-xs tracking-wide text-zinc-500"
+                >
+                  {emptyState}
+                </TableCell>
+              </DashboardTableRow>
+            )}
+      </DashboardTableBody>
+    </DashboardTable>
+  );
+}
+
 export {
+  DashboardDataTable,
   DashboardTable,
   DashboardTableBody,
   DashboardTableHead,

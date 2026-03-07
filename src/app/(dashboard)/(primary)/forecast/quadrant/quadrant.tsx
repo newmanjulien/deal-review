@@ -1,39 +1,29 @@
 "use client";
 
-import {
-  QuadrantAxes,
-  QuadrantPoints,
-  QuadrantTooltip,
-  type QuadrantChartData,
-  useQuadrant,
-} from ".";
+import { QuadrantAxes } from "./quadrant-axes";
+import { QuadrantPoints } from "./quadrant-points";
+import { QuadrantTooltip } from "./quadrant-tooltip";
+import type { QuadrantChartData } from "./quadrant-types";
+import { useQuadrant } from "./use-quadrant";
 
 export function Quadrant({ chart }: { chart: QuadrantChartData }) {
   const {
-    refs: { svgRef },
-    state: {
-      displayedHoveredPoint,
-      displayedHoverPosition,
-      displayedHoverBounds,
-    },
-    actions: {
-      handleSvgMouseEnter,
-      handleSvgMouseMove,
-      handleSvgMouseLeave,
-      handlePointHover,
-      handlePointMove,
-    },
+    displayedHoveredPoint,
+    displayedHoverPosition,
+    displayedHoverBounds,
+    handleSvgMouseMove,
+    handleSvgMouseLeave,
+    handlePointHover,
+    handlePointMove,
   } = useQuadrant({ chart });
 
   return (
     <div className="relative w-full">
       <svg
-        ref={svgRef}
         width={chart.layout.dimensions.width}
         height={chart.layout.dimensions.height}
         viewBox={`0 0 ${chart.layout.dimensions.width} ${chart.layout.dimensions.height}`}
         className="h-auto w-full text-muted-foreground"
-        onMouseEnter={handleSvgMouseEnter}
         onMouseMove={handleSvgMouseMove}
         onMouseLeave={handleSvgMouseLeave}
       >

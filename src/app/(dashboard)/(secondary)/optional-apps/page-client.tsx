@@ -9,7 +9,18 @@ import {
   OPTIONAL_APPS_PAGE_CONFIG,
 } from "./optional-apps-config";
 import { OptionalAppCard } from "./optional-app-card";
-import { optionalApps } from "./optional-apps-data";
+import { optionalApps, type OptionalAppTier } from "./optional-apps-data";
+
+const optionalAppsByTier = optionalApps.reduce<Record<OptionalAppTier, typeof optionalApps>>(
+  (appsByTier, app) => {
+    appsByTier[app.tier].push(app);
+    return appsByTier;
+  },
+  {
+    free: [],
+    paid: [],
+  },
+);
 
 export function OptionalAppsPageClient() {
   const handleIdeaSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
@@ -23,9 +34,7 @@ export function OptionalAppsPageClient() {
     >
       <div className="space-y-6">
         {OPTIONAL_APP_SECTION_CONFIGS.map((section) => {
-          const sectionApps = optionalApps.filter(
-            (app) => app.tier === section.id,
-          );
+          const sectionApps = optionalAppsByTier[section.id];
 
           return (
             <section key={section.id} className="space-y-3">

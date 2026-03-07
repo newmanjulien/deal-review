@@ -1,18 +1,29 @@
+"use client";
+
 import { CanvasWidePage } from "@/components/canvas/canvas-page";
 import {
-  DashboardTable,
-  DashboardTableBody,
-  DashboardTableHead,
-  DashboardTableHeader,
-  DashboardTableRow,
+  DashboardDataTable,
+  type DashboardDataTableFormatters,
 } from "@/components/table/table";
 import { Badge } from "@/components/ui/badge";
-import { TableCell } from "@/components/ui/table";
 import {
   CONVERSATIONS_PAGE_CONFIG,
   CONVERSATIONS_TABLE_COLUMNS,
 } from "./conversations-config";
 import { conversationRows } from "./conversations-data";
+import type { ConversationRow } from "./conversations-types";
+
+const CONVERSATION_CELL_FORMATTERS: DashboardDataTableFormatters<ConversationRow> =
+  {
+    stage: (stage) => (
+      <Badge
+        variant="outline"
+        className="rounded-sm border-zinc-200 bg-zinc-50 px-2 py-0.5 text-xs font-medium tracking-wide text-zinc-600"
+      >
+        {stage}
+      </Badge>
+    ),
+  };
 
 export function ConversationsPageClient() {
   return (
@@ -20,47 +31,12 @@ export function ConversationsPageClient() {
       title={CONVERSATIONS_PAGE_CONFIG.title}
       description={CONVERSATIONS_PAGE_CONFIG.description}
     >
-      <DashboardTable>
-        <DashboardTableHeader>
-          <DashboardTableRow>
-            {CONVERSATIONS_TABLE_COLUMNS.map((column) => (
-              <DashboardTableHead key={column.key}>
-                {column.label}
-              </DashboardTableHead>
-            ))}
-          </DashboardTableRow>
-        </DashboardTableHeader>
-
-        <DashboardTableBody>
-          {conversationRows.map((row) => (
-            <DashboardTableRow key={`${row.company}-${row.contact}`}>
-              <TableCell className="whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900">
-                {row.company}
-              </TableCell>
-              <TableCell className="whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600">
-                {row.contact}
-              </TableCell>
-              <TableCell className="min-w-60 px-4 py-3 text-xs tracking-wide text-zinc-600">
-                {row.topic}
-              </TableCell>
-              <TableCell className="whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600">
-                {row.owner}
-              </TableCell>
-              <TableCell className="whitespace-nowrap px-4 py-3 text-xs">
-                <Badge
-                  variant="outline"
-                  className="rounded-sm border-zinc-200 bg-zinc-50 px-2 py-0.5 text-xs font-medium tracking-wide text-zinc-600"
-                >
-                  {row.stage}
-                </Badge>
-              </TableCell>
-              <TableCell className="whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-500">
-                {row.lastUpdate}
-              </TableCell>
-            </DashboardTableRow>
-          ))}
-        </DashboardTableBody>
-      </DashboardTable>
+      <DashboardDataTable
+        columns={CONVERSATIONS_TABLE_COLUMNS}
+        rows={conversationRows}
+        getRowId={(row) => row.id}
+        formatters={CONVERSATION_CELL_FORMATTERS}
+      />
     </CanvasWidePage>
   );
 }

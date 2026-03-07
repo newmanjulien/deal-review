@@ -1,13 +1,10 @@
-"use client";
-
 import {
-  type CanvasPageShellMode,
   type CanvasPageShellProps,
   type CanvasSectionTitleProps,
 } from "@/components/canvas/canvas-types";
 import { cn } from "@/lib/utils";
 
-export type { CanvasPageShellMode, CanvasPageShellProps };
+export type { CanvasPageShellProps };
 
 const CANVAS_CONTENT_PADDING_TOP_CLASS_NAME = "pt-10";
 export const DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME = "max-w-3xl";

@@ -2,15 +2,13 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Nav, PRIMARY_NAV_GROUPS, useNav } from "..";
+import { PRIMARY_NAV_GROUPS, RailNav, useNav } from "..";
 import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/sidebar/use-sidebar-nav-motion";
 import { cn } from "@/lib/utils";
 
 export function Sidebar({ className }: { className?: string }) {
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
-  const {
-    state: { activeHref },
-  } = useNav(PRIMARY_NAV_GROUPS);
+  const { activeHref } = useNav(PRIMARY_NAV_GROUPS);
   const { refs, actions } = useSidebarNavMotion({
     activeHref,
     hoveredHref,
@@ -35,14 +33,13 @@ export function Sidebar({ className }: { className?: string }) {
         />
       </div>
 
-      <Nav
+      <RailNav
         groups={PRIMARY_NAV_GROUPS}
         activeHref={activeHref}
-        setHoveredHref={setHoveredHref}
+        onHoveredHrefChange={setHoveredHref}
         navRef={refs.navRef}
         indicatorRef={refs.indicatorRef}
         setItemRef={actions.setItemRef}
-        variant="rail"
       />
     </aside>
   );

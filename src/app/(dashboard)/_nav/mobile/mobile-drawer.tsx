@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { Nav, PRIMARY_NAV_GROUPS, useNav } from "..";
+import { DrawerNav, PRIMARY_NAV_GROUPS, useNav } from "..";
 
 export function MobileDrawer({
   isOpen,
@@ -14,9 +14,7 @@ export function MobileDrawer({
   onClose: () => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
 }) {
-  const {
-    state: { activeHref, pathname },
-  } = useNav(PRIMARY_NAV_GROUPS);
+  const { activeHref, pathname } = useNav(PRIMARY_NAV_GROUPS);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousPathnameRef = useRef(pathname);
   const wasOpenRef = useRef(false);
@@ -102,10 +100,9 @@ export function MobileDrawer({
         </header>
 
         <div className="flex-1 overflow-y-auto p-4">
-          <Nav
+          <DrawerNav
             groups={PRIMARY_NAV_GROUPS}
             activeHref={activeHref}
-            variant="drawer"
             onItemSelect={onClose}
             className="mt-2"
           />

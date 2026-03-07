@@ -1,42 +1,35 @@
-import {
-  Activity,
-  Box,
-  CircleOff,
-  CircleQuestionMark,
-  LayoutGrid,
-  Lightbulb,
-  List,
-} from "lucide-react";
+import { Activity, CircleOff, LayoutGrid, Lightbulb, List } from "lucide-react";
+import { DASHBOARD_ROUTE_PATHS } from "../dashboard-routes";
 import type { NavGroups } from "./nav-types";
 
 export const PRIMARY_NAV_GROUPS: NavGroups = {
   main: [
     {
-      href: "/since-last-meeting",
+      href: DASHBOARD_ROUTE_PATHS["since-last-meeting"],
       label: "Since last meeting",
       icon: Activity,
     },
-    { href: "/forecast", label: "Forecast", icon: LayoutGrid },
     {
-      href: "/missing-data",
+      href: DASHBOARD_ROUTE_PATHS.forecast,
+      label: "Forecast",
+      icon: LayoutGrid,
+    },
+    {
+      href: DASHBOARD_ROUTE_PATHS["missing-data"],
       label: "Missing data and timelines",
       icon: CircleOff,
     },
     {
-      href: "/opportunities",
+      href: DASHBOARD_ROUTE_PATHS.opportunities,
       label: "Opportunities and risks",
       icon: Lightbulb,
     },
   ],
   secondary: [
-    { href: "/conversations", label: "All conversations", icon: List },
-    // { href: "/optional-apps", label: "Optional apps", icon: Box },
-  ],
-  tertiary: [
     {
-      href: "/contact-support",
-      label: "Contact support",
-      icon: CircleQuestionMark,
+      href: DASHBOARD_ROUTE_PATHS.conversations,
+      label: "All conversations",
+      icon: List,
     },
   ],
 };

@@ -1,23 +1,30 @@
-"use client";
-
 import { CanvasPageShell } from "@/components/canvas/canvas-page-shell";
-import {
-  type CanvasPageContentProps,
-  type CanvasPageShellMode,
-  type CanvasPageShellProps,
-} from "@/components/canvas/canvas-types";
+import { type CanvasPageContentProps } from "@/components/canvas/canvas-types";
 
-function renderCanvasPage({
+export function CanvasPage({
   children,
-  mode = "full",
-  contentMaxWidthClassName,
   title,
   description,
-}: CanvasPageShellProps) {
+}: CanvasPageContentProps) {
+  return (
+    <CanvasPageShell title={title} description={description}>
+      {children}
+    </CanvasPageShell>
+  );
+}
+
+export function CanvasOnlyPage(props: CanvasPageContentProps) {
+  return <CanvasPage {...props} />;
+}
+
+export function CanvasWidePage({
+  children,
+  title,
+  description,
+}: CanvasPageContentProps) {
   return (
     <CanvasPageShell
-      mode={mode}
-      contentMaxWidthClassName={contentMaxWidthClassName}
+      contentMaxWidthClassName="max-w-8xl"
       title={title}
       description={description}
     >
@@ -26,39 +33,4 @@ function renderCanvasPage({
   );
 }
 
-export function CanvasPage({
-  children,
-  title,
-  description,
-}: CanvasPageContentProps) {
-  return renderCanvasPage({ children, mode: "full", title, description });
-}
-
-export function CanvasOnlyPage({
-  children,
-  title,
-  description,
-}: CanvasPageContentProps) {
-  return renderCanvasPage({
-    children,
-    mode: "canvas-only",
-    title,
-    description,
-  });
-}
-
-export function CanvasWidePage({
-  children,
-  title,
-  description,
-}: CanvasPageContentProps) {
-  return renderCanvasPage({
-    children,
-    mode: "canvas-only",
-    contentMaxWidthClassName: "max-w-8xl",
-    title,
-    description,
-  });
-}
-
-export type { CanvasPageShellMode, CanvasPageShellProps };
+export type { CanvasPageShellProps } from "@/components/canvas/canvas-types";

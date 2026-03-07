@@ -32,9 +32,9 @@ export const missingDataActivityItems: DataDisplayActivityItem[] = [
 ] as const;
 
 export const missingDataAccountsBreakdown: DataDisplayAccountBreakdownRow[] = [
-  { account: "Mobile web", impacted: "7,214", share: "56%" },
-  { account: "Desktop web", impacted: "4,790", share: "37%" },
-  { account: "API clients", impacted: "877", share: "7%" },
+  { id: "mobile-web", account: "Mobile web", impacted: "7,214", share: "56%" },
+  { id: "desktop-web", account: "Desktop web", impacted: "4,790", share: "37%" },
+  { id: "api-clients", account: "API clients", impacted: "877", share: "7%" },
 ] as const;
 
 export const missingDataCards: DataDisplayCard[] = [

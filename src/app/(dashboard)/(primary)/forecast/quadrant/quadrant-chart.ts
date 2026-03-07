@@ -1,22 +1,19 @@
 import {
-  buildQuadrantLayout,
-  projectQuadrantPoints,
   QUADRANT_BEHAVIOR_CONFIG,
   QUADRANT_EXAMPLE_CHART_CONFIG,
   QUADRANT_LAYOUT_CONFIG,
-  quadrantExamplePointSeeds,
-  type QuadrantChartData,
-  type QuadrantPointSeed,
-} from ".";
+} from "./quadrant-config";
+import { quadrantExamplePointSeeds } from "./quadrant-data";
+import type { QuadrantChartData, QuadrantPointSeed } from "./quadrant-types";
+import { buildQuadrantLayout, projectQuadrantPoints } from "./quadrant-utils";
+
+type QuadrantChartMeta = Pick<
+  QuadrantChartData,
+  "id" | "title" | "subtitle" | "xLabel" | "yLabel"
+>;
 
 type CreateQuadrantChartDataOptions = {
-  chart: {
-    id: string;
-    title: string;
-    subtitle: string;
-    xLabel: string;
-    yLabel: string;
-  };
+  chart: QuadrantChartMeta;
   points: QuadrantPointSeed[];
 };
 
@@ -44,11 +41,7 @@ export function createQuadrantChartData({
   });
 
   return {
-    id: chart.id,
-    title: chart.title,
-    subtitle: chart.subtitle,
-    xLabel: chart.xLabel,
-    yLabel: chart.yLabel,
+    ...chart,
     xMid,
     yMid,
     disagreeThreshold,

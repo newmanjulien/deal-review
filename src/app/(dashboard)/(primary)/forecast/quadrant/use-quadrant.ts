@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { QUADRANT_BEHAVIOR_CONFIG } from "./quadrant-config";
-import type { QuadrantChartData, QuadrantPoint } from "./quadrant-types";
-
-type ClientPosition = { x: number; y: number };
-type SvgBounds = { left: number; top: number; width: number; height: number };
+import type {
+  QuadrantChartData,
+  QuadrantPoint,
+  QuadrantPointerContext,
+} from "./quadrant-types";
 
 type UseQuadrantOptions = {
   chart: QuadrantChartData;
@@ -27,145 +28,62 @@ export function useQuadrant({
   } | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const svgBoundsRef = useRef<SvgBounds | null>(null);
-
   const defaultPoint = useMemo(
     () => chart.points.find((point) => point.id === defaultPointId),
     [chart.points, defaultPointId],
   );
-
-  const measureBounds = useCallback(() => {
-    const rect = svgRef.current?.getBoundingClientRect();
-    if (!rect) {
-      return null;
-    }
-
-    const bounds = {
-      left: rect.left,
-      top: rect.top,
-      width: rect.width,
-      height: rect.height,
-    };
-
-    svgBoundsRef.current = bounds;
-    return bounds;
-  }, []);
-
-  const getBounds = useCallback(
-    () => svgBoundsRef.current ?? measureBounds(),
-    [measureBounds],
-  );
-
-  const resolvePointer = useCallback(
-    (clientPosition: ClientPosition) => {
-      const bounds = getBounds();
-      if (!bounds) {
-        return null;
-      }
-
-      return {
-        position: {
-          x: clientPosition.x - bounds.left,
-          y: clientPosition.y - bounds.top,
-        },
-        bounds: {
-          width: bounds.width,
-          height: bounds.height,
-        },
-      };
-    },
-    [getBounds],
-  );
-
-  useEffect(() => {
-    const invalidateBounds = () => {
-      svgBoundsRef.current = null;
-    };
-
-    window.addEventListener("resize", invalidateBounds, { passive: true });
-    window.addEventListener("scroll", invalidateBounds, { passive: true });
-
-    return () => {
-      window.removeEventListener("resize", invalidateBounds);
-      window.removeEventListener("scroll", invalidateBounds);
-    };
-  }, []);
-
-  const handleSvgMouseEnter = useCallback(() => {
-    measureBounds();
-  }, [measureBounds]);
 
   const handleSvgMouseMove = useCallback(() => {
     setHasInteracted(true);
   }, []);
 
   const handleSvgMouseLeave = useCallback(() => {
-    svgBoundsRef.current = null;
     setHoveredPoint(null);
     setHoverPosition(null);
     setHoverBounds(null);
   }, []);
 
   const handlePointHover = useCallback(
-    (point: QuadrantPoint, clientPosition: ClientPosition) => {
-      const resolved = resolvePointer(clientPosition);
-      if (!resolved) {
-        return;
-      }
-
+    (point: QuadrantPoint, pointer: QuadrantPointerContext) => {
       setHasInteracted(true);
       setHoveredPoint(point);
-      setHoverPosition(resolved.position);
-      setHoverBounds(resolved.bounds);
+      setHoverPosition({ x: pointer.x, y: pointer.y });
+      setHoverBounds({ width: pointer.width, height: pointer.height });
     },
-    [resolvePointer],
+    [],
   );
 
   const handlePointMove = useCallback(
-    (clientPosition: ClientPosition) => {
-      const resolved = resolvePointer(clientPosition);
-      if (!resolved) {
-        return;
-      }
-
-      setHoverPosition(resolved.position);
-      setHoverBounds(resolved.bounds);
+    (pointer: QuadrantPointerContext) => {
+      setHoverPosition({ x: pointer.x, y: pointer.y });
+      setHoverBounds({ width: pointer.width, height: pointer.height });
     },
-    [resolvePointer],
+    [],
   );
 
-  const displayedHoveredPoint =
-    hoveredPoint ?? (!hasInteracted ? (defaultPoint ?? null) : null);
-  const displayedHoverPosition =
-    hoverPosition ??
-    (!hasInteracted && defaultPoint
-      ? { x: defaultPoint.xPx, y: defaultPoint.yPx }
-      : null);
-  const displayedHoverBounds =
-    hoverBounds ??
-    (!hasInteracted && defaultPoint
+  const defaultHoverState =
+    !hasInteracted && defaultPoint
       ? {
-          width: chart.layout.dimensions.width,
-          height: chart.layout.dimensions.height,
+          point: defaultPoint,
+          position: { x: defaultPoint.xPx, y: defaultPoint.yPx },
+          bounds: {
+            width: chart.layout.dimensions.width,
+            height: chart.layout.dimensions.height,
+          },
         }
-      : null);
+      : null;
+
+  const displayedHoveredPoint = hoveredPoint ?? defaultHoverState?.point ?? null;
+  const displayedHoverPosition = hoverPosition ?? defaultHoverState?.position ?? null;
+  const displayedHoverBounds = hoverBounds ?? defaultHoverState?.bounds ?? null;
 
   return {
-    refs: {
-      svgRef,
-    },
-    state: {
-      displayedHoveredPoint,
-      displayedHoverPosition,
-      displayedHoverBounds,
-    },
-    actions: {
-      handleSvgMouseEnter,
-      handleSvgMouseMove,
-      handleSvgMouseLeave,
-      handlePointHover,
-      handlePointMove,
-    },
+    displayedHoveredPoint,
+    displayedHoverPosition,
+    displayedHoverBounds,
+    handleSvgMouseMove,
+    handleSvgMouseLeave,
+    handlePointHover,
+    handlePointMove,
   };
 }

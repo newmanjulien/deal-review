@@ -22,6 +22,40 @@ type CardsSectionProps = {
   cards: DataDisplayCard[];
 };
 
+type CardAvatarsProps = {
+  cardId: string;
+  avatars: DataDisplayCard["avatars"];
+};
+
+function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
+  const isStacked = avatars.length === 2;
+
+  return (
+    <div className={isStacked ? "relative h-[26px] w-7 shrink-0" : "flex items-center -space-x-1"}>
+      {avatars.map((avatar, index) => (
+        <span
+          key={`${cardId}-${avatar}-${index}`}
+          className={
+            isStacked
+              ? `absolute inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50 ${
+                  index === 0 ? "left-0 top-0 z-10" : "left-[8px] top-[7px]"
+                }`
+              : "inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50"
+          }
+        >
+          <Image
+            src={avatar}
+            alt={`Card ${cardId} avatar ${index + 1}`}
+            width={20}
+            height={20}
+            className="h-full w-full object-cover"
+          />
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function CardsSection({ cards }: CardsSectionProps) {
   return (
     <ol className="space-y-2.5 pt-1">
@@ -34,43 +68,7 @@ export function CardsSection({ cards }: CardsSectionProps) {
             <p className="text-[10px] tracking-wide text-zinc-500">
               #{card.id}
             </p>
-            {card.avatars.length === 2 ? (
-              <div className="relative h-[26px] w-7 shrink-0">
-                {card.avatars.map((avatar, index) => (
-                  <span
-                    key={`${card.id}-${avatar}-${index}`}
-                    className={`absolute inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50 ${
-                      index === 0 ? "left-0 top-0 z-10" : "left-[8px] top-[7px]"
-                    }`}
-                  >
-                    <Image
-                      src={avatar}
-                      alt={`Card ${card.id} avatar ${index + 1}`}
-                      width={20}
-                      height={20}
-                      className="h-full w-full object-cover"
-                    />
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-center -space-x-1">
-                {card.avatars.map((avatar, index) => (
-                  <span
-                    key={`${card.id}-${avatar}-${index}`}
-                    className="inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50"
-                  >
-                    <Image
-                      src={avatar}
-                      alt={`Card ${card.id} avatar ${index + 1}`}
-                      width={20}
-                      height={20}
-                      className="h-full w-full object-cover"
-                    />
-                  </span>
-                ))}
-              </div>
-            )}
+            <CardAvatars cardId={card.id} avatars={card.avatars} />
           </div>
 
           <div className="mt-2 flex items-center gap-1.5">

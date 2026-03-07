@@ -1,27 +1,71 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactElement } from "react";
 import { CanvasPage } from "@/components/canvas/canvas-page";
 import type {
   DataDisplayAccountBreakdownRow,
   DataDisplayActivityItem,
   DataDisplayCard,
-  DataDisplayTab,
   DataDisplayTabId,
 } from "@/components/data-display/data-display-types";
 import { AccountsSection } from "@/components/data-display/sections/accounts-section";
 import { ActivitySection } from "@/components/data-display/sections/activity-section";
 import { CardsSection } from "@/components/data-display/sections/cards-section";
 
-const ALL_SECTIONS: DataDisplayTabId[] = ["activity", "accounts", "cards"];
-
-const DATA_DISPLAY_TABS: DataDisplayTab[] = [
-  { id: "activity", label: "Activity" },
-  { id: "accounts", label: "Accounts" },
-  { id: "cards", label: "Cards" },
-];
-
 const DEFAULT_TAB_ID: DataDisplayTabId = "activity";
+
+type DataDisplaySectionData = {
+  activityItems: DataDisplayActivityItem[];
+  accountsBreakdown: DataDisplayAccountBreakdownRow[];
+  cards: DataDisplayCard[];
+};
+
+type DataDisplaySectionPropsById = {
+  activity: { items: DataDisplayActivityItem[] };
+  accounts: { rows: DataDisplayAccountBreakdownRow[] };
+  cards: { cards: DataDisplayCard[] };
+};
+
+type DataDisplaySectionConfig<K extends DataDisplayTabId> = {
+  label: string;
+  component: (props: DataDisplaySectionPropsById[K]) => ReactElement;
+  dataSelector: (data: DataDisplaySectionData) => DataDisplaySectionPropsById[K];
+};
+
+type DataDisplaySectionRegistry = {
+  [K in DataDisplayTabId]: DataDisplaySectionConfig<K>;
+};
+
+const DATA_DISPLAY_SECTION_REGISTRY: DataDisplaySectionRegistry = {
+  activity: {
+    label: "Activity",
+    component: ActivitySection,
+    dataSelector: (data) => ({ items: data.activityItems }),
+  },
+  accounts: {
+    label: "Accounts",
+    component: AccountsSection,
+    dataSelector: (data) => ({ rows: data.accountsBreakdown }),
+  },
+  cards: {
+    label: "Cards",
+    component: CardsSection,
+    dataSelector: (data) => ({ cards: data.cards }),
+  },
+};
+
+const ALL_SECTIONS = Object.keys(
+  DATA_DISPLAY_SECTION_REGISTRY,
+) as DataDisplayTabId[];
+
+function renderSection<K extends DataDisplayTabId>(
+  sectionId: K,
+  sectionData: DataDisplaySectionData,
+) {
+  const section = DATA_DISPLAY_SECTION_REGISTRY[sectionId];
+  const SectionComponent = section.component;
+  return <SectionComponent {...section.dataSelector(sectionData)} />;
+}
 
 function normalizeSections(sections: DataDisplayTabId[] | undefined) {
   if (!sections) return ALL_SECTIONS;
@@ -64,42 +108,34 @@ export function DataDisplay({
       ? defaultTabId
       : enabledSections[0];
 
-  const safeActivityItems = activityItems ?? [];
-  const safeAccountsBreakdown = accountsBreakdown ?? [];
-  const safeCards = cards ?? [];
+  const sectionData: DataDisplaySectionData = {
+    activityItems: activityItems ?? [],
+    accountsBreakdown: accountsBreakdown ?? [],
+    cards: cards ?? [],
+  };
 
   return (
     <CanvasPage title={title} description={description}>
       <section className="space-y-4">
         <div className="flex items-center gap-6 border-b border-zinc-100">
-          {DATA_DISPLAY_TABS.filter((tab) =>
-            enabledSections.includes(tab.id),
-          ).map((tab) => (
+          {enabledSections.map((sectionId) => (
             <button
-              key={tab.id}
+              key={sectionId}
               type="button"
-              onClick={() => setRequestedTab(tab.id)}
+              onClick={() => setRequestedTab(sectionId)}
               className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
-                activeTab === tab.id ? "text-zinc-900" : "text-zinc-500"
+                activeTab === sectionId ? "text-zinc-900" : "text-zinc-500"
               }`}
             >
-              {tab.label}
-              {activeTab === tab.id ? (
+              {DATA_DISPLAY_SECTION_REGISTRY[sectionId].label}
+              {activeTab === sectionId ? (
                 <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
               ) : null}
             </button>
           ))}
         </div>
 
-        {activeTab === "activity" ? (
-          <ActivitySection items={safeActivityItems} />
-        ) : null}
-        {activeTab === "accounts" ? (
-          <AccountsSection rows={safeAccountsBreakdown} />
-        ) : null}
-        {activeTab === "cards" ? (
-          <CardsSection cards={safeCards} />
-        ) : null}
+        {renderSection(activeTab, sectionData)}
       </section>
     </CanvasPage>
   );
