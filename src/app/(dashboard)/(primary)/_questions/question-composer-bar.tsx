@@ -4,10 +4,7 @@ import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
 import { DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME } from "@/components/canvas/canvas-page-shell";
 import { Button } from "@/components/ui/button";
 import { QUESTION_COMPOSER_CONFIG } from "./questions-config";
-import {
-  isQuestionSendable,
-  normalizeQuestionText,
-} from "./question-utils";
+import { isQuestionSendable, normalizeQuestionText } from "./question-utils";
 import type { QuestionComposerBarProps } from "./questions-types";
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
@@ -23,7 +20,10 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
     textarea.style.overflowY = "hidden";
     textarea.style.height = "auto";
     const scrollHeight = textarea.scrollHeight;
-    const nextHeight = Math.min(scrollHeight, QUESTION_COMPOSER_CONFIG.maxHeightPx);
+    const nextHeight = Math.min(
+      scrollHeight,
+      QUESTION_COMPOSER_CONFIG.maxHeightPx,
+    );
     textarea.style.height = `${nextHeight}px`;
     textarea.style.overflowY =
       scrollHeight > QUESTION_COMPOSER_CONFIG.maxHeightPx ? "auto" : "hidden";
@@ -55,9 +55,11 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
 
   return (
     <div className="hidden border-t border-zinc-100 bg-white lg:block">
-      <div className={`mx-auto w-full ${DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME}`}>
-        <div className="px-4 pb-4 pt-3 sm:px-6 lg:px-8">
-          <div className="flex items-end gap-2 rounded-lg bg-zinc-100/60 px-3 py-2">
+      <div
+        className={`mx-auto w-full ${DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME}`}
+      >
+        <div className="px-4 py-2 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2 rounded-lg bg-zinc-100/60 px-3 py-1.5">
             <textarea
               ref={textareaRef}
               value={value}
@@ -65,12 +67,12 @@ export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
               onKeyDown={handleKeyDown}
               rows={1}
               placeholder={QUESTION_COMPOSER_CONFIG.placeholder}
-              className="min-h-7 max-h-40 flex-1 resize-none bg-transparent py-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
+              className="min-h-6 max-h-40 flex-1 resize-none bg-transparent pt-1 text-[13px] leading-5 tracking-wide text-zinc-700 placeholder:text-zinc-500 transition-[height] duration-150 ease-out focus-visible:outline-none"
             />
             <Button
               type="button"
               variant="secondary"
-              className="h-7 rounded-sm bg-zinc-300 px-3 text-[13px] text-zinc-500 tracking-wide hover:bg-zinc-200 disabled:text-zinc-400"
+              className="h-6 rounded-sm bg-zinc-300 px-3 text-[13px] text-zinc-500 tracking-wide hover:bg-zinc-200 disabled:text-zinc-400"
               disabled={!canAdd}
               onClick={handleAdd}
             >

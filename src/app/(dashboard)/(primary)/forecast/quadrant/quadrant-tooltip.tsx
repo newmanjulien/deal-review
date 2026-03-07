@@ -1,5 +1,5 @@
 import { QUADRANT_TOOLTIP_CONFIG } from "./quadrant-config";
-import type { QuadrantPoint } from "./quadrant-types";
+import type { QuadrantPoint, QuadrantPointerContext } from "./quadrant-types";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
@@ -7,31 +7,32 @@ function clamp(value: number, min: number, max: number): number {
 
 type QuadrantTooltipProps = {
   hoveredPoint: QuadrantPoint | null;
-  hoverPosition: { x: number; y: number } | null;
-  hoverBounds: { width: number; height: number } | null;
+  pointerContext: QuadrantPointerContext | null;
   disagreeThreshold: number;
 };
 
 export function QuadrantTooltip({
   hoveredPoint,
-  hoverPosition,
-  hoverBounds,
+  pointerContext,
   disagreeThreshold,
 }: QuadrantTooltipProps) {
   const { width, offset, edgePadding } = QUADRANT_TOOLTIP_CONFIG;
 
   const position =
-    !hoverPosition || !hoverBounds
+    !pointerContext
       ? null
       : (() => {
-          const maxLeft = Math.max(edgePadding, hoverBounds.width - width - edgePadding);
+          const maxLeft = Math.max(
+            edgePadding,
+            pointerContext.width - width - edgePadding,
+          );
           return {
-            left: clamp(hoverPosition.x + offset.x, edgePadding, maxLeft),
-            top: Math.max(hoverPosition.y + offset.y, edgePadding),
+            left: clamp(pointerContext.x + offset.x, edgePadding, maxLeft),
+            top: Math.max(pointerContext.y + offset.y, edgePadding),
           };
         })();
 
-  if (!hoveredPoint || !hoverPosition || !hoverBounds) return null;
+  if (!hoveredPoint || !pointerContext) return null;
 
   const delta = hoveredPoint.y - hoveredPoint.x;
   const absDelta = Math.abs(delta);

@@ -8,14 +8,12 @@ import { useQuadrant } from "./use-quadrant";
 
 export function Quadrant({ chart }: { chart: QuadrantChartData }) {
   const {
-    displayedHoveredPoint,
-    displayedHoverPosition,
-    displayedHoverBounds,
-    handleSvgMouseMove,
+    hoveredPoint,
+    pointerContext,
     handleSvgMouseLeave,
     handlePointHover,
     handlePointMove,
-  } = useQuadrant({ chart });
+  } = useQuadrant();
   const { dimensions, plotArea, axisLabelOffset } = chart.layout;
   const leftOverflow = Math.max(0, axisLabelOffset.x - plotArea.left + 8);
   const bottomOverflow = Math.max(
@@ -33,7 +31,6 @@ export function Quadrant({ chart }: { chart: QuadrantChartData }) {
         }`}
         preserveAspectRatio="xMidYMid meet"
         className="h-auto w-full text-muted-foreground"
-        onMouseMove={handleSvgMouseMove}
         onMouseLeave={handleSvgMouseLeave}
       >
         <QuadrantAxes chart={chart} layout={chart.layout} />
@@ -45,9 +42,8 @@ export function Quadrant({ chart }: { chart: QuadrantChartData }) {
       </svg>
 
       <QuadrantTooltip
-        hoveredPoint={displayedHoveredPoint}
-        hoverPosition={displayedHoverPosition}
-        hoverBounds={displayedHoverBounds}
+        hoveredPoint={hoveredPoint}
+        pointerContext={pointerContext}
         disagreeThreshold={chart.disagreeThreshold}
       />
     </div>

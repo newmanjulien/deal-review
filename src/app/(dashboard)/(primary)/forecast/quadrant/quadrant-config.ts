@@ -28,7 +28,6 @@ export const QUADRANT_LAYOUT_CONFIG = {
 
 export const QUADRANT_BEHAVIOR_CONFIG = {
   disagreeThreshold: 6,
-  defaultPointId: "q18",
   labelRightEdgeThreshold: 78,
 } as const;
 
