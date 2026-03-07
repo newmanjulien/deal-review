@@ -3,18 +3,22 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
+import type { HeaderPerson } from "@/components/canvas/canvas-types";
 import {
   HEADER_MENU_CONFIG,
-  HEADER_PEOPLE,
   HeaderMenu,
   HeaderMenuCheckboxItem,
   HeaderMenuList,
   HeaderMenuSectionLabel,
 } from ".";
 
-export function ShareMenu() {
+type ShareMenuProps = {
+  people: HeaderPerson[];
+};
+
+export function ShareMenu({ people }: ShareMenuProps) {
   const [selectedPeople, setSelectedPeople] = useState<string[]>(
-    HEADER_PEOPLE.map((person) => person.name),
+    people.map((person) => person.name),
   );
 
   const selectedPeopleSet = useMemo(
@@ -22,7 +26,7 @@ export function ShareMenu() {
     [selectedPeople],
   );
 
-  const visibleAvatars = HEADER_PEOPLE.filter((person) =>
+  const visibleAvatars = people.filter((person) =>
     selectedPeopleSet.has(person.name),
   );
 
@@ -61,7 +65,7 @@ export function ShareMenu() {
             {HEADER_MENU_CONFIG.share.sectionLabel}
           </HeaderMenuSectionLabel>
           <HeaderMenuList>
-            {HEADER_PEOPLE.map((person) => (
+            {people.map((person) => (
               <li key={person.name}>
                 <HeaderMenuCheckboxItem
                   checked={selectedPeopleSet.has(person.name)}

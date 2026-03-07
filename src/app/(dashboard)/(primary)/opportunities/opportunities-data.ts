@@ -5,7 +5,7 @@ import type {
 } from "@/components/data-display/data-display-types";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
 
-export const lastMeetingSharedPeople: HeaderPerson[] = [
+export const opportunitiesSharedPeople: HeaderPerson[] = [
   {
     name: "Aditya Newman",
     avatar: "/avatars/aditya.jpg",
@@ -16,7 +16,7 @@ export const lastMeetingSharedPeople: HeaderPerson[] = [
   },
 ];
 
-export const lastMeetingActivityItems: DataDisplayActivityItem[] = [
+export const opportunitiesActivityItems: DataDisplayActivityItem[] = [
   {
     id: "new-issue",
     title: "New issue detected",
@@ -31,20 +31,20 @@ export const lastMeetingActivityItems: DataDisplayActivityItem[] = [
   },
 ] as const;
 
-export const lastMeetingAccountsBreakdown: DataDisplayAccountBreakdownRow[] = [
+export const opportunitiesAccountsBreakdown: DataDisplayAccountBreakdownRow[] = [
   { account: "Mobile web", impacted: "7,214", share: "56%" },
   { account: "Desktop web", impacted: "4,790", share: "37%" },
   { account: "API clients", impacted: "877", share: "7%" },
 ] as const;
 
-export const lastMeetingCards: DataDisplayCard[] = [
+export const opportunitiesCards: DataDisplayCard[] = [
   {
     id: "118",
     title: "Checkout confirmation email delay",
     dealLabel: "Honeywell",
     avatars: [
-      lastMeetingSharedPeople[1].avatar,
-      lastMeetingSharedPeople[0].avatar,
+      opportunitiesSharedPeople[1].avatar,
+      opportunitiesSharedPeople[0].avatar,
     ],
     priority: "high",
     priorityLabel: "High priority",

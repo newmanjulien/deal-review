@@ -1,6 +1,6 @@
 import Image from "next/image";
+import type { HeaderPerson } from "@/components/canvas/canvas-types";
 import { HEADER_MENU_CONFIG } from "./header-config";
-import { HEADER_PEOPLE } from "./header-data";
 import {
   HeaderMenu,
   HeaderMenuItem,
@@ -8,7 +8,11 @@ import {
   HeaderMenuSectionLabel,
 } from "./header-menu";
 
-export function SellerSwitchMenu() {
+type SellerSwitchMenuProps = {
+  people: HeaderPerson[];
+};
+
+export function SellerSwitchMenu({ people }: SellerSwitchMenuProps) {
   return (
     <HeaderMenu
       id={HEADER_MENU_CONFIG.sellerSwitch.id}
@@ -28,7 +32,7 @@ export function SellerSwitchMenu() {
         {HEADER_MENU_CONFIG.sellerSwitch.sectionLabel}
       </HeaderMenuSectionLabel>
       <HeaderMenuList>
-        {HEADER_PEOPLE.map((person) => (
+        {people.map((person) => (
           <li key={person.name}>
             <HeaderMenuItem>
               <span className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-zinc-200">

@@ -30,7 +30,7 @@ export const PRIMARY_NAV_GROUPS: NavGroups = {
   ],
   secondary: [
     { href: "/conversations", label: "All conversations", icon: List },
-    { href: "/optional-apps", label: "Optional apps", icon: Box },
+    // { href: "/optional-apps", label: "Optional apps", icon: Box },
   ],
   tertiary: [
     {

@@ -1,7 +1,3 @@
-export const CANVAS_HEADER_CONFIG = {
-  breadcrumbLabel: "Since last meeting",
-} as const;
-
 export const HEADER_MENU_CONFIG = {
   meetingDate: {
     id: "header-dates-popover-content",

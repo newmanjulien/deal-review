@@ -1,19 +1,27 @@
 import { ChevronRight, Ellipsis } from "lucide-react";
-import { CANVAS_HEADER_CONFIG } from ".";
+import type { HeaderPerson } from "@/components/canvas/canvas-types";
 import { MeetingDateMenu } from "./meeting-date-menu";
 import { SellerSwitchMenu } from "./seller-switch-menu";
 import { ShareMenu } from "./share-menu";
 
-export function PrimaryHeader() {
+type PrimaryHeaderProps = {
+  breadcrumbLabel: string;
+  sharedPeople: HeaderPerson[];
+};
+
+export function PrimaryHeader({
+  breadcrumbLabel,
+  sharedPeople,
+}: PrimaryHeaderProps) {
   return (
     <header className="hidden items-center border-b border-zinc-100 p-1.5 md:flex">
       <MeetingDateMenu />
       <ChevronRight className="h-3 w-3 text-zinc-200" />
       <p className="ml-2 text-xs font-medium tracking-wide text-zinc-900">
-        {CANVAS_HEADER_CONFIG.breadcrumbLabel}
+        {breadcrumbLabel}
       </p>
-      <ShareMenu />
-      <SellerSwitchMenu />
+      <ShareMenu people={sharedPeople} />
+      <SellerSwitchMenu people={sharedPeople} />
       <button
         type="button"
         aria-label="aria"

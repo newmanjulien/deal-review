@@ -2,11 +2,12 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { PrimaryHeader } from "./_header";
+import { getPrimaryPageHeader, PrimaryHeader } from "./_header";
 import { QuestionComposerBar, QuestionsPanel, useQuestions } from "./_questions";
 
 export default function PrimaryLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const headerData = getPrimaryPageHeader(pathname);
   const {
     state: { draftQuestions },
     actions: {
@@ -20,7 +21,11 @@ export default function PrimaryLayout({ children }: { children: ReactNode }) {
   return (
     <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[minmax(0,1fr)_22rem]">
       <section className="grid min-h-0 min-w-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden lg:grid-rows-[auto_minmax(0,1fr)_auto]">
-        <PrimaryHeader key={pathname} />
+        <PrimaryHeader
+          key={pathname}
+          breadcrumbLabel={headerData.breadcrumbLabel}
+          sharedPeople={headerData.sharedPeople}
+        />
         <div className="min-h-0 min-w-0 overflow-hidden">
           {children}
         </div>

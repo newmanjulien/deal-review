@@ -5,24 +5,20 @@ import { CanvasPage } from "@/components/canvas/canvas-page";
 import type {
   DataDisplayAccountBreakdownRow,
   DataDisplayActivityItem,
-  DataDisplayOpportunity,
+  DataDisplayCard,
   DataDisplayTab,
   DataDisplayTabId,
 } from "@/components/data-display/data-display-types";
 import { AccountsSection } from "@/components/data-display/sections/accounts-section";
 import { ActivitySection } from "@/components/data-display/sections/activity-section";
-import { OpportunitiesSection } from "@/components/data-display/sections/opportunities-section";
+import { CardsSection } from "@/components/data-display/sections/cards-section";
 
-const ALL_SECTIONS: DataDisplayTabId[] = [
-  "activity",
-  "accounts",
-  "opportunities",
-];
+const ALL_SECTIONS: DataDisplayTabId[] = ["activity", "accounts", "cards"];
 
 const DATA_DISPLAY_TABS: DataDisplayTab[] = [
   { id: "activity", label: "Activity" },
   { id: "accounts", label: "Accounts" },
-  { id: "opportunities", label: "Opportunities" },
+  { id: "cards", label: "Cards" },
 ];
 
 const DEFAULT_TAB_ID: DataDisplayTabId = "activity";
@@ -44,7 +40,7 @@ type DataDisplayProps = {
   sections?: DataDisplayTabId[];
   activityItems?: DataDisplayActivityItem[];
   accountsBreakdown?: DataDisplayAccountBreakdownRow[];
-  opportunities?: DataDisplayOpportunity[];
+  cards?: DataDisplayCard[];
   defaultTabId?: DataDisplayTabId;
 };
 
@@ -54,7 +50,7 @@ export function DataDisplay({
   sections,
   activityItems,
   accountsBreakdown,
-  opportunities,
+  cards,
   defaultTabId = DEFAULT_TAB_ID,
 }: DataDisplayProps) {
   const enabledSections = useMemo(() => normalizeSections(sections), [sections]);
@@ -70,7 +66,7 @@ export function DataDisplay({
 
   const safeActivityItems = activityItems ?? [];
   const safeAccountsBreakdown = accountsBreakdown ?? [];
-  const safeOpportunities = opportunities ?? [];
+  const safeCards = cards ?? [];
 
   return (
     <CanvasPage title={title} description={description}>
@@ -101,8 +97,8 @@ export function DataDisplay({
         {activeTab === "accounts" ? (
           <AccountsSection rows={safeAccountsBreakdown} />
         ) : null}
-        {activeTab === "opportunities" ? (
-          <OpportunitiesSection opportunities={safeOpportunities} />
+        {activeTab === "cards" ? (
+          <CardsSection cards={safeCards} />
         ) : null}
       </section>
     </CanvasPage>

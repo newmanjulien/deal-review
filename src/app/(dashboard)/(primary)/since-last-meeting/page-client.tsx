@@ -5,7 +5,7 @@ import { LAST_MEETING_PAGE_CONFIG } from "./last-meeting-config";
 import {
   lastMeetingAccountsBreakdown,
   lastMeetingActivityItems,
-  lastMeetingOpportunities,
+  lastMeetingCards,
 } from "./last-meeting-data";
 
 export function SinceLastMeetingPageClient() {
@@ -13,10 +13,10 @@ export function SinceLastMeetingPageClient() {
     <DataDisplay
       title={LAST_MEETING_PAGE_CONFIG.title}
       description={LAST_MEETING_PAGE_CONFIG.description}
-      sections={["activity", "accounts", "opportunities"]}
+      sections={["activity", "accounts", "cards"]}
       activityItems={lastMeetingActivityItems}
       accountsBreakdown={lastMeetingAccountsBreakdown}
-      opportunities={lastMeetingOpportunities}
+      cards={lastMeetingCards}
     />
   );
 }

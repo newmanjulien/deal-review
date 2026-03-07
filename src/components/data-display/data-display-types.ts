@@ -1,4 +1,4 @@
-export type DataDisplayTabId = "activity" | "accounts" | "opportunities";
+export type DataDisplayTabId = "activity" | "accounts" | "cards";
 
 export type DataDisplayTab = {
   id: DataDisplayTabId;
@@ -18,15 +18,14 @@ export type DataDisplayAccountBreakdownRow = {
   share: string;
 };
 
-export type DataDisplayOpportunityPriority = "high" | "medium" | "low";
-export type DataDisplayOpportunityAvatars = [string] | [string, string];
+export type DataDisplayCardPriority = "high" | "medium" | "low";
+export type DataDisplayCardAvatars = [string] | [string, string];
 
-export type DataDisplayOpportunity = {
+export type DataDisplayCard = {
   id: string;
   title: string;
   dealLabel: string;
-  avatars: DataDisplayOpportunityAvatars;
-  priority: DataDisplayOpportunityPriority;
+  avatars: DataDisplayCardAvatars;
+  priority: DataDisplayCardPriority;
   priorityLabel: string;
 };
-
