@@ -67,7 +67,7 @@ export function QuadrantPoints({
             <circle
               cx={point.xPx}
               cy={point.yPx}
-              r={6}
+              r={5}
               className={`fill-current opacity-[0.85] ${point.colorClassName}`}
             />
             <text

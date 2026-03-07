@@ -8,6 +8,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import { FORECAST_PAGE_CONFIG } from "./(primary)/forecast/forecast-config";
+import { forecastSharedPeople } from "./(primary)/forecast/forecast-data";
 import { MISSING_DATA_PAGE_CONFIG } from "./(primary)/missing-data/missing-data-config";
 import { missingDataSharedPeople } from "./(primary)/missing-data/missing-data-data";
 import { OPPORTUNITIES_PAGE_CONFIG } from "./(primary)/opportunities/opportunities-config";
@@ -72,6 +74,10 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     id: "forecast",
     href: DASHBOARD_ROUTE_PATHS.forecast,
     implemented: true,
+    primaryHeader: {
+      breadcrumbLabel: FORECAST_PAGE_CONFIG.headerTitle,
+      sharedPeople: forecastSharedPeople,
+    },
     nav: {
       group: "main",
       label: "Forecast",

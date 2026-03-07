@@ -19,8 +19,8 @@ export const QUADRANT_LAYOUT_CONFIG = {
     left: 72,
   },
   axisLabelOffset: {
-    x: 50,
-    y: 36,
+    x: 65,
+    y: 65,
   },
   xMid: 50,
   yMid: 50,

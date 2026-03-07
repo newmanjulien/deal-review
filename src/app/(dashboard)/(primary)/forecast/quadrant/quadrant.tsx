@@ -16,13 +16,22 @@ export function Quadrant({ chart }: { chart: QuadrantChartData }) {
     handlePointHover,
     handlePointMove,
   } = useQuadrant({ chart });
+  const { dimensions, plotArea, axisLabelOffset } = chart.layout;
+  const leftOverflow = Math.max(0, axisLabelOffset.x - plotArea.left + 8);
+  const bottomOverflow = Math.max(
+    0,
+    plotArea.bottom + axisLabelOffset.y - dimensions.height + 8,
+  );
 
   return (
     <div className="relative w-full">
       <svg
-        width={chart.layout.dimensions.width}
-        height={chart.layout.dimensions.height}
-        viewBox={`0 0 ${chart.layout.dimensions.width} ${chart.layout.dimensions.height}`}
+        width={dimensions.width}
+        height={dimensions.height}
+        viewBox={`${-leftOverflow} 0 ${dimensions.width + leftOverflow} ${
+          dimensions.height + bottomOverflow
+        }`}
+        preserveAspectRatio="xMidYMid meet"
         className="h-auto w-full text-muted-foreground"
         onMouseMove={handleSvgMouseMove}
         onMouseLeave={handleSvgMouseLeave}
