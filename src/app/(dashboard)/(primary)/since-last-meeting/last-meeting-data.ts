@@ -28,27 +28,11 @@ export const lastMeetingAccountsBreakdown: DataDisplayAccountBreakdownRow[] = [
 
 export const lastMeetingOpportunities: DataDisplayOpportunity[] = [
   {
-    id: "112",
-    title: "Reset password flow issue",
-    dealLabel: "Whirlpool",
-    avatars: [HEADER_PEOPLE[0].avatar],
-    priority: "medium",
-    priorityLabel: "Medium priority",
-  },
-  {
     id: "118",
     title: "Checkout confirmation email delay",
     dealLabel: "Honeywell",
     avatars: [HEADER_PEOPLE[1].avatar, HEADER_PEOPLE[0].avatar],
     priority: "high",
     priorityLabel: "High priority",
-  },
-  {
-    id: "124",
-    title: "Duplicate invoice PDF generation",
-    dealLabel: "3M",
-    avatars: [HEADER_PEOPLE[1].avatar],
-    priority: "low",
-    priorityLabel: "Low priority",
   },
 ] as const;
