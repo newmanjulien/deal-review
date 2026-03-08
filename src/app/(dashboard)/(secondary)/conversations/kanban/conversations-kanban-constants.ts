@@ -8,9 +8,9 @@ export const KANBAN_STAGES: ConversationStage[] = [
   "Closed lost",
 ];
 
-export const KANBAN_COLUMN_WIDTH_PX = 272;
+export const KANBAN_COLUMN_WIDTH_PX = 320;
 export const KANBAN_COLUMN_GAP_PX = 12;
-export const KANBAN_CARD_WIDTH_PX = 232;
+export const KANBAN_CARD_WIDTH_PX = KANBAN_COLUMN_WIDTH_PX - 40;
 export const SCROLL_EDGE_EPSILON_PX = 4;
 export const DRAG_SCROLL_EDGE_THRESHOLD_PX = 36;
 export const DRAG_SCROLL_MAX_STEP_PX = 16;

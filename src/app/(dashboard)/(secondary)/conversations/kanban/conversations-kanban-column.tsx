@@ -21,6 +21,7 @@ import type {
   KanbanState,
 } from "../conversations-types";
 import { ConversationsKanbanSortableCard } from "./conversations-kanban-card";
+import { KANBAN_COLUMN_WIDTH_PX } from "./conversations-kanban-constants";
 import {
   createCardDragId,
   createColumnDragId,
@@ -128,8 +129,9 @@ export function ConversationsKanbanColumn({
   return (
     <section
       ref={setNodeRef}
+      style={{ width: KANBAN_COLUMN_WIDTH_PX }}
       className={cn(
-        "flex h-[clamp(38rem,72dvh,56rem)] w-[17rem] snap-start flex-col rounded-sm border border-zinc-200/80 bg-zinc-50/60 p-2.5 transition-colors",
+        "flex h-[clamp(38rem,72dvh,56rem)] snap-start flex-col rounded-sm border border-zinc-200/80 bg-zinc-50/60 p-2.5 transition-colors",
         isOver && "border-zinc-300 bg-zinc-100/60",
       )}
     >
