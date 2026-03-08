@@ -4,9 +4,9 @@ import { useState } from "react";
 import { CanvasWidePage } from "@/components/canvas/canvas-page";
 import { CONVERSATIONS_PAGE_CONFIG } from "./conversations-config";
 import { conversationSellerPeople } from "./conversations-data";
-import { ConversationsKanbanView } from "./conversations-kanban-view";
+import { ConversationsKanban } from "./kanban/conversations-kanban";
 import { ConversationsSellerFilterMenu } from "./conversations-seller-filter-menu";
-import { ConversationsTableView } from "./conversations-table-view";
+import { ConversationsTable } from "./conversations-table";
 
 type ConversationView = "table" | "kanban";
 
@@ -53,9 +53,9 @@ export function ConversationsPageClient() {
         </div>
 
         {activeView === "table" ? (
-          <ConversationsTableView />
+          <ConversationsTable />
         ) : (
-          <ConversationsKanbanView />
+          <ConversationsKanban />
         )}
       </section>
     </CanvasWidePage>

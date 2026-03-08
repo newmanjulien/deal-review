@@ -1,7 +1,7 @@
 "use client";
 
 import { useSortable } from "@dnd-kit/sortable";
-import { Building, Lightbulb } from "lucide-react";
+import { Building } from "lucide-react";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
@@ -11,8 +11,11 @@ import {
   OWNER_AVATAR_BY_NAME,
 } from "./conversations-kanban-constants";
 import { createCardDragId } from "./conversations-kanban-utils";
-import type { KanbanCardId } from "./conversations-kanban-types";
-import type { ConversationRow, ConversationStage } from "../conversations-types";
+import type {
+  ConversationRow,
+  ConversationStage,
+  KanbanCardId,
+} from "../conversations-types";
 
 type ConversationsKanbanCardViewProps = {
   row: ConversationRow;
@@ -29,7 +32,7 @@ function ConversationsKanbanCardView({
   return (
     <article
       className={cn(
-        "rounded-md border border-zinc-100 bg-white px-3 py-2 shadow-[0_1px_0_rgba(24,24,27,0.04)]",
+        "rounded-sm border border-zinc-100 bg-white p-2",
         className,
       )}
     >
@@ -51,14 +54,13 @@ function ConversationsKanbanCardView({
         )}
       </div>
 
-      <div className="mt-1.5 flex items-start gap-1.5">
-        <Lightbulb className="mt-[2px] size-3 text-zinc-500" />
+      <div className="mt-1.5">
         <h3 className="text-xs leading-snug tracking-wide text-zinc-800">
           {row.topic}
         </h3>
       </div>
 
-      <div className="mt-1.5 inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-700">
+      <div className="mt-1.5 inline-flex items-center gap-1 rounded-sm border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-700">
         <Building className="size-2.5 text-zinc-400" />
         {row.company}
       </div>
@@ -79,14 +81,20 @@ export function ConversationsKanbanSortableCard({
   stage,
   activeDragCardId,
 }: ConversationsKanbanSortableCardProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({
-      id: createCardDragId(cardId),
-      data: {
-        cardId,
-        stage,
-      },
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: createCardDragId(cardId),
+    data: {
+      cardId,
+      stage,
+    },
+  });
 
   const style: CSSProperties = {
     transition,
@@ -121,7 +129,10 @@ export function ConversationsKanbanDragOverlayCard({
   row,
 }: ConversationsKanbanDragOverlayCardProps) {
   return (
-    <div className="pointer-events-none" style={{ width: KANBAN_CARD_WIDTH_PX }}>
+    <div
+      className="pointer-events-none"
+      style={{ width: KANBAN_CARD_WIDTH_PX }}
+    >
       <ConversationsKanbanCardView
         row={row}
         className="shadow-lg ring-1 ring-zinc-200/80"

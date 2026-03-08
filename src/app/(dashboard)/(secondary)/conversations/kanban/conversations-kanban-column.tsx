@@ -5,13 +5,27 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Grip } from "lucide-react";
+import {
+  CircleOff,
+  Compass,
+  FileText,
+  Grip,
+  Handshake,
+  Trophy,
+  type LucideIcon,
+} from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import type {
+  ConversationStage,
+  KanbanCardId,
+  KanbanState,
+} from "../conversations-types";
 import { ConversationsKanbanSortableCard } from "./conversations-kanban-card";
-import { createCardDragId, createColumnDragId } from "./conversations-kanban-utils";
-import type { KanbanCardId, KanbanState } from "./conversations-kanban-types";
-import type { ConversationStage } from "../conversations-types";
+import {
+  createCardDragId,
+  createColumnDragId,
+} from "./conversations-kanban-utils";
 
 type ConversationsKanbanColumnProps = {
   stage: ConversationStage;
@@ -23,6 +37,68 @@ type ConversationsKanbanColumnProps = {
     element: HTMLOListElement | null,
   ) => void;
 };
+
+type KanbanColumnEmptyStateContent = {
+  icon: LucideIcon;
+  description: string;
+};
+
+const EMPTY_STATE_CONTENT_BY_STAGE: Record<
+  ConversationStage,
+  KanbanColumnEmptyStateContent
+> = {
+  Discovery: {
+    icon: Compass,
+    description: "Early-stage replies and first-call notes land in this lane",
+  },
+  Proposal: {
+    icon: FileText,
+    description: "Pricing, scope, and proposal conversations belong here",
+  },
+  Negotiation: {
+    icon: Handshake,
+    description: "Contract redlines and procurement back-and-forth live here",
+  },
+  "Closed won": {
+    icon: Trophy,
+    description: "Move signed opportunities here to keep pipeline clean",
+  },
+  "Closed lost": {
+    icon: CircleOff,
+    description: "Track stalled or lost opportunities in this lane",
+  },
+};
+
+type ConversationsKanbanColumnEmptyStateProps = {
+  stage: ConversationStage;
+};
+
+function ConversationsKanbanColumnEmptyState({
+  stage,
+}: ConversationsKanbanColumnEmptyStateProps) {
+  const content = EMPTY_STATE_CONTENT_BY_STAGE[stage];
+  const Icon = content.icon;
+
+  return (
+    <li className="list-none px-1 pt-10">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-zinc-100/20" />
+      <div className="relative flex h-full flex-col items-center justify-center gap-2 text-center">
+        <div className="flex items-center gap-1.5">
+          <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full border border-zinc-200/80 bg-zinc-50 text-zinc-400">
+            <Icon className="size-3" />
+          </span>
+          <p className="text-xs leading-relaxed tracking-wide text-zinc-500">
+            Nothing here yet
+          </p>
+        </div>
+
+        <p className="max-w-[11rem] text-[11px] text-zinc-400">
+          {content.description}
+        </p>
+      </div>
+    </li>
+  );
+}
 
 export function ConversationsKanbanColumn({
   stage,
@@ -54,22 +130,29 @@ export function ConversationsKanbanColumn({
     <section
       ref={setNodeRef}
       className={cn(
-        "flex h-[38rem] w-[17rem] snap-start flex-col rounded-md border border-zinc-200/80 bg-zinc-50/60 p-2.5 transition-colors",
+        "flex h-[clamp(38rem,72dvh,56rem)] w-[17rem] snap-start flex-col rounded-sm border border-zinc-200/80 bg-zinc-50/60 p-2.5 transition-colors",
         isOver && "border-zinc-300 bg-zinc-100/60",
       )}
     >
       <header className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <Grip className="size-3 text-zinc-300" />
-          <h2 className="text-xs font-medium tracking-wide text-zinc-600">{stage}</h2>
+          <h2 className="text-xs font-medium tracking-wide text-zinc-600">
+            {stage}
+          </h2>
         </div>
-        <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-zinc-200/80 px-1.5 text-xs font-medium tracking-wide text-zinc-600">
+        <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-sm bg-zinc-200/80 text-xs text-zinc-600">
           {cardIds.length}
         </span>
       </header>
 
-      <SortableContext items={sortableItems} strategy={verticalListSortingStrategy}>
-        <ol ref={handleListRefChange} className="flex-1 space-y-2.5 overflow-y-auto pt-2 pr-0.5">
+      <SortableContext
+        items={sortableItems}
+        strategy={verticalListSortingStrategy}
+      >
+        <ol
+          ref={handleListRefChange}
+          className="flex-1 space-y-2.5 overflow-y-auto pt-2 pr-0.5"
+        >
           {cardIds.length > 0 ? (
             cardIds.map((cardId) => {
               const row = cardsById[cardId];
@@ -85,13 +168,9 @@ export function ConversationsKanbanColumn({
                 />
               );
             })
-          ) : (
-            <li className="list-none px-1">
-              <p className="text-[11px] tracking-wide text-zinc-400">
-                No conversations in this stage
-              </p>
-            </li>
-          )}
+          ) : !isOver ? (
+            <ConversationsKanbanColumnEmptyState stage={stage} />
+          ) : null}
         </ol>
       </SortableContext>
     </section>

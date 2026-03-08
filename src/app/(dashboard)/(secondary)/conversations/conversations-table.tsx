@@ -19,7 +19,7 @@ const CONVERSATION_CELL_FORMATTERS: DashboardDataTableFormatters<ConversationRow
     ),
   };
 
-export function ConversationsTableView() {
+export function ConversationsTable() {
   return (
     <DashboardDataTable
       columns={CONVERSATIONS_TABLE_COLUMNS}

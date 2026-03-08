@@ -16,8 +16,14 @@ import {
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { conversationRows } from "./conversations-data";
-import type { ConversationStage } from "./conversations-types";
+import { conversationRows } from "../conversations-data";
+import type {
+  ConversationStage,
+  KanbanDestination,
+  KanbanDragState,
+  KanbanPointer,
+  KanbanState,
+} from "../conversations-types";
 import {
   DRAG_SCROLL_EDGE_THRESHOLD_PX,
   DRAG_SCROLL_MAX_STEP_PX,
@@ -27,16 +33,10 @@ import {
   KANBAN_OVERLAY_Z_INDEX,
   KANBAN_STAGES,
   SCROLL_EDGE_EPSILON_PX,
-} from "./kanban/conversations-kanban-constants";
-import { ConversationsKanbanBoardChrome } from "./kanban/conversations-kanban-board-chrome";
-import { ConversationsKanbanDragOverlayCard } from "./kanban/conversations-kanban-card";
-import { ConversationsKanbanColumn } from "./kanban/conversations-kanban-column";
-import type {
-  KanbanDestination,
-  KanbanDragState,
-  KanbanPointer,
-  KanbanState,
-} from "./kanban/conversations-kanban-types";
+} from "./conversations-kanban-constants";
+import { ConversationsKanbanChrome } from "./conversations-kanban-chrome";
+import { ConversationsKanbanDragOverlayCard } from "./conversations-kanban-card";
+import { ConversationsKanbanColumn } from "./conversations-kanban-column";
 import {
   cloneKanbanState,
   createKanbanState,
@@ -45,7 +45,7 @@ import {
   parseCardDragId,
   resolveDestinationFromDragId,
   restoreFromSnapshot,
-} from "./kanban/conversations-kanban-utils";
+} from "./conversations-kanban-utils";
 
 function createEmptyColumnListRefs(): Record<
   ConversationStage,
@@ -67,10 +67,7 @@ function getPointerFromActivatorEvent(
     return null;
   }
 
-  if (
-    typeof PointerEvent !== "undefined" &&
-    event instanceof PointerEvent
-  ) {
+  if (typeof PointerEvent !== "undefined" && event instanceof PointerEvent) {
     return { x: event.clientX, y: event.clientY };
   }
 
@@ -90,7 +87,11 @@ function getPointerFromActivatorEvent(
   return null;
 }
 
-function getEdgeScrollVelocity(pointer: number, min: number, max: number): number {
+function getEdgeScrollVelocity(
+  pointer: number,
+  min: number,
+  max: number,
+): number {
   const minEdge = min + DRAG_SCROLL_EDGE_THRESHOLD_PX;
   const maxEdge = max - DRAG_SCROLL_EDGE_THRESHOLD_PX;
 
@@ -113,7 +114,7 @@ function getEdgeScrollVelocity(pointer: number, min: number, max: number): numbe
   return 0;
 }
 
-export function ConversationsKanbanView() {
+export function ConversationsKanban() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const columnListRefsRef = useRef(createEmptyColumnListRefs());
   const dragSnapshotRef = useRef<KanbanState | null>(null);
@@ -321,7 +322,8 @@ export function ConversationsKanbanView() {
 
         const verticalScrollStage =
           dragDestinationRef.current?.stage ?? activeDrag.originStage;
-        const columnListElement = columnListRefsRef.current[verticalScrollStage];
+        const columnListElement =
+          columnListRefsRef.current[verticalScrollStage];
 
         if (columnListElement) {
           const columnRect = columnListElement.getBoundingClientRect();
@@ -354,7 +356,9 @@ export function ConversationsKanbanView() {
     [],
   );
 
-  const activeDragRow = activeDrag ? boardState.cardsById[activeDrag.cardId] : null;
+  const activeDragRow = activeDrag
+    ? boardState.cardsById[activeDrag.cardId]
+    : null;
   const canUsePortal = typeof document !== "undefined";
 
   return (
@@ -368,7 +372,7 @@ export function ConversationsKanbanView() {
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <ConversationsKanbanBoardChrome
+      <ConversationsKanbanChrome
         canScrollLeft={canScrollLeft}
         canScrollRight={canScrollRight}
         onScrollLeft={() => scrollBoard("left")}
@@ -376,9 +380,9 @@ export function ConversationsKanbanView() {
       >
         <div
           ref={scrollContainerRef}
-          className="overflow-x-auto pb-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:thin]"
+          className="overflow-x-auto pb-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
-          <div className="grid min-h-[38rem] min-w-max grid-flow-col auto-cols-[17rem] gap-3">
+          <div className="grid min-h-[clamp(38rem,72dvh,56rem)] min-w-max grid-flow-col auto-cols-[17rem] gap-3">
             {KANBAN_STAGES.map((stage) => (
               <ConversationsKanbanColumn
                 key={stage}
@@ -391,7 +395,7 @@ export function ConversationsKanbanView() {
             ))}
           </div>
         </div>
-      </ConversationsKanbanBoardChrome>
+      </ConversationsKanbanChrome>
 
       {canUsePortal
         ? createPortal(

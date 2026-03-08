@@ -1,14 +1,15 @@
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import { KANBAN_STAGES } from "./conversations-kanban-constants";
 import type {
+  ConversationRow,
+  ConversationStage,
+  KanbanCardDragId,
   KanbanCardId,
   KanbanCardLocation,
-  KanbanCardDragId,
-  KanbanColumnDragId,
   KanbanDestination,
+  KanbanColumnDragId,
   KanbanState,
-} from "./conversations-kanban-types";
-import type { ConversationRow, ConversationStage } from "../conversations-types";
+} from "../conversations-types";
 
 const CARD_DRAG_ID_PREFIX = "card:";
 const COLUMN_DRAG_ID_PREFIX = "column:";

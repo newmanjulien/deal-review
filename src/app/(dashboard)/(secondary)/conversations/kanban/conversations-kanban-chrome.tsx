@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type ConversationsKanbanBoardChromeProps = {
+type ConversationsKanbanChromeProps = {
   canScrollLeft: boolean;
   canScrollRight: boolean;
   onScrollLeft: () => void;
@@ -13,13 +13,13 @@ type ConversationsKanbanBoardChromeProps = {
   children: ReactNode;
 };
 
-export function ConversationsKanbanBoardChrome({
+export function ConversationsKanbanChrome({
   canScrollLeft,
   canScrollRight,
   onScrollLeft,
   onScrollRight,
   children,
-}: ConversationsKanbanBoardChromeProps) {
+}: ConversationsKanbanChromeProps) {
   return (
     <section className="space-y-2">
       <div className="flex items-center justify-end gap-1">
