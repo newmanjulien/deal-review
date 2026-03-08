@@ -1,6 +1,6 @@
 export const LAST_MEETING_PAGE_CONFIG = {
   headerTitle: "Since last meeting",
-  title: "Since your last meeting with Juan",
+  title: "Since your last meeting with Julien",
   description:
-    "A spike in users clicking on reset links but not completing the reset flow was detected. Error rates surged within ten minutes of the latest deployment.",
+    "Get a quick overview of what progress Julien has made since your last meeting on January 12",
 } as const;

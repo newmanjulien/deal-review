@@ -2,7 +2,8 @@ export type ConversationStage =
   | "Discovery"
   | "Proposal"
   | "Negotiation"
-  | "Closed won";
+  | "Closed won"
+  | "Closed lost";
 
 export type ConversationRow = {
   id: string;
