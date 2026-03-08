@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
+import type { HeaderPerson } from "@/types/domain/people";
 import type { NavGroups } from "@/app/(dashboard)/_nav/nav-types";
-import type { AppPath } from "@/types/app-path";
+import type { AppPath } from "@/types/domain/app-path";
 
 export const DASHBOARD_ROUTE_PATHS = {
   "since-last-meeting": "/since-last-meeting",

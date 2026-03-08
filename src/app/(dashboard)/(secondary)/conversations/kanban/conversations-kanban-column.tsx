@@ -13,7 +13,7 @@ import {
   Trophy,
   type LucideIcon,
 } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import type {
   ConversationStage,
@@ -119,13 +119,6 @@ export function ConversationsKanbanColumn({
     [cardIds],
   );
 
-  const handleListRefChange = useCallback(
-    (element: HTMLOListElement | null) => {
-      onColumnListRefChange(stage, element);
-    },
-    [onColumnListRefChange, stage],
-  );
-
   return (
     <section
       ref={setNodeRef}
@@ -151,23 +144,23 @@ export function ConversationsKanbanColumn({
         strategy={verticalListSortingStrategy}
       >
         <ol
-          ref={handleListRefChange}
+          ref={(element) => onColumnListRefChange(stage, element)}
           className="flex-1 space-y-2.5 overflow-y-auto pt-2 pr-0.5"
         >
           {cardIds.length > 0 ? (
-            cardIds.map((cardId) => {
+            cardIds.flatMap((cardId) => {
               const row = cardsById[cardId];
-              if (!row) return null;
-
-              return (
-                <ConversationsKanbanSortableCard
-                  key={cardId}
-                  cardId={cardId}
-                  row={row}
-                  stage={stage}
-                  activeDragCardId={activeDragCardId}
-                />
-              );
+              return row
+                ? [
+                    <ConversationsKanbanSortableCard
+                      key={cardId}
+                      cardId={cardId}
+                      row={row}
+                      stage={stage}
+                      activeDragCardId={activeDragCardId}
+                    />,
+                  ]
+                : [];
             })
           ) : !isOver ? (
             <ConversationsKanbanColumnEmptyState stage={stage} />

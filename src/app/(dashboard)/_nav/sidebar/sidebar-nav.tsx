@@ -3,7 +3,7 @@
 import type { RefObject } from "react";
 import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
-import type { AppPath } from "@/types/app-path";
+import type { AppPath } from "@/types/domain/app-path";
 import type { NavGroups, NavItem } from "../nav-types";
 import { normalizeNavGroups } from "../nav-utils";
 

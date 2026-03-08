@@ -1,15 +1,19 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import {
-  type DraftQuestion,
-  type QuestionsPanelProps,
-} from "./questions-types";
+import type { DraftQuestion } from "./questions-types";
 import { Button } from "@/components/ui/button";
 import { countSendableQuestions } from "./question-utils";
 import { QUESTIONS_PANEL_CONFIG } from "./questions-config";
 
 export type { DraftQuestion };
+
+type QuestionsPanelProps = {
+  draftQuestions: DraftQuestion[];
+  onQuestionChange: (id: string, text: string) => void;
+  onQuestionDelete: (id: string) => void;
+  onSendAll: () => void;
+};
 
 export function QuestionsPanel({
   draftQuestions,

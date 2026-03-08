@@ -10,7 +10,7 @@ import { SidebarNav } from "./sidebar-nav";
 import { useSidebarNavMotion } from "./use-sidebar-nav-motion";
 import { useDashboardSidebar } from "./sidebar-ui";
 import { cn } from "@/lib/utils";
-import type { AppPath } from "@/types/app-path";
+import type { AppPath } from "@/types/domain/app-path";
 
 export function Sidebar({ className }: { className?: string }) {
   const [hoveredHref, setHoveredHref] = useState<AppPath | null>(null);

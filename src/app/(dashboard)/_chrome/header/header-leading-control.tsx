@@ -1,6 +1,6 @@
+import type { ComponentProps } from "react";
 import Link from "next/link";
 import type { DashboardChromeLeadingControl } from "@/app/(dashboard)/_routes/dashboard-routes";
-import type { HeaderMenuAlign } from "./header-types";
 import { MeetingDateMenu } from "./meeting-date-menu";
 
 type HeaderLeadingControlProps = {
@@ -8,7 +8,7 @@ type HeaderLeadingControlProps = {
   className?: string;
   meetingDateMenuId?: string;
   meetingDateTriggerId?: string;
-  meetingDateAlign?: HeaderMenuAlign;
+  meetingDateAlign?: NonNullable<ComponentProps<typeof MeetingDateMenu>>["align"];
   meetingDateOpen?: boolean;
   onMeetingDateOpenChange?: (open: boolean) => void;
 };

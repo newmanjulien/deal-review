@@ -2,7 +2,7 @@ import {
   isDashboardPathWithinRoute,
   normalizeDashboardPathname,
 } from "@/app/(dashboard)/_routes/dashboard-pathname";
-import type { AppPath } from "@/types/app-path";
+import type { AppPath } from "@/types/domain/app-path";
 import type { NavGroups, NormalizedNavGroups } from "./nav-types";
 
 export function normalizeNavGroups(groups: NavGroups): NormalizedNavGroups {

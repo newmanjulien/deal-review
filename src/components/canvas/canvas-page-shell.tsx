@@ -1,8 +1,13 @@
+import type { ReactNode } from "react";
 import { CanvasHero } from "@/components/canvas/canvas-hero";
-import { type CanvasPageShellProps } from "@/components/canvas/canvas-types";
 import { cn } from "@/lib/utils";
 
-export type { CanvasPageShellProps };
+export type CanvasPageShellProps = {
+  children?: ReactNode;
+  contentMaxWidthClassName?: string;
+  title?: string;
+  description?: string;
+};
 
 const CANVAS_CONTENT_PADDING_TOP_CLASS_NAME = "pt-10";
 export const DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME = "max-w-3xl";

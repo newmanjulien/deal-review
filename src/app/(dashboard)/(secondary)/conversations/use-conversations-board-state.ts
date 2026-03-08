@@ -28,10 +28,6 @@ type IdleCallbackWindow = Window &
     cancelIdleCallback?: (handle: number) => void;
   };
 
-function createDefaultBoardState(): KanbanState {
-  return createKanbanState(conversationRows);
-}
-
 function sanitizeStageCardIds(
   rawStageIds: unknown,
   knownCardIds: Set<string>,
@@ -173,7 +169,9 @@ export function buildRowsFromBoardState(boardState: KanbanState): ConversationRo
 }
 
 export function useConversationsBoardState() {
-  const [boardState, setBoardState] = useState<KanbanState>(createDefaultBoardState);
+  const [boardState, setBoardState] = useState<KanbanState>(() =>
+    createKanbanState(conversationRows),
+  );
   const latestBoardStateRef = useRef(boardState);
 
   useEffect(() => {
@@ -186,7 +184,9 @@ export function useConversationsBoardState() {
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      setBoardState(readBoardStateFromLocalStorage(createDefaultBoardState()));
+      setBoardState(
+        readBoardStateFromLocalStorage(createKanbanState(conversationRows)),
+      );
     }, 0);
 
     return () => {
@@ -205,11 +205,8 @@ export function useConversationsBoardState() {
       persistBoardStateNow();
     };
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        flushBoardState();
-      }
-    };
+    const handleVisibilityChange = () =>
+      document.visibilityState === "hidden" && flushBoardState();
 
     window.addEventListener("pagehide", flushBoardState);
     document.addEventListener("visibilitychange", handleVisibilityChange);

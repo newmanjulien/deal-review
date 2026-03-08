@@ -1,7 +1,6 @@
 "use client";
 
-import type { ComponentProps } from "react";
-import type { HeaderMenuProps } from "@/app/(dashboard)/_chrome/header/header-types";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 import {
   ChromeMenu,
   ChromeMenuCheckboxItem,
@@ -9,6 +8,19 @@ import {
   ChromeMenuList,
   ChromeMenuSectionLabel,
 } from "@/components/chrome";
+
+type HeaderMenuProps = {
+  trigger: ReactElement;
+  children: ReactNode;
+  id?: string;
+  align?: ComponentProps<typeof ChromeMenu>["align"];
+  sideOffset?: number;
+  className?: string;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  modal?: boolean;
+};
 
 export function HeaderMenu({
   trigger,

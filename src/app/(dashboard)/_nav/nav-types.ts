@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import type { AppPath } from "@/types/app-path";
+import type { AppPath } from "@/types/domain/app-path";
 
 export type NavItem = {
   href: AppPath;

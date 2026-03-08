@@ -45,13 +45,7 @@ type SetBoardState = Dispatch<SetStateAction<KanbanState>>;
 type ColumnListRefs = Record<ConversationStage, HTMLOListElement | null>;
 
 function createEmptyColumnListRefs(): ColumnListRefs {
-  return KANBAN_STAGES.reduce(
-    (listRefsByStage, stage) => {
-      listRefsByStage[stage] = null;
-      return listRefsByStage;
-    },
-    {} as ColumnListRefs,
-  );
+  return Object.fromEntries(KANBAN_STAGES.map((stage) => [stage, null])) as ColumnListRefs;
 }
 
 function getPointerFromActivatorEvent(
@@ -61,11 +55,10 @@ function getPointerFromActivatorEvent(
     return null;
   }
 
-  if (typeof PointerEvent !== "undefined" && event instanceof PointerEvent) {
-    return { x: event.clientX, y: event.clientY };
-  }
-
-  if (typeof MouseEvent !== "undefined" && event instanceof MouseEvent) {
+  if (
+    (typeof PointerEvent !== "undefined" && event instanceof PointerEvent) ||
+    (typeof MouseEvent !== "undefined" && event instanceof MouseEvent)
+  ) {
     return { x: event.clientX, y: event.clientY };
   }
 
@@ -327,9 +320,7 @@ export function useKanbanDragState({
       return;
     }
 
-    dragOverFrameRef.current = window.requestAnimationFrame(() => {
-      flushPendingDragOver();
-    });
+    dragOverFrameRef.current = window.requestAnimationFrame(flushPendingDragOver);
   }, [flushPendingDragOver]);
 
   const handleDragStart = useCallback(

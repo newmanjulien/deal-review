@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
+import type { HeaderPerson } from "@/types/domain/people";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import {
   HeaderMenu,

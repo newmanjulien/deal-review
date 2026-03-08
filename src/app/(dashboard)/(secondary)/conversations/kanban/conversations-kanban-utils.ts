@@ -19,13 +19,12 @@ function isConversationStage(value: string): value is ConversationStage {
 }
 
 function createEmptyColumnCardIds(): Record<ConversationStage, KanbanCardId[]> {
-  return KANBAN_STAGES.reduce(
-    (columnsByStage, stage) => {
-      columnsByStage[stage] = [];
-      return columnsByStage;
-    },
-    {} as Record<ConversationStage, KanbanCardId[]>,
-  );
+  return Object.fromEntries(
+    KANBAN_STAGES.map((stage) => [stage, [] as KanbanCardId[]]),
+  ) as Record<
+    ConversationStage,
+    KanbanCardId[]
+  >;
 }
 
 function clampIndex(index: number, length: number): number {
@@ -42,13 +41,12 @@ function normalizeDestinationIndex(
 function cloneCardLocationsById(
   cardLocationsById: KanbanState["cardLocationsById"],
 ): KanbanState["cardLocationsById"] {
-  const nextLocations: KanbanState["cardLocationsById"] = {};
-
-  for (const [cardId, location] of Object.entries(cardLocationsById)) {
-    nextLocations[cardId] = { stage: location.stage, index: location.index };
-  }
-
-  return nextLocations;
+  return Object.fromEntries(
+    Object.entries(cardLocationsById).map(([cardId, location]) => [
+      cardId,
+      { ...location },
+    ]),
+  ) as KanbanState["cardLocationsById"];
 }
 
 function updateColumnCardLocations(
@@ -142,24 +140,31 @@ export function createColumnDragId(stage: ConversationStage): KanbanColumnDragId
   return `${COLUMN_DRAG_ID_PREFIX}${stage}`;
 }
 
-export function parseCardDragId(
+function parsePrefixedDragId(
   dragId: UniqueIdentifier | null | undefined,
-): KanbanCardId | null {
-  if (typeof dragId !== "string" || !dragId.startsWith(CARD_DRAG_ID_PREFIX)) {
+  prefix: string,
+): string | null {
+  if (typeof dragId !== "string" || !dragId.startsWith(prefix)) {
     return null;
   }
 
-  return dragId.slice(CARD_DRAG_ID_PREFIX.length);
+  return dragId.slice(prefix.length);
+}
+
+export function parseCardDragId(
+  dragId: UniqueIdentifier | null | undefined,
+): KanbanCardId | null {
+  return parsePrefixedDragId(dragId, CARD_DRAG_ID_PREFIX);
 }
 
 function parseColumnDragId(
   dragId: UniqueIdentifier | null | undefined,
 ): ConversationStage | null {
-  if (typeof dragId !== "string" || !dragId.startsWith(COLUMN_DRAG_ID_PREFIX)) {
+  const rawStage = parsePrefixedDragId(dragId, COLUMN_DRAG_ID_PREFIX);
+  if (!rawStage) {
     return null;
   }
 
-  const rawStage = dragId.slice(COLUMN_DRAG_ID_PREFIX.length);
   return isConversationStage(rawStage) ? rawStage : null;
 }
 
@@ -168,14 +173,7 @@ export function findCardLocation(
   cardId: KanbanCardId,
 ): KanbanCardLocation | null {
   const location = state.cardLocationsById[cardId];
-  if (!location) {
-    return null;
-  }
-
-  return {
-    stage: location.stage,
-    index: location.index,
-  };
+  return location ? { ...location } : null;
 }
 
 export function resolveDestinationFromDragId(
@@ -217,11 +215,7 @@ function moveWithinColumn(
   const nextColumnIds = [...columnIds];
   const [movedCardId] = nextColumnIds.splice(fromIndex, 1);
 
-  if (!movedCardId) {
-    return state;
-  }
-
-  nextColumnIds.splice(targetIndex, 0, movedCardId);
+  nextColumnIds.splice(targetIndex, 0, movedCardId!);
 
   const nextCardLocationsById = { ...state.cardLocationsById };
   updateColumnCardLocations(nextCardLocationsById, stage, nextColumnIds);

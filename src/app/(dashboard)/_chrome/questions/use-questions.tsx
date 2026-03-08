@@ -2,7 +2,6 @@
 
 import {
   createContext,
-  createElement,
   useContext,
   useState,
   type ReactNode,
@@ -88,7 +87,7 @@ function useCreateQuestionsContextValue(): QuestionsContextValue {
 
 export function QuestionsProvider({ children }: { children: ReactNode }) {
   const value = useCreateQuestionsContextValue();
-  return createElement(QuestionsContext.Provider, { value }, children);
+  return <QuestionsContext.Provider value={value}>{children}</QuestionsContext.Provider>;
 }
 
 export function useQuestions() {

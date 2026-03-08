@@ -4,7 +4,7 @@ import type {
   DataDisplayTableRow,
   DataDisplayTimelineItem,
 } from "@/components/data-display/data-display-types";
-import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
+import type { HeaderPerson } from "@/types/domain/people";
 
 export const missingDataSharedPeople: HeaderPerson[] = [
   {

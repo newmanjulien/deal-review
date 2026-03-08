@@ -1,4 +1,4 @@
-import type { IsoDateString, IsoDateTimeString } from "@/types/date-time";
+import type { IsoDateString, IsoDateTimeString } from "@/types/domain/date-time";
 
 const MONTH_DAY_FORMATTER = new Intl.DateTimeFormat("en-US", {
   month: "short",

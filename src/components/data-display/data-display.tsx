@@ -42,6 +42,22 @@ function normalizeSections<Row extends DataDisplayAnyTableRow>(
   return sections.slice(0, MAX_SECTION_COUNT);
 }
 
+function resolveActiveSectionId<Row extends DataDisplayAnyTableRow>(
+  sections: DataDisplaySectionInstance<Row>[],
+  requestedSectionId: string | undefined,
+  defaultSectionId?: string,
+): string {
+  if (hasSectionId(sections, requestedSectionId)) {
+    return requestedSectionId;
+  }
+
+  if (hasSectionId(sections, defaultSectionId)) {
+    return defaultSectionId;
+  }
+
+  return sections[0].id;
+}
+
 function renderSection<Row extends DataDisplayAnyTableRow>(
   section: DataDisplaySectionInstance<Row>,
 ) {
@@ -76,16 +92,14 @@ export function DataDisplay<Row extends DataDisplayAnyTableRow = DataDisplayAnyT
 }: DataDisplayProps<Row>) {
   const normalizedSections = useMemo(() => normalizeSections(sections), [sections]);
   const [requestedSectionId, setRequestedSectionId] = useState<string>(() =>
-    hasSectionId(normalizedSections, defaultSectionId)
-      ? defaultSectionId
-      : normalizedSections[0].id,
+    resolveActiveSectionId(normalizedSections, defaultSectionId),
   );
 
-  const activeSectionId = hasSectionId(normalizedSections, requestedSectionId)
-    ? requestedSectionId
-    : hasSectionId(normalizedSections, defaultSectionId)
-      ? defaultSectionId
-      : normalizedSections[0].id;
+  const activeSectionId = resolveActiveSectionId(
+    normalizedSections,
+    requestedSectionId,
+    defaultSectionId,
+  );
 
   const activeSection =
     normalizedSections.find((section) => section.id === activeSectionId) ??

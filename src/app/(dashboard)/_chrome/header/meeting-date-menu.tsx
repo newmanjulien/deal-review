@@ -1,3 +1,4 @@
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import { HEADER_MEETING_DATES } from "./header-data";
@@ -7,12 +8,11 @@ import {
   HeaderMenuList,
   HeaderMenuSectionLabel,
 } from "./header-menu";
-import type { HeaderMenuAlign } from "./header-types";
 
 type MeetingDateMenuProps = {
   id?: string;
   triggerId?: string;
-  align?: HeaderMenuAlign;
+  align?: ComponentProps<typeof HeaderMenu>["align"];
   triggerClassName?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;

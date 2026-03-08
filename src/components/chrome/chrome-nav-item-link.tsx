@@ -4,7 +4,7 @@ import type { ComponentProps, ComponentType } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { AppPath } from "@/types/app-path";
+import type { AppPath } from "@/types/domain/app-path";
 
 export type ChromeNavItem = {
   href: AppPath;

@@ -2,7 +2,6 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -71,97 +70,21 @@ function useDashboardChromeActions(
   dispatch: Dispatch<DashboardChromeUiAction>,
   openMenuId: DashboardChromeUiState["openMenuId"],
 ): DashboardChromeUiActions {
-  const toggleSidebar = useCallback(() => {
-    dispatch({ type: "TOGGLE_SIDEBAR" });
-  }, [dispatch]);
-
-  const setSidebarExpanded = useCallback(
-    (expanded: boolean) => {
-      dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded });
-    },
-    [dispatch],
-  );
-
-  const collapseSidebar = useCallback(() => {
-    dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded: false });
-  }, [dispatch]);
-
-  const toggleMobileDrawer = useCallback(() => {
-    dispatch({ type: "TOGGLE_MOBILE_DRAWER" });
-  }, [dispatch]);
-
-  const setMobileDrawerOpen = useCallback(
-    (open: boolean) => {
-      dispatch({ type: "SET_MOBILE_DRAWER_OPEN", open });
-    },
-    [dispatch],
-  );
-
-  const setMenuOpen = useCallback(
-    (menuId: string, open: boolean) => {
-      dispatch({ type: "SET_MENU_OPEN", menuId, open });
-    },
-    [dispatch],
-  );
-
-  const isMenuOpen = useCallback(
-    (menuId: string) => openMenuId === menuId,
-    [openMenuId],
-  );
-
   return useMemo(
     () => ({
-      toggleSidebar,
-      setSidebarExpanded,
-      collapseSidebar,
-      toggleMobileDrawer,
-      setMobileDrawerOpen,
-      setMenuOpen,
-      isMenuOpen,
+      toggleSidebar: () => dispatch({ type: "TOGGLE_SIDEBAR" }),
+      setSidebarExpanded: (expanded: boolean) =>
+        dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded }),
+      collapseSidebar: () =>
+        dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded: false }),
+      toggleMobileDrawer: () => dispatch({ type: "TOGGLE_MOBILE_DRAWER" }),
+      setMobileDrawerOpen: (open: boolean) =>
+        dispatch({ type: "SET_MOBILE_DRAWER_OPEN", open }),
+      setMenuOpen: (menuId: string, open: boolean) =>
+        dispatch({ type: "SET_MENU_OPEN", menuId, open }),
+      isMenuOpen: (menuId: string) => openMenuId === menuId,
     }),
-    [
-      collapseSidebar,
-      isMenuOpen,
-      setMenuOpen,
-      setMobileDrawerOpen,
-      setSidebarExpanded,
-      toggleMobileDrawer,
-      toggleSidebar,
-    ],
-  );
-}
-
-function useCreateDashboardChromeUiValue({
-  state,
-  actions,
-}: {
-  state: DashboardChromeUiState;
-  actions: DashboardChromeUiActions;
-}): DashboardChromeUiContextValue {
-  return useMemo(
-    () => ({
-      state,
-      actions,
-    }),
-    [actions, state],
-  );
-}
-
-function DashboardChromeContextProviders({
-  chrome,
-  uiValue,
-  children,
-}: {
-  chrome: DashboardChromeModel | null;
-  uiValue: DashboardChromeUiContextValue;
-  children: ReactNode;
-}) {
-  return (
-    <DashboardChromeModelContext.Provider value={chrome}>
-      <DashboardChromeUiContext.Provider value={uiValue}>
-        {children}
-      </DashboardChromeUiContext.Provider>
-    </DashboardChromeModelContext.Provider>
+    [dispatch, openMenuId],
   );
 }
 
@@ -188,15 +111,14 @@ export function DashboardChromeProvider({ children }: { children: ReactNode }) {
     normalizedPathname,
   ]);
   const actions = useDashboardChromeActions(dispatch, state.openMenuId);
-  const uiValue = useCreateDashboardChromeUiValue({
-    state,
-    actions,
-  });
+  const uiValue = useMemo(() => ({ state, actions }), [actions, state]);
 
   return (
-    <DashboardChromeContextProviders chrome={chrome} uiValue={uiValue}>
-      {children}
-    </DashboardChromeContextProviders>
+    <DashboardChromeModelContext.Provider value={chrome}>
+      <DashboardChromeUiContext.Provider value={uiValue}>
+        {children}
+      </DashboardChromeUiContext.Provider>
+    </DashboardChromeModelContext.Provider>
   );
 }
 

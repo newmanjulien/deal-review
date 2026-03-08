@@ -1,5 +1,10 @@
+import type { ComponentProps } from "react";
 import { CanvasPageShell } from "@/components/canvas/canvas-page-shell";
-import { type CanvasPageContentProps } from "@/components/canvas/canvas-types";
+
+type CanvasPageContentProps = Pick<
+  ComponentProps<typeof CanvasPageShell>,
+  "children" | "title" | "description"
+>;
 
 export function CanvasPage({
   children,
@@ -33,4 +38,4 @@ export function CanvasWidePage({
   );
 }
 
-export type { CanvasPageShellProps } from "@/components/canvas/canvas-types";
+export type { CanvasPageShellProps } from "@/components/canvas/canvas-page-shell";

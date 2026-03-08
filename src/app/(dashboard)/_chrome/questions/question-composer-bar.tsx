@@ -5,7 +5,10 @@ import { DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME } from "@/components/canvas
 import { Button } from "@/components/ui/button";
 import { QUESTION_COMPOSER_CONFIG } from "./questions-config";
 import { isQuestionSendable, normalizeQuestionText } from "./question-utils";
-import type { QuestionComposerBarProps } from "./questions-types";
+
+type QuestionComposerBarProps = {
+  onAdd: (text: string) => void;
+};
 
 export function QuestionComposerBar({ onAdd }: QuestionComposerBarProps) {
   const [value, setValue] = useState("");

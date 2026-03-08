@@ -2,8 +2,8 @@ import type {
   DashboardDataTableColumn,
   DashboardDataTableFormatters,
 } from "@/components/table";
-import type { AppPath } from "@/types/app-path";
-import type { IsoDateString } from "@/types/date-time";
+import type { AppPath } from "@/types/domain/app-path";
+import type { IsoDateString } from "@/types/domain/date-time";
 
 export type DataDisplaySectionKind = "timeline" | "table" | "cards";
 

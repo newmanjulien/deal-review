@@ -1,5 +1,5 @@
-import { DEAL_STAGES, type DealSnapshot } from "@/types/deals";
-import type { IsoDateTimeString } from "@/types/date-time";
+import { DEAL_STAGES, type DealSnapshot } from "@/types/domain/deals";
+import type { IsoDateTimeString } from "@/types/domain/date-time";
 
 export const CONVERSATION_STAGES = DEAL_STAGES;
 export type ConversationStage = (typeof CONVERSATION_STAGES)[number];

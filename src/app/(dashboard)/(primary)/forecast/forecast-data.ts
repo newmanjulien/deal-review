@@ -1,4 +1,4 @@
-import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
+import type { HeaderPerson } from "@/types/domain/people";
 
 export const forecastSharedPeople: HeaderPerson[] = [
   {

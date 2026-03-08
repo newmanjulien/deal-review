@@ -12,5 +12,3 @@ export {
 export { MeetingDateMenu } from "./meeting-date-menu";
 export { SellerSwitchMenu } from "./seller-switch-menu";
 export { ShareMenu } from "./share-menu";
-export type { HeaderMenuAlign, HeaderMenuProps } from "./header-types";
-export type { HeaderPerson } from "../chrome-types";
