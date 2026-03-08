@@ -19,13 +19,13 @@ function isConversationStage(value: string): value is ConversationStage {
 }
 
 function createEmptyColumnCardIds(): Record<ConversationStage, KanbanCardId[]> {
-  return {
-    Discovery: [],
-    Proposal: [],
-    Negotiation: [],
-    "Closed won": [],
-    "Closed lost": [],
-  };
+  return KANBAN_STAGES.reduce(
+    (columnsByStage, stage) => {
+      columnsByStage[stage] = [];
+      return columnsByStage;
+    },
+    {} as Record<ConversationStage, KanbanCardId[]>,
+  );
 }
 
 function clampIndex(index: number, length: number): number {
@@ -96,10 +96,6 @@ function updateCardStage(
 export function createKanbanState(rows: ConversationRow[]): KanbanState {
   const cardsById: Record<KanbanCardId, ConversationRow> = {};
   const columnCardIds = createEmptyColumnCardIds();
-
-  for (const stage of KANBAN_STAGES) {
-    columnCardIds[stage] = [];
-  }
 
   for (const row of rows) {
     cardsById[row.id] = row;

@@ -22,7 +22,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Julien Newman",
     ownerAvatar: "/avatars/aditya.jpg",
     stage: "Negotiation",
-    lastUpdate: "2h ago",
+    lastActivityAtIso: "2026-03-08T15:00:00Z",
   },
   {
     id: "aperture-labs-nolan-pierce",
@@ -33,7 +33,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Proposal",
-    lastUpdate: "Yesterday",
+    lastActivityAtIso: "2026-03-07T14:00:00Z",
   },
   {
     id: "bluebird-logistics-leah-kim",
@@ -44,7 +44,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Julien Newman",
     ownerAvatar: "/avatars/aditya.jpg",
     stage: "Discovery",
-    lastUpdate: "Yesterday",
+    lastActivityAtIso: "2026-03-07T09:00:00Z",
   },
   {
     id: "helix-financial-priya-nanda",
@@ -55,7 +55,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Closed won",
-    lastUpdate: "3d ago",
+    lastActivityAtIso: "2026-03-05T13:00:00Z",
   },
   {
     id: "greenline-energy-olivia-chen",
@@ -66,7 +66,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Julien Newman",
     ownerAvatar: "/avatars/aditya.jpg",
     stage: "Discovery",
-    lastUpdate: "5h ago",
+    lastActivityAtIso: "2026-03-08T12:00:00Z",
   },
   {
     id: "stonegate-retail-ethan-ross",
@@ -77,7 +77,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Proposal",
-    lastUpdate: "1d ago",
+    lastActivityAtIso: "2026-03-07T10:00:00Z",
   },
   {
     id: "atlas-biotech-sofia-mendez",
@@ -88,7 +88,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Negotiation",
-    lastUpdate: "4h ago",
+    lastActivityAtIso: "2026-03-08T13:00:00Z",
   },
   {
     id: "harbor-insurance-liam-brooks",
@@ -99,7 +99,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Julien Newman",
     ownerAvatar: "/avatars/aditya.jpg",
     stage: "Proposal",
-    lastUpdate: "2d ago",
+    lastActivityAtIso: "2026-03-06T16:00:00Z",
   },
   {
     id: "nova-manufacturing-zoe-patel",
@@ -110,7 +110,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Discovery",
-    lastUpdate: "6h ago",
+    lastActivityAtIso: "2026-03-08T11:00:00Z",
   },
   {
     id: "cedar-logistics-jason-lee",
@@ -121,7 +121,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Negotiation",
-    lastUpdate: "8h ago",
+    lastActivityAtIso: "2026-03-08T09:00:00Z",
   },
   {
     id: "brightpath-education-emma-davis",
@@ -132,7 +132,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Julien Newman",
     ownerAvatar: "/avatars/aditya.jpg",
     stage: "Closed lost",
-    lastUpdate: "1w ago",
+    lastActivityAtIso: "2026-03-01T16:00:00Z",
   },
   {
     id: "pinnacle-medical-marcus-ford",
@@ -143,7 +143,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Closed won",
-    lastUpdate: "4d ago",
+    lastActivityAtIso: "2026-03-04T15:00:00Z",
   },
   {
     id: "summit-payments-ava-morgan",
@@ -154,7 +154,7 @@ export const conversationRows: ConversationRow[] = [
     owner: "Yash Patel",
     ownerAvatar: "/avatars/yash.webp",
     stage: "Negotiation",
-    lastUpdate: "3h ago",
+    lastActivityAtIso: "2026-03-08T14:00:00Z",
   },
   {
     id: "orion-telecom-noah-bennett",
@@ -165,6 +165,6 @@ export const conversationRows: ConversationRow[] = [
     owner: "Julien Newman",
     ownerAvatar: "/avatars/aditya.jpg",
     stage: "Proposal",
-    lastUpdate: "Yesterday",
+    lastActivityAtIso: "2026-03-07T18:00:00Z",
   },
 ];

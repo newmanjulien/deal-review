@@ -1,14 +1,10 @@
 "use client";
 
-import { useMemo, useState, type ReactElement } from "react";
+import { useMemo, useState } from "react";
 import { CanvasPage } from "@/components/canvas/canvas-page";
 import type {
-  DataDisplayCard,
+  DataDisplayAnyTableRow,
   DataDisplaySectionInstance,
-  DataDisplaySectionKind,
-  DataDisplayTableColumn,
-  DataDisplayTableRow,
-  DataDisplayTimelineItem,
 } from "@/components/data-display/data-display-types";
 import { TableSection } from "@/components/data-display/sections/table-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
@@ -16,26 +12,8 @@ import { CardsSection } from "@/components/data-display/sections/cards-section";
 
 const MAX_SECTION_COUNT = 3;
 
-type DataDisplaySectionPropsByKind = {
-  timeline: { items: DataDisplayTimelineItem[] };
-  table: { rows: DataDisplayTableRow[]; columns: DataDisplayTableColumn[] };
-  cards: { cards: DataDisplayCard[] };
-};
-
-type DataDisplaySectionComponentRegistry = {
-  [K in DataDisplaySectionKind]: (
-    props: DataDisplaySectionPropsByKind[K],
-  ) => ReactElement;
-};
-
-const DATA_DISPLAY_SECTION_COMPONENTS: DataDisplaySectionComponentRegistry = {
-  timeline: TimelineSection,
-  table: TableSection,
-  cards: CardsSection,
-};
-
-function hasSectionId(
-  sections: DataDisplaySectionInstance[],
+function hasSectionId<Row extends DataDisplayAnyTableRow>(
+  sections: DataDisplaySectionInstance<Row>[],
   candidate: string | undefined,
 ): candidate is string {
   return (
@@ -44,7 +22,9 @@ function hasSectionId(
   );
 }
 
-function normalizeSections(sections: DataDisplaySectionInstance[]) {
+function normalizeSections<Row extends DataDisplayAnyTableRow>(
+  sections: DataDisplaySectionInstance<Row>[],
+): DataDisplaySectionInstance<Row>[] {
   if (sections.length === 0) {
     throw new Error("DataDisplay requires at least one section instance.");
   }
@@ -62,36 +42,38 @@ function normalizeSections(sections: DataDisplaySectionInstance[]) {
   return sections.slice(0, MAX_SECTION_COUNT);
 }
 
-function renderSection(section: DataDisplaySectionInstance) {
+function renderSection<Row extends DataDisplayAnyTableRow>(
+  section: DataDisplaySectionInstance<Row>,
+) {
   switch (section.kind) {
-    case "timeline": {
-      const TimelineComponent = DATA_DISPLAY_SECTION_COMPONENTS.timeline;
-      return <TimelineComponent items={section.items} />;
-    }
-    case "table": {
-      const TableComponent = DATA_DISPLAY_SECTION_COMPONENTS.table;
-      return <TableComponent rows={section.rows} columns={section.columns} />;
-    }
-    case "cards": {
-      const CardsComponent = DATA_DISPLAY_SECTION_COMPONENTS.cards;
-      return <CardsComponent cards={section.cards} />;
-    }
+    case "timeline":
+      return <TimelineSection items={section.items} />;
+    case "table":
+      return (
+        <TableSection
+          rows={section.rows}
+          columns={section.columns}
+          formatters={section.formatters}
+        />
+      );
+    case "cards":
+      return <CardsSection cards={section.cards} />;
   }
 }
 
-type DataDisplayProps = {
+type DataDisplayProps<Row extends DataDisplayAnyTableRow> = {
   title: string;
   description: string;
-  sections: DataDisplaySectionInstance[];
+  sections: DataDisplaySectionInstance<Row>[];
   defaultSectionId?: string;
 };
 
-export function DataDisplay({
+export function DataDisplay<Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow>({
   title,
   description,
   sections,
   defaultSectionId,
-}: DataDisplayProps) {
+}: DataDisplayProps<Row>) {
   const normalizedSections = useMemo(() => normalizeSections(sections), [sections]);
   const [requestedSectionId, setRequestedSectionId] = useState<string>(() =>
     hasSectionId(normalizedSections, defaultSectionId)

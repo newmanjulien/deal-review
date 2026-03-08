@@ -4,9 +4,10 @@ import type { ComponentProps, ComponentType } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { AppPath } from "@/types/app-path";
 
 export type ChromeNavItem = {
-  href: string;
+  href: AppPath;
   label: string;
   icon: ComponentType<{ className?: string }>;
 };

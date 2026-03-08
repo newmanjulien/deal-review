@@ -3,13 +3,16 @@
 import { DataDisplay } from "@/components/data-display/data-display";
 import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
 import { SINCE_LAST_MEETING_PAGE_CONFIG } from "./since-last-meeting-config";
+import type { SinceLastMeetingTableRow } from "./since-last-meeting-types";
 import {
   sinceLastMeetingTableColumns,
+  sinceLastMeetingTableFormatters,
   sinceLastMeetingTableRows,
   sinceLastMeetingTimelineItems,
 } from "./since-last-meeting-data";
 
-const SINCE_LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
+const SINCE_LAST_MEETING_SECTIONS: DataDisplaySectionInstance<SinceLastMeetingTableRow>[] =
+  [
   {
     id: "timeline",
     label: "Timeline",
@@ -22,6 +25,7 @@ const SINCE_LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
     kind: "table",
     rows: sinceLastMeetingTableRows,
     columns: sinceLastMeetingTableColumns,
+    formatters: sinceLastMeetingTableFormatters,
   },
 ];
 

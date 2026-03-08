@@ -18,22 +18,14 @@ import { SINCE_LAST_MEETING_PAGE_CONFIG } from "../(primary)/since-last-meeting/
 import { sinceLastMeetingSharedPeople } from "../(primary)/since-last-meeting/since-last-meeting-data";
 import { CONVERSATIONS_PAGE_CONFIG } from "../(secondary)/conversations/conversations-config";
 import { OPTIONAL_APPS_PAGE_CONFIG } from "../(secondary)/optional-apps/optional-apps-config";
+import { DASHBOARD_ROUTE_PATHS } from "./dashboard-routes-types";
 import type {
   DashboardNavGroup,
   DashboardRouteChrome,
   DashboardRouteConfig,
-  DashboardRouteId,
 } from "./dashboard-routes-types";
 
-export const DASHBOARD_ROUTE_PATHS: Record<DashboardRouteId, `/${string}`> = {
-  "since-last-meeting": "/since-last-meeting",
-  forecast: "/forecast",
-  "missing-data": "/missing-data",
-  opportunities: "/opportunities",
-  conversations: "/conversations",
-  "optional-apps": "/optional-apps",
-  "contact-support": "/contact-support",
-};
+export { DASHBOARD_ROUTE_PATHS } from "./dashboard-routes-types";
 
 function createRouteChrome({
   headerTitle,
@@ -62,7 +54,7 @@ function createRouteChrome({
   };
 }
 
-export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
+export const DASHBOARD_ROUTES = [
   {
     id: "since-last-meeting",
     href: DASHBOARD_ROUTE_PATHS["since-last-meeting"],
@@ -157,7 +149,7 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
       icon: CircleQuestionMark,
     },
   },
-];
+] satisfies DashboardRouteConfig[];
 
 const DEFAULT_ROUTE = DASHBOARD_ROUTES.find(
   (route) => route.implemented && route.default,

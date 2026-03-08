@@ -29,6 +29,7 @@ import {
   DRAG_SCROLL_MAX_STEP_PX,
   KANBAN_COLUMN_GAP_PX,
   KANBAN_COLUMN_WIDTH_PX,
+  KANBAN_STAGES,
   SCROLL_EDGE_EPSILON_PX,
 } from "./conversations-kanban-constants";
 import {
@@ -44,13 +45,13 @@ type SetBoardState = Dispatch<SetStateAction<KanbanState>>;
 type ColumnListRefs = Record<ConversationStage, HTMLOListElement | null>;
 
 function createEmptyColumnListRefs(): ColumnListRefs {
-  return {
-    Discovery: null,
-    Proposal: null,
-    Negotiation: null,
-    "Closed won": null,
-    "Closed lost": null,
-  };
+  return KANBAN_STAGES.reduce(
+    (listRefsByStage, stage) => {
+      listRefsByStage[stage] = null;
+      return listRefsByStage;
+    },
+    {} as ColumnListRefs,
+  );
 }
 
 function getPointerFromActivatorEvent(

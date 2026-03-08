@@ -1,4 +1,9 @@
-import type { DataDisplayCard } from "@/components/data-display/data-display-types";
+import type {
+  DataDisplayCard,
+  DataDisplayTableColumn,
+  DataDisplayTableRow,
+  DataDisplayTimelineItem,
+} from "@/components/data-display/data-display-types";
 import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 
 export const missingDataSharedPeople: HeaderPerson[] = [
@@ -62,3 +67,57 @@ const allMissingDataCards = [
 export function getMissingDataCardById(cardId: string) {
   return allMissingDataCards.find((card) => card.id === cardId) ?? null;
 }
+
+type MissingDataTableRow = DataDisplayTableRow<{
+  signal: string;
+  status: string;
+}>;
+
+export const missingDataTimelineItems: DataDisplayTimelineItem[] = [
+  {
+    id: "120-stage-change",
+    title: "RFP owner changed and timeline slipped",
+    occurredOnIso: "2026-02-24",
+    body: "The original owner left the project and the new owner has not confirmed a revised date. Last two calls closed without next-step commitments.",
+  },
+  {
+    id: "120-procurement-update",
+    title: "Procurement requested updated checklist",
+    occurredOnIso: "2026-02-28",
+    body: "Procurement asked for a revised requirements checklist and security mapping before sharing an updated RFP deadline.",
+  },
+];
+
+export const missingDataTableColumns: DataDisplayTableColumn<MissingDataTableRow>[] =
+  [
+    {
+      key: "signal",
+      label: "Signal",
+      cellClassName:
+        "whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900",
+    },
+    {
+      key: "status",
+      label: "Status",
+      cellClassName:
+        "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600",
+    },
+  ];
+
+export const missingDataTableRows: MissingDataTableRow[] = [
+  {
+    id: "120-owner",
+    signal: "Economic buyer is not confirmed",
+    status: "Missing",
+  },
+  {
+    id: "120-date",
+    signal: "RFP close date",
+    status: "Unknown",
+  },
+  {
+    id: "120-procurement",
+    signal: "Procurement checkpoint",
+    status: "Pending",
+  },
+];

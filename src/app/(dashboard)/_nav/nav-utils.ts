@@ -2,6 +2,7 @@ import {
   isDashboardPathWithinRoute,
   normalizeDashboardPathname,
 } from "@/app/(dashboard)/_routes/dashboard-pathname";
+import type { AppPath } from "@/types/app-path";
 import type { NavGroups, NormalizedNavGroups } from "./nav-types";
 
 export function normalizeNavGroups(groups: NavGroups): NormalizedNavGroups {
@@ -18,7 +19,7 @@ export function normalizeNavGroups(groups: NavGroups): NormalizedNavGroups {
   };
 }
 
-export function isNavItemActive(pathname: string, href: string): boolean {
+export function isNavItemActive(pathname: string, href: AppPath): boolean {
   const normalizedPathname = normalizeDashboardPathname(pathname);
   const normalizedHref = normalizeDashboardPathname(href);
 
@@ -29,7 +30,7 @@ export function isNavItemActive(pathname: string, href: string): boolean {
   return isDashboardPathWithinRoute(normalizedPathname, normalizedHref);
 }
 
-export function getActiveHref(pathname: string, groups: NavGroups): string | null {
+export function getActiveHref(pathname: string, groups: NavGroups): AppPath | null {
   const normalizedPathname = normalizeDashboardPathname(pathname);
   const normalizedGroups = normalizeNavGroups(groups);
   const items = [

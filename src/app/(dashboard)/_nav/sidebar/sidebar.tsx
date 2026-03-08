@@ -10,9 +10,10 @@ import { SidebarNav } from "./sidebar-nav";
 import { useSidebarNavMotion } from "./use-sidebar-nav-motion";
 import { useDashboardSidebar } from "./sidebar-ui";
 import { cn } from "@/lib/utils";
+import type { AppPath } from "@/types/app-path";
 
 export function Sidebar({ className }: { className?: string }) {
-  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+  const [hoveredHref, setHoveredHref] = useState<AppPath | null>(null);
   const chrome = useDashboardChromeModel();
   const { isExpanded } = useDashboardSidebar();
   const activeHref = chrome?.nav.activeHref ?? null;

@@ -10,11 +10,7 @@ import {
   DASHBOARD_ROUTES,
   DEFAULT_DASHBOARD_ROUTE,
 } from "./dashboard-routes-config";
-import type {
-  DashboardChromeModel,
-  DashboardRouteChrome,
-  DashboardRouteConfig,
-} from "./dashboard-routes-types";
+import type { DashboardChromeModel } from "./dashboard-routes-types";
 
 export {
   DASHBOARD_NAV_GROUPS,
@@ -44,10 +40,10 @@ const DASHBOARD_CHROME_DYNAMIC_RESOLVERS: DashboardChromeDynamicResolver[] = [
   resolveMissingDataCardChrome,
 ];
 
-const CHROME_ROUTES = DASHBOARD_ROUTES.filter(
-  (route): route is DashboardRouteConfig & { chrome: DashboardRouteChrome } =>
-    route.implemented && Boolean(route.chrome),
-);
+type DashboardChromeRoute = Extract<
+  (typeof DASHBOARD_ROUTES)[number],
+  { implemented: true }
+>;
 
 function createDashboardChromeModel(
   pathname: string,
@@ -73,10 +69,13 @@ export function resolveDashboardChrome(pathname: string): DashboardChromeModel |
     }
   }
 
-  let bestMatch: (DashboardRouteConfig & { chrome: DashboardRouteChrome }) | null =
-    null;
+  let bestMatch: DashboardChromeRoute | null = null;
 
-  for (const route of CHROME_ROUTES) {
+  for (const route of DASHBOARD_ROUTES) {
+    if (!route.implemented) {
+      continue;
+    }
+
     if (!isDashboardPathWithinRoute(normalizedPathname, route.href)) {
       continue;
     }

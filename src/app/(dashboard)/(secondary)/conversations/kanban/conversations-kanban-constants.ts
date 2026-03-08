@@ -1,12 +1,9 @@
-import type { ConversationStage } from "../conversations-types";
+import {
+  CONVERSATION_STAGES,
+  type ConversationStage,
+} from "../conversations-types";
 
-export const KANBAN_STAGES: ConversationStage[] = [
-  "Discovery",
-  "Proposal",
-  "Negotiation",
-  "Closed won",
-  "Closed lost",
-];
+export const KANBAN_STAGES: readonly ConversationStage[] = CONVERSATION_STAGES;
 
 export const KANBAN_COLUMN_WIDTH_PX = 320;
 export const KANBAN_COLUMN_GAP_PX = 12;

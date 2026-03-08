@@ -1,4 +1,5 @@
 import type { DataDisplayTimelineItem } from "@/components/data-display/data-display-types";
+import { formatIsoDate } from "@/lib/date-time";
 
 type TimelineSectionProps = {
   items: DataDisplayTimelineItem[];
@@ -34,7 +35,9 @@ export function TimelineSection({ items }: TimelineSectionProps) {
             <h2 className="text-xs leading-relaxed font-medium tracking-wide text-zinc-700">
               {item.title}
             </h2>
-            <p className="text-xs tracking-wide text-zinc-400">{item.date}</p>
+            <p className="text-xs tracking-wide text-zinc-400">
+              {formatIsoDate(item.occurredOnIso)}
+            </p>
           </div>
           <p className="mt-1 text-xs leading-relaxed tracking-wide text-zinc-600">
             {item.body}

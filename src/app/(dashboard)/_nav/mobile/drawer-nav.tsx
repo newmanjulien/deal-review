@@ -2,12 +2,13 @@
 
 import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
+import type { AppPath } from "@/types/app-path";
 import type { NavGroups, NavItem } from "../nav-types";
 import { normalizeNavGroups } from "../nav-utils";
 
 type DrawerNavProps = {
   groups: NavGroups;
-  activeHref: string | null;
+  activeHref: AppPath | null;
   onItemSelect?: () => void;
   className?: string;
 };

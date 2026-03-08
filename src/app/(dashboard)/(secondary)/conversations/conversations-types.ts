@@ -1,20 +1,15 @@
-export type ConversationStage =
-  | "Discovery"
-  | "Proposal"
-  | "Negotiation"
-  | "Closed won"
-  | "Closed lost";
+import { DEAL_STAGES, type DealSnapshot } from "@/types/deals";
+import type { IsoDateTimeString } from "@/types/date-time";
 
-export type ConversationRow = {
-  id: string;
+export const CONVERSATION_STAGES = DEAL_STAGES;
+export type ConversationStage = (typeof CONVERSATION_STAGES)[number];
+
+export type ConversationRow = DealSnapshot & {
   cardNumber: number;
-  probability: number;
   contact: string;
-  deal: string;
   owner: string;
   ownerAvatar: string;
-  stage: ConversationStage;
-  lastUpdate: string;
+  lastActivityAtIso: IsoDateTimeString;
 };
 
 export type KanbanCardId = ConversationRow["id"];

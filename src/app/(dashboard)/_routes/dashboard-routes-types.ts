@@ -1,31 +1,33 @@
 import type { LucideIcon } from "lucide-react";
 import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 import type { NavGroups } from "@/app/(dashboard)/_nav/nav-types";
+import type { AppPath } from "@/types/app-path";
+
+export const DASHBOARD_ROUTE_PATHS = {
+  "since-last-meeting": "/since-last-meeting",
+  forecast: "/forecast",
+  "missing-data": "/missing-data",
+  opportunities: "/opportunities",
+  conversations: "/conversations",
+  "optional-apps": "/optional-apps",
+  "contact-support": "/contact-support",
+} as const satisfies Record<string, AppPath>;
 
 export type DashboardNavGroup = "main" | "secondary" | "tertiary";
-
-export type DashboardRouteId =
-  | "since-last-meeting"
-  | "forecast"
-  | "missing-data"
-  | "opportunities"
-  | "conversations"
-  | "optional-apps"
-  | "contact-support";
-
+export type DashboardRouteId = keyof typeof DASHBOARD_ROUTE_PATHS;
 export type DashboardChromeRouteId = DashboardRouteId | "missing-data-card";
 
 export type DashboardChromeLeadingControl =
   | { kind: "meeting-date" }
   | {
       kind: "back-link";
-      href: `/${string}`;
+      href: AppPath;
       label: string;
     };
 
 export type DashboardChromeBreadcrumb = {
   label: string;
-  href?: `/${string}`;
+  href?: AppPath;
 };
 
 export type DashboardChromeHeader = {
@@ -43,18 +45,33 @@ export type DashboardRouteChrome = {
   capabilities: DashboardChromeCapabilities;
 };
 
-export type DashboardRouteConfig = {
-  id: DashboardRouteId;
-  href: `/${string}`;
-  implemented: boolean;
-  default?: true;
-  chrome?: DashboardRouteChrome;
-  nav?: {
-    group: DashboardNavGroup;
-    label: string;
-    icon: LucideIcon;
-  };
+export type DashboardRouteNav = {
+  group: DashboardNavGroup;
+  label: string;
+  icon: LucideIcon;
 };
+
+type DashboardRouteConfigBase = {
+  id: DashboardRouteId;
+  href: AppPath;
+  nav?: DashboardRouteNav;
+};
+
+export type DashboardImplementedRouteConfig = DashboardRouteConfigBase & {
+  implemented: true;
+  default?: true;
+  chrome: DashboardRouteChrome;
+};
+
+export type DashboardPlannedRouteConfig = DashboardRouteConfigBase & {
+  implemented: false;
+  default?: never;
+  chrome?: never;
+};
+
+export type DashboardRouteConfig =
+  | DashboardImplementedRouteConfig
+  | DashboardPlannedRouteConfig;
 
 export type DashboardChromeModel = {
   routeId: DashboardChromeRouteId;
@@ -62,7 +79,7 @@ export type DashboardChromeModel = {
   header: DashboardChromeHeader;
   nav: {
     groups: NavGroups;
-    activeHref: string | null;
+    activeHref: AppPath | null;
   };
   capabilities: DashboardChromeCapabilities;
 };

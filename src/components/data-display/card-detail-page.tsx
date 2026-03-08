@@ -7,9 +7,10 @@ import { DataDisplayCardIcon } from "@/components/data-display/card-icon";
 import { TableSection } from "@/components/data-display/sections/table-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
 import type {
+  DataDisplayAnyTableRow,
   DataDisplayCard,
   DataDisplayTableColumn,
-  DataDisplayTableRow,
+  DataDisplayTableSectionFormatters,
   DataDisplayTimelineItem,
 } from "@/components/data-display/data-display-types";
 
@@ -20,11 +21,12 @@ const DETAIL_SECTIONS: Array<{ id: DetailSectionId; label: string }> = [
   { id: "table", label: "Table" },
 ];
 
-type DataDisplayCardDetailPageProps = {
+type DataDisplayCardDetailPageProps<Row extends DataDisplayAnyTableRow> = {
   card: DataDisplayCard;
   timelineItems: DataDisplayTimelineItem[];
-  tableRows: DataDisplayTableRow[];
-  tableColumns: DataDisplayTableColumn[];
+  tableRows: Row[];
+  tableColumns: DataDisplayTableColumn<Row>[];
+  tableFormatters?: DataDisplayTableSectionFormatters<Row>;
   fallbackDescription?: string;
 };
 
@@ -43,13 +45,16 @@ function getCardDescription(
   return "No additional context was attached to this card.";
 }
 
-export function DataDisplayCardDetailPage({
+export function DataDisplayCardDetailPage<
+  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+>({
   card,
   timelineItems,
   tableRows,
   tableColumns,
+  tableFormatters,
   fallbackDescription,
-}: DataDisplayCardDetailPageProps) {
+}: DataDisplayCardDetailPageProps<Row>) {
   const [activeSectionId, setActiveSectionId] =
     useState<DetailSectionId>("timeline");
 
@@ -88,7 +93,11 @@ export function DataDisplayCardDetailPage({
         {activeSectionId === "timeline" ? (
           <TimelineSection items={timelineItems} />
         ) : (
-          <TableSection rows={tableRows} columns={tableColumns} />
+          <TableSection
+            rows={tableRows}
+            columns={tableColumns}
+            formatters={tableFormatters}
+          />
         )}
       </section>
     </CanvasPage>

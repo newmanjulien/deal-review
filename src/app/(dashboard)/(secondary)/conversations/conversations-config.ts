@@ -39,7 +39,7 @@ export const CONVERSATIONS_TABLE_COLUMNS: DashboardDataTableColumn<ConversationR
       cellClassName: "whitespace-nowrap px-4 py-3 text-xs",
     },
     {
-      key: "lastUpdate",
+      key: "lastActivityAtIso",
       label: "Last update",
       cellClassName:
         "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-500",

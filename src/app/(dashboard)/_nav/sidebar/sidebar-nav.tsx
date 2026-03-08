@@ -3,6 +3,7 @@
 import type { RefObject } from "react";
 import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
+import type { AppPath } from "@/types/app-path";
 import type { NavGroups, NavItem } from "../nav-types";
 import { normalizeNavGroups } from "../nav-utils";
 
@@ -10,11 +11,11 @@ type SidebarSection = "main" | "secondary" | "tertiary";
 
 type SidebarNavProps = {
   groups: NavGroups;
-  activeHref: string | null;
-  onHoveredHrefChange: (href: string | null) => void;
+  activeHref: AppPath | null;
+  onHoveredHrefChange: (href: AppPath | null) => void;
   navRef: RefObject<HTMLElement | null>;
   indicatorRef: RefObject<HTMLSpanElement | null>;
-  setItemRef: (href: string, el: HTMLSpanElement | null) => void;
+  setItemRef: (href: AppPath, el: HTMLSpanElement | null) => void;
   expanded?: boolean;
   className?: string;
 };
@@ -24,17 +25,17 @@ type SidebarNavItemProps = {
   section: SidebarSection;
   expanded: boolean;
   isActive: boolean;
-  onHoveredHrefChange: (href: string | null) => void;
-  setItemRef: (href: string, el: HTMLSpanElement | null) => void;
+  onHoveredHrefChange: (href: AppPath | null) => void;
+  setItemRef: (href: AppPath, el: HTMLSpanElement | null) => void;
 };
 
 type SidebarNavItemGroupProps = {
   items: NavItem[];
   section: SidebarSection;
   expanded: boolean;
-  activeHref: string | null;
-  onHoveredHrefChange: (href: string | null) => void;
-  setItemRef: (href: string, el: HTMLSpanElement | null) => void;
+  activeHref: AppPath | null;
+  onHoveredHrefChange: (href: AppPath | null) => void;
+  setItemRef: (href: AppPath, el: HTMLSpanElement | null) => void;
 };
 
 function getItemContainerClassName(expanded: boolean, isTertiary: boolean) {

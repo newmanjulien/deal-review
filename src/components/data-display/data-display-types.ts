@@ -1,20 +1,34 @@
-import type { DashboardDataTableColumn } from "@/components/table";
+import type {
+  DashboardDataTableColumn,
+  DashboardDataTableFormatters,
+} from "@/components/table";
+import type { AppPath } from "@/types/app-path";
+import type { IsoDateString } from "@/types/date-time";
 
 export type DataDisplaySectionKind = "timeline" | "table" | "cards";
 
 export type DataDisplayTimelineItem = {
   id: string;
   title: string;
-  date: string;
+  occurredOnIso: IsoDateString;
   body: string;
 };
 
-export type DataDisplayTableRow = {
+export type DataDisplayTableRow<
+  Fields extends Record<string, unknown> = Record<string, unknown>,
+> = {
   id: string;
-} & Record<string, string>;
+} & Fields;
 
-export type DataDisplayTableColumn =
-  DashboardDataTableColumn<DataDisplayTableRow>;
+export type DataDisplayAnyTableRow = DataDisplayTableRow;
+
+export type DataDisplayTableColumn<
+  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+> = DashboardDataTableColumn<Row>;
+
+export type DataDisplayTableSectionFormatters<
+  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+> = DashboardDataTableFormatters<Row>;
 
 export type DataDisplayCardPriority = "high" | "medium" | "low";
 type DataDisplayCardAvatars = [string] | [string, string];
@@ -33,7 +47,7 @@ export type DataDisplayCard = {
   avatars: DataDisplayCardAvatars;
   priority: DataDisplayCardPriority;
   priorityLabel: string;
-  href?: `/${string}`;
+  href?: AppPath;
 };
 
 type DataDisplaySectionInstanceBase = {
@@ -41,15 +55,19 @@ type DataDisplaySectionInstanceBase = {
   label: string;
 };
 
-type DataDisplayTimelineSectionInstance = DataDisplaySectionInstanceBase & {
-  kind: "timeline";
-  items: DataDisplayTimelineItem[];
-};
+type DataDisplayTimelineSectionInstance =
+  DataDisplaySectionInstanceBase & {
+    kind: "timeline";
+    items: DataDisplayTimelineItem[];
+  };
 
-type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
+type DataDisplayTableSectionInstance<
+  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+> = DataDisplaySectionInstanceBase & {
   kind: "table";
-  rows: DataDisplayTableRow[];
-  columns: DataDisplayTableColumn[];
+  rows: Row[];
+  columns: DataDisplayTableColumn<Row>[];
+  formatters?: DataDisplayTableSectionFormatters<Row>;
 };
 
 type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
@@ -57,7 +75,9 @@ type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
   cards: DataDisplayCard[];
 };
 
-export type DataDisplaySectionInstance =
+export type DataDisplaySectionInstance<
+  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+> =
   | DataDisplayTimelineSectionInstance
-  | DataDisplayTableSectionInstance
+  | DataDisplayTableSectionInstance<Row>
   | DataDisplayCardsSectionInstance;

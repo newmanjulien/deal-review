@@ -1,10 +1,11 @@
 "use client";
 
 import { useCallback, useLayoutEffect, useRef } from "react";
+import type { AppPath } from "@/types/app-path";
 
 type SidebarNavMotionOptions = {
-  activeHref: string | null;
-  hoveredHref: string | null;
+  activeHref: AppPath | null;
+  hoveredHref: AppPath | null;
 };
 
 type IndicatorVars = {
@@ -21,7 +22,9 @@ export function useSidebarNavMotion({
 }: SidebarNavMotionOptions) {
   const navRef = useRef<HTMLElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
-  const itemRefs = useRef<Record<string, HTMLSpanElement | null>>({});
+  const itemRefs = useRef<Record<AppPath, HTMLSpanElement | null>>(
+    {} as Record<AppPath, HTMLSpanElement | null>,
+  );
 
   const setIndicatorVars = useCallback((vars: IndicatorVars) => {
     const indicatorEl = indicatorRef.current;
@@ -45,7 +48,7 @@ export function useSidebarNavMotion({
   }, []);
 
   const updateIndicator = useCallback(
-    (href: string | null) => {
+    (href: AppPath | null) => {
       const container = navRef.current;
       if (!container || !href) {
         setIndicatorVars({ opacity: 0 });
@@ -86,7 +89,7 @@ export function useSidebarNavMotion({
     return () => observer.disconnect();
   }, [activeHref, hoveredHref, updateIndicator]);
 
-  const setItemRef = useCallback((href: string, el: HTMLSpanElement | null) => {
+  const setItemRef = useCallback((href: AppPath, el: HTMLSpanElement | null) => {
     itemRefs.current[href] = el;
   }, []);
 

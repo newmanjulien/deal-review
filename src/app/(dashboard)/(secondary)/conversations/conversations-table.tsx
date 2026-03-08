@@ -3,6 +3,7 @@ import {
   type DashboardDataTableFormatters,
 } from "@/components/table";
 import { Badge } from "@/components/ui/badge";
+import { formatIsoDateTimeRelative } from "@/lib/date-time";
 import { CONVERSATIONS_TABLE_COLUMNS } from "./conversations-config";
 import type { ConversationRow } from "./conversations-types";
 
@@ -17,6 +18,8 @@ const CONVERSATION_CELL_FORMATTERS: DashboardDataTableFormatters<ConversationRow
         {stage}
       </Badge>
     ),
+    lastActivityAtIso: (lastActivityAtIso) =>
+      formatIsoDateTimeRelative(lastActivityAtIso),
   };
 
 type ConversationsTableProps = {
