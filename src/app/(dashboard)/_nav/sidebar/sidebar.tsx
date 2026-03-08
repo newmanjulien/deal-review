@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ChevronsUpDown } from "lucide-react";
 import { useDashboardChromeModel } from "@/app/(dashboard)/_chrome/chrome-ui";
 import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/_routes/dashboard-routes";
 import { SidebarNav } from "./sidebar-nav";
@@ -34,24 +35,44 @@ export function Sidebar({ className }: { className?: string }) {
       )}
       aria-label="Dashboard sidebar"
     >
-      <Link
-        href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
-        aria-label="Go to since last meeting"
-        className={cn(
-          "mb-4 overflow-hidden rounded-sm",
-          isExpanded && "ml-0.5 w-fit self-start",
-        )}
-      >
-        {isExpanded ? (
-          <Image
-            src="/logo-wide.png"
-            alt="Logo"
-            width={120}
-            height={24}
-            className="block h-6 w-auto"
-            priority
-          />
-        ) : (
+      {isExpanded ? (
+        <div className="mb-4 ml-0.5 flex w-full items-center justify-between pr-0.5">
+          <Link
+            href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
+            aria-label="Go to since last meeting"
+            className="overflow-hidden rounded-sm"
+          >
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={20}
+              height={20}
+              className="size-6"
+              priority
+            />
+          </Link>
+          <div className="inline-flex h-6 origin-center scale-110 items-center gap-1 rounded-full border border-zinc-100 bg-zinc-50 px-1 text-zinc-100">
+            <span className="inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-zinc-100 bg-white">
+              <Image
+                src="/avatars/yash.webp"
+                alt="User profile avatar"
+                width={20}
+                height={20}
+                className="h-full w-full object-cover"
+              />
+            </span>
+            <ChevronsUpDown
+              aria-hidden="true"
+              className="h-3 w-3 text-zinc-400"
+            />
+          </div>
+        </div>
+      ) : (
+        <Link
+          href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
+          aria-label="Go to since last meeting"
+          className="mb-4 overflow-hidden rounded-sm"
+        >
           <Image
             src="/logo.png"
             alt="Logo"
@@ -60,8 +81,8 @@ export function Sidebar({ className }: { className?: string }) {
             className="size-6"
             priority
           />
-        )}
-      </Link>
+        </Link>
+      )}
 
       <SidebarNav
         groups={chrome.nav.groups}
