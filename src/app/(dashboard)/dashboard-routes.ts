@@ -7,7 +7,7 @@ import {
   List,
   type LucideIcon,
 } from "lucide-react";
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 import { FORECAST_PAGE_CONFIG } from "./(primary)/forecast/forecast-config";
 import { forecastSharedPeople } from "./(primary)/forecast/forecast-data";
 import { MISSING_DATA_PAGE_CONFIG } from "./(primary)/missing-data/missing-data-config";
@@ -19,6 +19,8 @@ import { OPPORTUNITIES_PAGE_CONFIG } from "./(primary)/opportunities/opportuniti
 import { opportunitiesSharedPeople } from "./(primary)/opportunities/opportunities-data";
 import { LAST_MEETING_PAGE_CONFIG } from "./(primary)/since-last-meeting/last-meeting-config";
 import { lastMeetingSharedPeople } from "./(primary)/since-last-meeting/last-meeting-data";
+import { CONVERSATIONS_PAGE_CONFIG } from "./(secondary)/conversations/conversations-config";
+import { OPTIONAL_APPS_PAGE_CONFIG } from "./(secondary)/optional-apps/optional-apps-config";
 
 export type DashboardNavGroup = "main" | "secondary" | "tertiary";
 
@@ -28,9 +30,10 @@ export type DashboardRouteId =
   | "missing-data"
   | "opportunities"
   | "conversations"
+  | "optional-apps"
   | "contact-support";
 
-export type PrimaryPageHeaderLeadingControl =
+export type DashboardHeaderLeadingControl =
   | { kind: "meeting-date" }
   | {
       kind: "back-link";
@@ -38,10 +41,15 @@ export type PrimaryPageHeaderLeadingControl =
       label: string;
     };
 
-export type PrimaryPageHeaderData = {
-  breadcrumbLabel: string;
-  sharedPeople: HeaderPerson[];
-  leading: PrimaryPageHeaderLeadingControl;
+export type DashboardHeaderBreadcrumb = {
+  label: string;
+  href?: `/${string}`;
+};
+
+export type DashboardHeaderData = {
+  leading: DashboardHeaderLeadingControl;
+  breadcrumbs: DashboardHeaderBreadcrumb[];
+  sharedPeople?: HeaderPerson[];
 };
 
 export type DashboardRouteConfig = {
@@ -49,7 +57,7 @@ export type DashboardRouteConfig = {
   href: `/${string}`;
   implemented: boolean;
   default?: true;
-  primaryHeader?: PrimaryPageHeaderData;
+  header?: DashboardHeaderData;
   nav?: {
     group: DashboardNavGroup;
     label: string;
@@ -63,6 +71,7 @@ export const DASHBOARD_ROUTE_PATHS: Record<DashboardRouteId, `/${string}`> = {
   "missing-data": "/missing-data",
   opportunities: "/opportunities",
   conversations: "/conversations",
+  "optional-apps": "/optional-apps",
   "contact-support": "/contact-support",
 };
 
@@ -72,10 +81,10 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     href: DASHBOARD_ROUTE_PATHS["since-last-meeting"],
     implemented: true,
     default: true,
-    primaryHeader: {
-      breadcrumbLabel: LAST_MEETING_PAGE_CONFIG.headerTitle,
-      sharedPeople: lastMeetingSharedPeople,
+    header: {
       leading: { kind: "meeting-date" },
+      breadcrumbs: [{ label: LAST_MEETING_PAGE_CONFIG.headerTitle }],
+      sharedPeople: lastMeetingSharedPeople,
     },
     nav: {
       group: "main",
@@ -87,10 +96,10 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     id: "forecast",
     href: DASHBOARD_ROUTE_PATHS.forecast,
     implemented: true,
-    primaryHeader: {
-      breadcrumbLabel: FORECAST_PAGE_CONFIG.headerTitle,
-      sharedPeople: forecastSharedPeople,
+    header: {
       leading: { kind: "meeting-date" },
+      breadcrumbs: [{ label: FORECAST_PAGE_CONFIG.headerTitle }],
+      sharedPeople: forecastSharedPeople,
     },
     nav: {
       group: "main",
@@ -102,10 +111,10 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     id: "missing-data",
     href: DASHBOARD_ROUTE_PATHS["missing-data"],
     implemented: true,
-    primaryHeader: {
-      breadcrumbLabel: MISSING_DATA_PAGE_CONFIG.headerTitle,
-      sharedPeople: missingDataSharedPeople,
+    header: {
       leading: { kind: "meeting-date" },
+      breadcrumbs: [{ label: MISSING_DATA_PAGE_CONFIG.headerTitle }],
+      sharedPeople: missingDataSharedPeople,
     },
     nav: {
       group: "main",
@@ -117,10 +126,10 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     id: "opportunities",
     href: DASHBOARD_ROUTE_PATHS.opportunities,
     implemented: true,
-    primaryHeader: {
-      breadcrumbLabel: OPPORTUNITIES_PAGE_CONFIG.headerTitle,
-      sharedPeople: opportunitiesSharedPeople,
+    header: {
       leading: { kind: "meeting-date" },
+      breadcrumbs: [{ label: OPPORTUNITIES_PAGE_CONFIG.headerTitle }],
+      sharedPeople: opportunitiesSharedPeople,
     },
     nav: {
       group: "main",
@@ -132,10 +141,23 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     id: "conversations",
     href: DASHBOARD_ROUTE_PATHS.conversations,
     implemented: true,
+    header: {
+      leading: { kind: "meeting-date" },
+      breadcrumbs: [{ label: CONVERSATIONS_PAGE_CONFIG.headerTitle }],
+    },
     nav: {
       group: "secondary",
       label: "All conversations",
       icon: List,
+    },
+  },
+  {
+    id: "optional-apps",
+    href: DASHBOARD_ROUTE_PATHS["optional-apps"],
+    implemented: true,
+    header: {
+      leading: { kind: "meeting-date" },
+      breadcrumbs: [{ label: OPTIONAL_APPS_PAGE_CONFIG.headerTitle }],
     },
   },
   {
@@ -158,12 +180,12 @@ if (!DEFAULT_ROUTE) {
   throw new Error("Dashboard route registry is missing an implemented default route.");
 }
 
-const PRIMARY_HEADER_ROUTES = DASHBOARD_ROUTES.filter(
-  (route): route is DashboardRouteConfig & { primaryHeader: PrimaryPageHeaderData } =>
-    route.implemented && Boolean(route.primaryHeader),
+const HEADER_ROUTES = DASHBOARD_ROUTES.filter(
+  (route): route is DashboardRouteConfig & { header: DashboardHeaderData } =>
+    route.implemented && Boolean(route.header),
 );
 
-type PrimaryPageHeaderResolver = (pathname: string) => PrimaryPageHeaderData | null;
+type DashboardHeaderResolver = (pathname: string) => DashboardHeaderData | null;
 
 function normalizePathname(pathname: string): string {
   if (!pathname) {
@@ -181,7 +203,7 @@ function isPathWithinRoute(pathname: string, routePath: string): boolean {
   return pathname === routePath || pathname.startsWith(`${routePath}/`);
 }
 
-function resolveMissingDataCardHeader(pathname: string): PrimaryPageHeaderData | null {
+function resolveMissingDataCardHeader(pathname: string): DashboardHeaderData | null {
   const match = pathname.match(/^\/missing-data\/cards\/([^/]+)$/);
   if (!match?.[1]) {
     return null;
@@ -205,27 +227,27 @@ function resolveMissingDataCardHeader(pathname: string): PrimaryPageHeaderData |
       href: DASHBOARD_ROUTE_PATHS["missing-data"],
       label: MISSING_DATA_PAGE_CONFIG.headerTitle,
     },
-    breadcrumbLabel: card.title,
+    breadcrumbs: [{ label: card.title }],
     sharedPeople: missingDataSharedPeople,
   };
 }
 
-const PRIMARY_HEADER_DYNAMIC_RESOLVERS: PrimaryPageHeaderResolver[] = [
+const DASHBOARD_HEADER_DYNAMIC_RESOLVERS: DashboardHeaderResolver[] = [
   resolveMissingDataCardHeader,
 ];
 
-export function getPrimaryPageHeader(pathname: string): PrimaryPageHeaderData | null {
+export function getDashboardHeader(pathname: string): DashboardHeaderData | null {
   const normalizedPathname = normalizePathname(pathname);
 
-  for (const resolveHeader of PRIMARY_HEADER_DYNAMIC_RESOLVERS) {
+  for (const resolveHeader of DASHBOARD_HEADER_DYNAMIC_RESOLVERS) {
     const dynamicHeader = resolveHeader(normalizedPathname);
     if (dynamicHeader) {
       return dynamicHeader;
     }
   }
 
-  let bestMatch: { routePath: string; data: PrimaryPageHeaderData } | null = null;
-  for (const route of PRIMARY_HEADER_ROUTES) {
+  let bestMatch: { routePath: string; data: DashboardHeaderData } | null = null;
+  for (const route of HEADER_ROUTES) {
     if (!isPathWithinRoute(normalizedPathname, route.href)) {
       continue;
     }
@@ -233,7 +255,7 @@ export function getPrimaryPageHeader(pathname: string): PrimaryPageHeaderData | 
     if (!bestMatch || route.href.length > bestMatch.routePath.length) {
       bestMatch = {
         routePath: route.href,
-        data: route.primaryHeader,
+        data: route.header,
       };
     }
   }

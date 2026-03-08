@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 import {
   HeaderMenu,
   HeaderMenuCheckboxItem,
   HeaderMenuList,
   HeaderMenuSectionLabel,
-} from "@/app/(dashboard)/(primary)/_header/header-menu";
+} from "@/app/(dashboard)/_header/header-menu";
 
 type ConversationsSellerFilterMenuProps = {
   people: HeaderPerson[];

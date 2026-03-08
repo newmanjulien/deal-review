@@ -1,4 +1,4 @@
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 import type { ConversationRow } from "./conversations-types";
 
 export const conversationSellerPeople: HeaderPerson[] = [

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import {
   HeaderMenu,
@@ -31,7 +31,7 @@ export function ShareMenu({ people }: ShareMenuProps) {
   );
 
   return (
-    <div className="ml-auto mr-2 flex items-center">
+    <div className="mr-2 flex items-center">
       <div className="flex items-center -space-x-2">
         {visibleAvatars.map((person) => (
           <span

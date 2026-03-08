@@ -1,4 +1,4 @@
-import type { DataDisplayTimelineItem } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+import type { DataDisplayTimelineItem } from "@/components/data-display/data-display-types";
 
 type TimelineSectionProps = {
   items: DataDisplayTimelineItem[];

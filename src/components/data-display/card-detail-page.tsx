@@ -11,7 +11,7 @@ import type {
   DataDisplayTableColumn,
   DataDisplayTableRow,
   DataDisplayTimelineItem,
-} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+} from "@/components/data-display/data-display-types";
 
 type DetailSectionId = "timeline" | "table";
 

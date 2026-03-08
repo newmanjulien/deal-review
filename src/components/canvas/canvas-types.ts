@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export type CanvasPageShellProps = {
   children?: ReactNode;
@@ -11,23 +11,3 @@ export type CanvasPageContentProps = Pick<
   CanvasPageShellProps,
   "children" | "title" | "description"
 >;
-
-export type HeaderPerson = {
-  name: string;
-  avatar: string;
-};
-
-export type HeaderMenuAlign = "start" | "center" | "end";
-
-export type HeaderMenuProps = {
-  trigger: ReactElement;
-  children: ReactNode;
-  id?: string;
-  align?: HeaderMenuAlign;
-  sideOffset?: number;
-  className?: string;
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  modal?: boolean;
-};

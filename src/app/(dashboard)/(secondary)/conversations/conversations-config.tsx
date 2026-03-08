@@ -2,6 +2,7 @@ import type { DashboardDataTableColumn } from "@/components/table/table";
 import type { ConversationRow } from "./conversations-types";
 
 export const CONVERSATIONS_PAGE_CONFIG = {
+  headerTitle: "All conversations",
   title: "All conversations",
   description: "See all the conversations from the past 30 days",
 } as const;

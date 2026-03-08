@@ -9,7 +9,7 @@ import type {
   DataDisplayTableColumn,
   DataDisplayTableRow,
   DataDisplayTimelineItem,
-} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+} from "@/components/data-display/data-display-types";
 import { TableSection } from "@/components/data-display/sections/table-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
 import { CardsSection } from "@/components/data-display/sections/cards-section";

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import {
   HeaderMenu,

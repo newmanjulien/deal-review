@@ -6,7 +6,7 @@ import {
   TriangleAlert,
   type LucideIcon,
 } from "lucide-react";
-import type { DataDisplayCardIconKey } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+import type { DataDisplayCardIconKey } from "@/components/data-display/data-display-types";
 
 const DATA_DISPLAY_CARD_ICON_MAP: Record<DataDisplayCardIconKey, LucideIcon> = {
   "circle-off": CircleOff,

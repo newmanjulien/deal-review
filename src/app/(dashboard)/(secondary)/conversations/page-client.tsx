@@ -14,6 +14,7 @@ import { KANBAN_STAGES } from "./kanban/conversations-kanban-constants";
 import { createKanbanState } from "./kanban/conversations-kanban-utils";
 import { ConversationsSellerFilterMenu } from "./conversations-seller-filter-menu";
 import { ConversationsTable } from "./conversations-table";
+import { useMediaQuery } from "@/lib/use-media-query";
 
 type ConversationView = "table" | "kanban";
 
@@ -114,8 +115,11 @@ function buildRowsFromBoardState(boardState: KanbanState): ConversationRow[] {
 }
 
 export function ConversationsPageClient() {
-  const [activeView, setActiveView] = useState<ConversationView>("kanban");
+  const [activeDesktopView, setActiveDesktopView] =
+    useState<ConversationView>("kanban");
   const [boardState, setBoardState] = useState<KanbanState>(createDefaultBoardState);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const effectiveView: ConversationView = isDesktop ? activeDesktopView : "table";
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -157,40 +161,42 @@ export function ConversationsPageClient() {
       description={CONVERSATIONS_PAGE_CONFIG.description}
     >
       <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-100">
-          <div className="flex items-center gap-6">
-            <button
-              type="button"
-              onClick={() => setActiveView("kanban")}
-              className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
-                activeView === "kanban" ? "text-zinc-900" : "text-zinc-500"
-              }`}
-            >
-              Kanban
-              {activeView === "kanban" ? (
-                <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
-              ) : null}
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveView("table")}
-              className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
-                activeView === "table" ? "text-zinc-900" : "text-zinc-500"
-              }`}
-            >
-              Table
-              {activeView === "table" ? (
-                <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
-              ) : null}
-            </button>
-          </div>
+        {isDesktop ? (
+          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-100">
+            <div className="flex items-center gap-6">
+              <button
+                type="button"
+                onClick={() => setActiveDesktopView("kanban")}
+                className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
+                  activeDesktopView === "kanban" ? "text-zinc-900" : "text-zinc-500"
+                }`}
+              >
+                Kanban
+                {activeDesktopView === "kanban" ? (
+                  <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
+                ) : null}
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveDesktopView("table")}
+                className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
+                  activeDesktopView === "table" ? "text-zinc-900" : "text-zinc-500"
+                }`}
+              >
+                Table
+                {activeDesktopView === "table" ? (
+                  <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
+                ) : null}
+              </button>
+            </div>
 
-          <div className="flex items-center gap-2 pb-3">
-            <ConversationsSellerFilterMenu people={conversationSellerPeople} />
+            <div className="flex items-center gap-2 pb-3">
+              <ConversationsSellerFilterMenu people={conversationSellerPeople} />
+            </div>
           </div>
-        </div>
+        ) : null}
 
-        {activeView === "table" ? (
+        {effectiveView === "table" ? (
           <ConversationsTable rows={tableRows} />
         ) : (
           <ConversationsKanban

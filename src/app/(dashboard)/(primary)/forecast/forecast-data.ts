@@ -1,4 +1,4 @@
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 
 export const forecastSharedPeople: HeaderPerson[] = [
   {

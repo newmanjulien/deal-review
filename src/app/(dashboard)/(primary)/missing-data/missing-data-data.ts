@@ -3,8 +3,8 @@ import type {
   DataDisplayTableColumn,
   DataDisplayTimelineItem,
   DataDisplayCard,
-} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
-import type { HeaderPerson } from "@/components/canvas/canvas-types";
+} from "@/components/data-display/data-display-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
 
 export const missingDataSharedPeople: HeaderPerson[] = [
   {

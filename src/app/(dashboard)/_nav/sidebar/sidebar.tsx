@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { PRIMARY_NAV_GROUPS, RailNav, useNav } from "..";
+import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/dashboard-routes";
 import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/sidebar/use-sidebar-nav-motion";
 import { useDashboardSidebar } from "@/app/(dashboard)/_nav/sidebar/sidebar-ui";
 import { cn } from "@/lib/utils";
@@ -25,7 +27,9 @@ export function Sidebar({ className }: { className?: string }) {
       )}
       aria-label="aria"
     >
-      <div
+      <Link
+        href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
+        aria-label="aria"
         className={cn(
           "mb-4 overflow-hidden rounded-sm",
           isExpanded && "ml-0.5 w-fit self-start",
@@ -50,7 +54,7 @@ export function Sidebar({ className }: { className?: string }) {
             priority
           />
         )}
-      </div>
+      </Link>
 
       <RailNav
         groups={PRIMARY_NAV_GROUPS}

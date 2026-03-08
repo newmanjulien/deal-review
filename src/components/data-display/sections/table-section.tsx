@@ -4,7 +4,7 @@ import {
 import type {
   DataDisplayTableColumn,
   DataDisplayTableRow,
-} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+} from "@/components/data-display/data-display-types";
 
 type TableSectionProps = {
   rows: DataDisplayTableRow[];

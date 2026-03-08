@@ -1,9 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { RefObject } from "react";
 import { Calendar, Menu } from "lucide-react";
-import { HEADER_MEETING_DATES, HEADER_MENU_CONFIG } from "@/app/(dashboard)/(primary)/_header";
+import {
+  HEADER_MEETING_DATES,
+  HEADER_MENU_CONFIG,
+} from "@/app/(dashboard)/_header";
+import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/dashboard-routes";
 
 export function MobileHeader({
   onToggleNav,
@@ -13,8 +18,12 @@ export function MobileHeader({
   menuButtonRef: RefObject<HTMLButtonElement | null>;
 }) {
   return (
-    <header className="relative flex h-12 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)] md:hidden">
-      <div className="overflow-hidden rounded-sm">
+    <header className="relative flex h-11 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)] md:hidden">
+      <Link
+        href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
+        aria-label="aria"
+        className="overflow-hidden rounded-sm"
+      >
         <Image
           src="/logo.png"
           alt="Logo"
@@ -23,7 +32,7 @@ export function MobileHeader({
           className="size-6"
           priority
         />
-      </div>
+      </Link>
       <button
         ref={menuButtonRef}
         type="button"
@@ -41,7 +50,8 @@ export function MobileHeader({
         >
           <Calendar className="size-3.5 shrink-0" />
           <span className="truncate">
-            {HEADER_MEETING_DATES[0]} {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
+            {HEADER_MEETING_DATES[0]}{" "}
+            {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
           </span>
         </button>
       </div>

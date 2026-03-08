@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
 import { DrawerNav, PRIMARY_NAV_GROUPS, useNav } from "..";
+import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/dashboard-routes";
 
 export function MobileDrawer({
   isOpen,
@@ -77,8 +79,13 @@ export function MobileDrawer({
         aria-label="aria"
         className="flex h-full flex-col"
       >
-        <header className="flex h-12 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)]">
-          <div className="overflow-hidden rounded-sm">
+        <header className="flex h-11 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)]">
+          <Link
+            href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
+            aria-label="aria"
+            className="overflow-hidden rounded-sm"
+            onClick={onClose}
+          >
             <Image
               src="/logo.png"
               alt="Logo"
@@ -87,7 +94,7 @@ export function MobileDrawer({
               className="size-6"
               priority
             />
-          </div>
+          </Link>
           <button
             ref={closeButtonRef}
             type="button"

@@ -8,6 +8,7 @@ type OptionalAppSectionConfig = {
 };
 
 export const OPTIONAL_APPS_PAGE_CONFIG = {
+  headerTitle: "Optional apps",
   title: "Optional apps",
   description: "Add lightweight tools to support your sales workflows",
 } as const;

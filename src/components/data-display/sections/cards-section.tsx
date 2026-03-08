@@ -9,7 +9,7 @@ import { DataDisplayCardIcon } from "@/components/data-display/card-icon";
 import type {
   DataDisplayCard,
   DataDisplayCardPriority,
-} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+} from "@/components/data-display/data-display-types";
 
 const PRIORITY_ICON_VARIANT: Record<
   DataDisplayCardPriority,

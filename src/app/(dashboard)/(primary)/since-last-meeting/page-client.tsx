@@ -1,7 +1,7 @@
 "use client";
 
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplaySectionInstance } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
+import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
 import { LAST_MEETING_PAGE_CONFIG } from "./last-meeting-config";
 import {
   lastMeetingTableColumns,

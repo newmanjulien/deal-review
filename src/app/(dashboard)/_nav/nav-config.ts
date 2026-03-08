@@ -1,49 +1,29 @@
 import {
-  Activity,
-  CircleOff,
-  CircleQuestionMark,
-  LayoutGrid,
-  Lightbulb,
-  List,
-} from "lucide-react";
-import { DASHBOARD_ROUTE_PATHS } from "../dashboard-routes";
-import type { NavGroups } from "./nav-types";
+  DASHBOARD_ROUTES,
+  type DashboardNavGroup,
+} from "../dashboard-routes";
+import type { NavGroups, NavItem } from "./nav-types";
+
+const navItemsByGroup: Record<DashboardNavGroup, NavItem[]> = {
+  main: [],
+  secondary: [],
+  tertiary: [],
+};
+
+for (const route of DASHBOARD_ROUTES) {
+  if (!route.implemented || !route.nav) {
+    continue;
+  }
+
+  navItemsByGroup[route.nav.group].push({
+    href: route.href,
+    label: route.nav.label,
+    icon: route.nav.icon,
+  });
+}
 
 export const PRIMARY_NAV_GROUPS: NavGroups = {
-  main: [
-    {
-      href: DASHBOARD_ROUTE_PATHS["since-last-meeting"],
-      label: "Since last meeting",
-      icon: Activity,
-    },
-    {
-      href: DASHBOARD_ROUTE_PATHS.forecast,
-      label: "Forecast",
-      icon: LayoutGrid,
-    },
-    {
-      href: DASHBOARD_ROUTE_PATHS["missing-data"],
-      label: "Missing data and timelines",
-      icon: CircleOff,
-    },
-    {
-      href: DASHBOARD_ROUTE_PATHS.opportunities,
-      label: "Opportunities and risks",
-      icon: Lightbulb,
-    },
-  ],
-  secondary: [
-    {
-      href: DASHBOARD_ROUTE_PATHS.conversations,
-      label: "All conversations",
-      icon: List,
-    },
-  ],
-  tertiary: [
-    {
-      href: DASHBOARD_ROUTE_PATHS["contact-support"],
-      label: "Contact support",
-      icon: CircleQuestionMark,
-    },
-  ],
+  main: navItemsByGroup.main,
+  secondary: navItemsByGroup.secondary,
+  tertiary: navItemsByGroup.tertiary,
 };
