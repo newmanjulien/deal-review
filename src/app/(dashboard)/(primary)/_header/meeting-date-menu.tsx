@@ -1,4 +1,3 @@
-import { Calendar } from "lucide-react";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import { HEADER_MEETING_DATES } from "./header-data";
 import {
@@ -18,9 +17,8 @@ export function MeetingDateMenu() {
           id={HEADER_MENU_CONFIG.meetingDate.triggerId}
           type="button"
           aria-label="aria"
-          className="mr-2 ml-1 flex items-center gap-3 text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
+          className="mr-2 ml-1 flex items-center text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
         >
-          <Calendar className="h-3 w-3" />
           <span>
             {HEADER_MEETING_DATES[0]} {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
           </span>

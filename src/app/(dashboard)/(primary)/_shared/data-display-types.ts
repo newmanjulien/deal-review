@@ -1,4 +1,3 @@
-import type { ComponentType } from "react";
 import type { DashboardDataTableColumn } from "@/components/table/table";
 
 export type DataDisplaySectionKind = "timeline" | "table" | "cards";
@@ -18,17 +17,24 @@ export type DataDisplayTableColumn = DashboardDataTableColumn<DataDisplayTableRo
 
 export type DataDisplayCardPriority = "high" | "medium" | "low";
 export type DataDisplayCardAvatars = [string] | [string, string];
+export type DataDisplayCardIconKey =
+  | "circle-off"
+  | "clock-3"
+  | "key-round"
+  | "lightbulb"
+  | "triangle-alert";
 
 export type DataDisplayCard = {
   id: string;
   title: string;
+  description?: string;
+  iconKey: DataDisplayCardIconKey;
   dealLabel: string;
   avatars: DataDisplayCardAvatars;
   priority: DataDisplayCardPriority;
   priorityLabel: string;
+  href?: `/${string}`;
 };
-
-export type DataDisplayCardsSectionIcon = ComponentType<{ className?: string }>;
 
 type DataDisplaySectionInstanceBase = {
   id: string;
@@ -50,7 +56,6 @@ export type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
 export type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
   kind: "cards";
   cards: DataDisplayCard[];
-  icon: DataDisplayCardsSectionIcon;
 };
 
 export type DataDisplaySectionInstance =

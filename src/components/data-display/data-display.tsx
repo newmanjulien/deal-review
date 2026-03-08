@@ -4,7 +4,6 @@ import { useMemo, useState, type ReactElement } from "react";
 import { CanvasPage } from "@/components/canvas/canvas-page";
 import type {
   DataDisplayCard,
-  DataDisplayCardsSectionIcon,
   DataDisplaySectionInstance,
   DataDisplaySectionKind,
   DataDisplayTableColumn,
@@ -20,7 +19,7 @@ const MAX_SECTION_COUNT = 3;
 type DataDisplaySectionPropsByKind = {
   timeline: { items: DataDisplayTimelineItem[] };
   table: { rows: DataDisplayTableRow[]; columns: DataDisplayTableColumn[] };
-  cards: { cards: DataDisplayCard[]; icon: DataDisplayCardsSectionIcon };
+  cards: { cards: DataDisplayCard[] };
 };
 
 type DataDisplaySectionComponentRegistry = {
@@ -75,7 +74,7 @@ function renderSection(section: DataDisplaySectionInstance) {
     }
     case "cards": {
       const CardsComponent = DATA_DISPLAY_SECTION_COMPONENTS.cards;
-      return <CardsComponent cards={section.cards} icon={section.icon} />;
+      return <CardsComponent cards={section.cards} />;
     }
   }
 }

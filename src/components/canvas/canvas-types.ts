@@ -12,11 +12,6 @@ export type CanvasPageContentProps = Pick<
   "children" | "title" | "description"
 >;
 
-export type CanvasSectionTitleProps = {
-  title?: string;
-  description?: string;
-};
-
 export type HeaderPerson = {
   name: string;
   avatar: string;

@@ -15,6 +15,7 @@ export function PrimaryHeaderSlot() {
   return (
     <PrimaryHeader
       key={pathname}
+      leading={headerData.leading}
       breadcrumbLabel={headerData.breadcrumbLabel}
       sharedPeople={headerData.sharedPeople}
     />

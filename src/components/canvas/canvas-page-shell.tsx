@@ -1,37 +1,11 @@
-import {
-  type CanvasPageShellProps,
-  type CanvasSectionTitleProps,
-} from "@/components/canvas/canvas-types";
+import { CanvasHero } from "@/components/canvas/canvas-hero";
+import { type CanvasPageShellProps } from "@/components/canvas/canvas-types";
 import { cn } from "@/lib/utils";
 
 export type { CanvasPageShellProps };
 
 const CANVAS_CONTENT_PADDING_TOP_CLASS_NAME = "pt-10";
 export const DEFAULT_CANVAS_CONTENT_MAX_WIDTH_CLASS_NAME = "max-w-3xl";
-
-function CanvasSectionTitle({ title, description }: CanvasSectionTitleProps) {
-  if (!title && !description) return null;
-
-  return (
-    <header className="mb-6 border-b border-zinc-100 pb-4">
-      {title ? (
-        <h1 className="text-sm font-medium tracking-wide text-zinc-900">
-          {title}
-        </h1>
-      ) : null}
-      {description ? (
-        <p
-          className={cn(
-            "max-w-xl text-xs leading-relaxed tracking-wide text-zinc-500",
-            title && "mt-1",
-          )}
-        >
-          {description}
-        </p>
-      ) : null}
-    </header>
-  );
-}
 
 export function CanvasPageShell({
   children,
@@ -51,7 +25,7 @@ export function CanvasPageShell({
             )}
             style={{ paddingBottom: "1.5rem" }}
           >
-            <CanvasSectionTitle title={title} description={description} />
+            <CanvasHero title={title} description={description} />
             {children}
           </div>
         </div>

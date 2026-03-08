@@ -1,12 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Building } from "lucide-react";
 import {
   PriorityGridIcon,
   type PriorityGridVariant,
 } from "./priority-grid-icon";
+import { DataDisplayCardIcon } from "@/components/data-display/card-icon";
 import type {
   DataDisplayCard,
-  DataDisplayCardsSectionIcon,
   DataDisplayCardPriority,
 } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 
@@ -21,7 +22,6 @@ const PRIORITY_ICON_VARIANT: Record<
 
 type CardsSectionProps = {
   cards: DataDisplayCard[];
-  icon: DataDisplayCardsSectionIcon;
 };
 
 type CardAvatarsProps = {
@@ -62,49 +62,66 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
   );
 }
 
-export function CardsSection({ cards, icon: SectionIcon }: CardsSectionProps) {
+export function CardsSection({ cards }: CardsSectionProps) {
   return (
     <ol className="space-y-2.5 pt-1">
-      {cards.map((card) => (
-        <li
-          key={card.id}
-          className="rounded-md border border-zinc-100 px-3 py-3"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <p className="text-[10px] tracking-wide text-zinc-500">
-              #{card.id}
-            </p>
-            <CardAvatars cardId={card.id} avatars={card.avatars} />
-          </div>
+      {cards.map((card) => {
+        const cardContent = (
+          <>
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-[10px] tracking-wide text-zinc-500">#{card.id}</p>
+              <CardAvatars cardId={card.id} avatars={card.avatars} />
+            </div>
 
-          <div className="mt-2 flex items-center gap-1.5">
-            <SectionIcon className="size-3 text-zinc-500" />
-            <h2 className="text-xs leading-snug tracking-wide text-zinc-800">
-              {card.title}
-            </h2>
-          </div>
-
-          <div className="mt-3.5 space-y-1.5">
-            <div className="h-2 rounded-[3px] bg-zinc-200/90" />
-            <div className="h-2 rounded-[3px] bg-zinc-200/90" />
-            <div className="h-2 w-1/3 rounded-[3px] bg-zinc-200/90" />
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-1.5">
-            <span className="inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-800">
-              <Building className="size-2.5 text-zinc-400" />
-              {card.dealLabel}
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-800">
-              <PriorityGridIcon
-                variant={PRIORITY_ICON_VARIANT[card.priority]}
-                className="size-2.5 text-zinc-400"
+            <div className="mt-2 flex items-center gap-1.5">
+              <DataDisplayCardIcon
+                iconKey={card.iconKey}
+                className="size-3 text-zinc-500"
               />
-              {card.priorityLabel}
-            </span>
-          </div>
-        </li>
-      ))}
+              <h2 className="text-xs leading-snug tracking-wide text-zinc-800">
+                {card.title}
+              </h2>
+            </div>
+
+            <div className="mt-3.5 space-y-1.5">
+              <div className="h-2 rounded-[3px] bg-zinc-200/90" />
+              <div className="h-2 rounded-[3px] bg-zinc-200/90" />
+              <div className="h-2 w-1/3 rounded-[3px] bg-zinc-200/90" />
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-1.5">
+              <span className="inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-800">
+                <Building className="size-2.5 text-zinc-400" />
+                {card.dealLabel}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-800">
+                <PriorityGridIcon
+                  variant={PRIORITY_ICON_VARIANT[card.priority]}
+                  className="size-2.5 text-zinc-400"
+                />
+                {card.priorityLabel}
+              </span>
+            </div>
+          </>
+        );
+
+        const cardBaseClassName = "rounded-md border border-zinc-100 px-3 py-3";
+
+        return (
+          <li key={card.id}>
+            {card.href ? (
+              <Link
+                href={card.href}
+                className={`${cardBaseClassName} block transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300`}
+              >
+                {cardContent}
+              </Link>
+            ) : (
+              <div className={cardBaseClassName}>{cardContent}</div>
+            )}
+          </li>
+        );
+      })}
     </ol>
   );
 }

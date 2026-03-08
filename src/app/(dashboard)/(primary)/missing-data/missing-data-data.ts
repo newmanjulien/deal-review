@@ -1,5 +1,6 @@
 import type {
   DataDisplayTableRow,
+  DataDisplayTableColumn,
   DataDisplayTimelineItem,
   DataDisplayCard,
 } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
@@ -42,10 +43,32 @@ export const missingDataTableRows: DataDisplayTableRow[] = [
   { id: "api-clients", account: "API clients", impacted: "877", share: "7%" },
 ] as const;
 
+export const missingDataTableColumns: DataDisplayTableColumn[] = [
+  {
+    key: "account",
+    label: "Account",
+    cellClassName:
+      "whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900",
+  },
+  {
+    key: "impacted",
+    label: "Impacted users",
+    cellClassName:
+      "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600",
+  },
+  {
+    key: "share",
+    label: "Share",
+    cellClassName:
+      "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-500",
+  },
+] as const;
+
 export const missingDataCards: DataDisplayCard[] = [
   {
     id: "118",
     title: "Checkout confirmation email delay",
+    iconKey: "circle-off",
     dealLabel: "Honeywell",
     avatars: [missingDataSharedPeople[1].avatar],
     priority: "high",
@@ -53,14 +76,18 @@ export const missingDataCards: DataDisplayCard[] = [
   },
   {
     id: "120",
-    title: "Missing attribution source on lead records",
-    dealLabel: "Data hygiene",
+    title: "Broken Password Reset Link",
+    description:
+      "A spike in users clicking on reset links but not completing the reset flow were detected. Error rates surged within ten minutes of the latest deployment.",
+    iconKey: "key-round",
+    dealLabel: "Auth flow",
     avatars: [
       missingDataSharedPeople[0].avatar,
       missingDataSharedPeople[1].avatar,
     ],
     priority: "medium",
     priorityLabel: "Medium priority",
+    href: "/missing-data/cards/120",
   },
 ] as const;
 
@@ -68,6 +95,7 @@ export const missingDataTimelineCards: DataDisplayCard[] = [
   {
     id: "119",
     title: "Password reset timeline anomaly",
+    iconKey: "clock-3",
     dealLabel: "Timeline review",
     avatars: [
       missingDataSharedPeople[0].avatar,
@@ -77,3 +105,12 @@ export const missingDataTimelineCards: DataDisplayCard[] = [
     priorityLabel: "Medium priority",
   },
 ] as const;
+
+const allMissingDataCards = [
+  ...missingDataCards,
+  ...missingDataTimelineCards,
+] as const;
+
+export function getMissingDataCardById(cardId: string) {
+  return allMissingDataCards.find((card) => card.id === cardId) ?? null;
+}

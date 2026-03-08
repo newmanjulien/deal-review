@@ -11,7 +11,10 @@ import type { HeaderPerson } from "@/components/canvas/canvas-types";
 import { FORECAST_PAGE_CONFIG } from "./(primary)/forecast/forecast-config";
 import { forecastSharedPeople } from "./(primary)/forecast/forecast-data";
 import { MISSING_DATA_PAGE_CONFIG } from "./(primary)/missing-data/missing-data-config";
-import { missingDataSharedPeople } from "./(primary)/missing-data/missing-data-data";
+import {
+  getMissingDataCardById,
+  missingDataSharedPeople,
+} from "./(primary)/missing-data/missing-data-data";
 import { OPPORTUNITIES_PAGE_CONFIG } from "./(primary)/opportunities/opportunities-config";
 import { opportunitiesSharedPeople } from "./(primary)/opportunities/opportunities-data";
 import { LAST_MEETING_PAGE_CONFIG } from "./(primary)/since-last-meeting/last-meeting-config";
@@ -27,9 +30,18 @@ export type DashboardRouteId =
   | "conversations"
   | "contact-support";
 
+export type PrimaryPageHeaderLeadingControl =
+  | { kind: "meeting-date" }
+  | {
+      kind: "back-link";
+      href: `/${string}`;
+      label: string;
+    };
+
 export type PrimaryPageHeaderData = {
   breadcrumbLabel: string;
   sharedPeople: HeaderPerson[];
+  leading: PrimaryPageHeaderLeadingControl;
 };
 
 export type DashboardRouteConfig = {
@@ -63,6 +75,7 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     primaryHeader: {
       breadcrumbLabel: LAST_MEETING_PAGE_CONFIG.headerTitle,
       sharedPeople: lastMeetingSharedPeople,
+      leading: { kind: "meeting-date" },
     },
     nav: {
       group: "main",
@@ -77,6 +90,7 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     primaryHeader: {
       breadcrumbLabel: FORECAST_PAGE_CONFIG.headerTitle,
       sharedPeople: forecastSharedPeople,
+      leading: { kind: "meeting-date" },
     },
     nav: {
       group: "main",
@@ -91,6 +105,7 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     primaryHeader: {
       breadcrumbLabel: MISSING_DATA_PAGE_CONFIG.headerTitle,
       sharedPeople: missingDataSharedPeople,
+      leading: { kind: "meeting-date" },
     },
     nav: {
       group: "main",
@@ -105,6 +120,7 @@ export const DASHBOARD_ROUTES: DashboardRouteConfig[] = [
     primaryHeader: {
       breadcrumbLabel: OPPORTUNITIES_PAGE_CONFIG.headerTitle,
       sharedPeople: opportunitiesSharedPeople,
+      leading: { kind: "meeting-date" },
     },
     nav: {
       group: "main",
@@ -147,6 +163,8 @@ const PRIMARY_HEADER_ROUTES = DASHBOARD_ROUTES.filter(
     route.implemented && Boolean(route.primaryHeader),
 );
 
+type PrimaryPageHeaderResolver = (pathname: string) => PrimaryPageHeaderData | null;
+
 function normalizePathname(pathname: string): string {
   if (!pathname) {
     return "/";
@@ -163,8 +181,48 @@ function isPathWithinRoute(pathname: string, routePath: string): boolean {
   return pathname === routePath || pathname.startsWith(`${routePath}/`);
 }
 
+function resolveMissingDataCardHeader(pathname: string): PrimaryPageHeaderData | null {
+  const match = pathname.match(/^\/missing-data\/cards\/([^/]+)$/);
+  if (!match?.[1]) {
+    return null;
+  }
+
+  let cardId = match[1];
+  try {
+    cardId = decodeURIComponent(cardId);
+  } catch {
+    return null;
+  }
+
+  const card = getMissingDataCardById(cardId);
+  if (!card) {
+    return null;
+  }
+
+  return {
+    leading: {
+      kind: "back-link",
+      href: DASHBOARD_ROUTE_PATHS["missing-data"],
+      label: MISSING_DATA_PAGE_CONFIG.headerTitle,
+    },
+    breadcrumbLabel: card.title,
+    sharedPeople: missingDataSharedPeople,
+  };
+}
+
+const PRIMARY_HEADER_DYNAMIC_RESOLVERS: PrimaryPageHeaderResolver[] = [
+  resolveMissingDataCardHeader,
+];
+
 export function getPrimaryPageHeader(pathname: string): PrimaryPageHeaderData | null {
   const normalizedPathname = normalizePathname(pathname);
+
+  for (const resolveHeader of PRIMARY_HEADER_DYNAMIC_RESOLVERS) {
+    const dynamicHeader = resolveHeader(normalizedPathname);
+    if (dynamicHeader) {
+      return dynamicHeader;
+    }
+  }
 
   let bestMatch: { routePath: string; data: PrimaryPageHeaderData } | null = null;
   for (const route of PRIMARY_HEADER_ROUTES) {

@@ -16,6 +16,7 @@ export const opportunitiesCards: DataDisplayCard[] = [
   {
     id: "118",
     title: "Checkout confirmation email delay",
+    iconKey: "lightbulb",
     dealLabel: "Honeywell",
     avatars: [
       opportunitiesSharedPeople[1].avatar,
@@ -30,6 +31,7 @@ export const risksCards: DataDisplayCard[] = [
   {
     id: "118",
     title: "Checkout confirmation email delay",
+    iconKey: "triangle-alert",
     dealLabel: "Honeywell",
     avatars: [
       opportunitiesSharedPeople[1].avatar,
