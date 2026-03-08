@@ -23,9 +23,61 @@ type PersistedConversationsKanbanColumns = {
   columnCardIds?: Partial<Record<ConversationStage, unknown>>;
 };
 
-function createInitialBoardState(): KanbanState {
-  const baseState = createKanbanState(conversationRows);
+function createDefaultBoardState(): KanbanState {
+  return createKanbanState(conversationRows);
+}
 
+function resolveBoardStateFromPersistedColumns(
+  baseState: KanbanState,
+  persistedColumns: Partial<Record<ConversationStage, unknown>> | undefined,
+): KanbanState {
+  if (!persistedColumns || typeof persistedColumns !== "object") {
+    return baseState;
+  }
+
+  const knownCardIds = new Set(Object.keys(baseState.cardsById));
+  const seenCardIds = new Set<string>();
+  const nextColumnCardIds = {} as Record<ConversationStage, string[]>;
+
+  for (const stage of KANBAN_STAGES) {
+    const rawStageIds = persistedColumns[stage];
+    const stageIds = Array.isArray(rawStageIds) ? rawStageIds : [];
+    const filteredStageIds: string[] = [];
+
+    for (const rawCardId of stageIds) {
+      if (typeof rawCardId !== "string") {
+        continue;
+      }
+
+      if (!knownCardIds.has(rawCardId) || seenCardIds.has(rawCardId)) {
+        continue;
+      }
+
+      filteredStageIds.push(rawCardId);
+      seenCardIds.add(rawCardId);
+    }
+
+    nextColumnCardIds[stage] = filteredStageIds;
+  }
+
+  for (const stage of KANBAN_STAGES) {
+    for (const cardId of baseState.columnCardIds[stage]) {
+      if (seenCardIds.has(cardId)) {
+        continue;
+      }
+
+      nextColumnCardIds[stage].push(cardId);
+      seenCardIds.add(cardId);
+    }
+  }
+
+  return {
+    ...baseState,
+    columnCardIds: nextColumnCardIds,
+  };
+}
+
+function readBoardStateFromLocalStorage(baseState: KanbanState): KanbanState {
   if (typeof window === "undefined") {
     return baseState;
   }
@@ -37,52 +89,7 @@ function createInitialBoardState(): KanbanState {
     }
 
     const parsed = JSON.parse(raw) as PersistedConversationsKanbanColumns;
-    const persistedColumns = parsed.columnCardIds;
-
-    if (!persistedColumns || typeof persistedColumns !== "object") {
-      return baseState;
-    }
-
-    const knownCardIds = new Set(Object.keys(baseState.cardsById));
-    const seenCardIds = new Set<string>();
-    const nextColumnCardIds = {} as Record<ConversationStage, string[]>;
-
-    for (const stage of KANBAN_STAGES) {
-      const rawStageIds = persistedColumns[stage];
-      const stageIds = Array.isArray(rawStageIds) ? rawStageIds : [];
-      const filteredStageIds: string[] = [];
-
-      for (const rawCardId of stageIds) {
-        if (typeof rawCardId !== "string") {
-          continue;
-        }
-
-        if (!knownCardIds.has(rawCardId) || seenCardIds.has(rawCardId)) {
-          continue;
-        }
-
-        filteredStageIds.push(rawCardId);
-        seenCardIds.add(rawCardId);
-      }
-
-      nextColumnCardIds[stage] = filteredStageIds;
-    }
-
-    for (const stage of KANBAN_STAGES) {
-      for (const cardId of baseState.columnCardIds[stage]) {
-        if (seenCardIds.has(cardId)) {
-          continue;
-        }
-
-        nextColumnCardIds[stage].push(cardId);
-        seenCardIds.add(cardId);
-      }
-    }
-
-    return {
-      ...baseState,
-      columnCardIds: nextColumnCardIds,
-    };
+    return resolveBoardStateFromPersistedColumns(baseState, parsed.columnCardIds);
   } catch {
     return baseState;
   }
@@ -108,7 +115,17 @@ function buildRowsFromBoardState(boardState: KanbanState): ConversationRow[] {
 
 export function ConversationsPageClient() {
   const [activeView, setActiveView] = useState<ConversationView>("kanban");
-  const [boardState, setBoardState] = useState<KanbanState>(createInitialBoardState);
+  const [boardState, setBoardState] = useState<KanbanState>(createDefaultBoardState);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setBoardState(readBoardStateFromLocalStorage(createDefaultBoardState()));
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {

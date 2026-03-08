@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ChevronRight, Ellipsis } from "lucide-react";
+import { ChevronRight, Ellipsis, PanelLeft } from "lucide-react";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
 import type { PrimaryPageHeaderLeadingControl } from "../../dashboard-routes";
+import { useDashboardSidebar } from "@/app/(dashboard)/_nav/sidebar/sidebar-ui";
 import { MeetingDateMenu } from "./meeting-date-menu";
 import { SellerSwitchMenu } from "./seller-switch-menu";
 import { ShareMenu } from "./share-menu";
@@ -36,8 +37,20 @@ export function PrimaryHeader({
   breadcrumbLabel,
   sharedPeople,
 }: PrimaryHeaderProps) {
+  const { isExpanded, toggleSidebar } = useDashboardSidebar();
+
   return (
     <header className="hidden items-center border-b border-zinc-100 p-1.5 md:flex">
+      <button
+        type="button"
+        className="mr-1 ml-1 inline-flex items-center text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
+        onClick={toggleSidebar}
+      >
+        <PanelLeft className="h-3.5 w-3.5" />
+        <span className="sr-only">
+          {isExpanded ? "Collapse sidebar" : "Expand sidebar"}
+        </span>
+      </button>
       <HeaderLeadingControl leading={leading} />
       <ChevronRight className="h-3 w-3 text-zinc-200" />
       <p className="ml-2 text-xs font-medium tracking-wide text-zinc-900">

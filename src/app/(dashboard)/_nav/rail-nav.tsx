@@ -14,12 +14,14 @@ type RailNavProps = {
   navRef: RefObject<HTMLElement | null>;
   indicatorRef: RefObject<HTMLSpanElement | null>;
   setItemRef: (href: string, el: HTMLSpanElement | null) => void;
+  expanded?: boolean;
   className?: string;
 };
 
 type RailNavItemProps = {
   item: NavItem;
   section: "main" | "secondary" | "tertiary";
+  expanded: boolean;
   isActive: boolean;
   onHoveredHrefChange: (href: string | null) => void;
   setItemRef: (href: string, el: HTMLSpanElement | null) => void;
@@ -28,6 +30,7 @@ type RailNavItemProps = {
 function RailNavItem({
   item,
   section,
+  expanded,
   isActive,
   onHoveredHrefChange,
   setItemRef,
@@ -43,25 +46,38 @@ function RailNavItem({
       onMouseEnter={
         !isTertiary ? () => onHoveredHrefChange(item.href) : undefined
       }
-      className={cn("relative z-10 inline-flex", isTertiary && "self-center")}
+      className={cn(
+        "relative z-10",
+        expanded ? "block w-full" : "inline-flex",
+        isTertiary && !expanded && "self-center",
+      )}
     >
       <Button
         asChild
         variant="ghost"
-        size="icon-sm"
+        size={expanded ? "default" : "icon-sm"}
         className={cn(
-          isTertiary
-            ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
-            : "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2",
-          isActive &&
-            (isTertiary
-              ? "border-zinc-300 bg-white text-zinc-900"
-              : "text-zinc-900"),
+          expanded
+            ? "h-7 w-full justify-start gap-2.5 rounded-sm border border-transparent px-2 text-xs text-zinc-600 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
+            : isTertiary
+              ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
+              : "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2",
+          isActive
+            ? expanded
+              ? "text-zinc-900"
+              : isTertiary
+                ? "border-zinc-300 bg-white text-zinc-900"
+                : "text-zinc-900"
+            : null,
         )}
       >
         <Link href={item.href}>
-          <item.icon className="size-3.5" />
-          <span className="sr-only">{item.label}</span>
+          <item.icon className="size-3.5 shrink-0" />
+          {expanded ? (
+            <span className="truncate text-left font-normal">{item.label}</span>
+          ) : (
+            <span className="sr-only">{item.label}</span>
+          )}
         </Link>
       </Button>
     </span>
@@ -75,6 +91,7 @@ export function RailNav({
   navRef,
   indicatorRef,
   setItemRef,
+  expanded = false,
   className,
 }: RailNavProps) {
   const normalizedGroups = normalizeNavGroups(groups);
@@ -88,6 +105,7 @@ export function RailNav({
         key={item.href}
         item={item}
         section={section}
+        expanded={expanded}
         isActive={activeHref === item.href}
         onHoveredHrefChange={onHoveredHrefChange}
         setItemRef={setItemRef}
@@ -104,9 +122,9 @@ export function RailNav({
       <span
         ref={indicatorRef}
         aria-hidden="true"
-        className="sidebar-nav-indicator pointer-events-none absolute rounded-sm bg-zinc-200 transition-[top,left,width,height,opacity] duration-200 ease-out"
+        className="sidebar-nav-indicator pointer-events-none absolute rounded-sm bg-zinc-200/60 transition-[top,left,width,height,opacity] duration-200 ease-out"
       />
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         {renderItems(normalizedGroups.main, "main")}
       </div>
       {normalizedGroups.hasSecondary ? (
@@ -115,18 +133,21 @@ export function RailNav({
             <div className="py-3">
               <span
                 aria-hidden="true"
-                className="mx-auto block h-px w-4 bg-zinc-200/50"
+                className={cn(
+                  "block h-px bg-zinc-200/50",
+                  expanded ? "mx-2 w-auto" : "mx-auto w-4",
+                )}
               />
             </div>
           ) : null}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {renderItems(normalizedGroups.secondary, "secondary")}
           </div>
         </div>
       ) : null}
       {normalizedGroups.tertiary.length > 0 ? (
         <div className="mt-auto flex flex-col pb-1 pt-3">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {renderItems(normalizedGroups.tertiary, "tertiary")}
           </div>
         </div>

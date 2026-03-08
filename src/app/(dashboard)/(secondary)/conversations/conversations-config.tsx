@@ -3,8 +3,7 @@ import type { ConversationRow } from "./conversations-types";
 
 export const CONVERSATIONS_PAGE_CONFIG = {
   title: "All conversations",
-  description:
-    "See all the conversations from all your sellers in a kanban or a table view",
+  description: "See all the conversations from the past 30 days",
 } as const;
 
 export const CONVERSATIONS_TABLE_COLUMNS: DashboardDataTableColumn<ConversationRow>[] =
