@@ -192,8 +192,20 @@ export function moveAcrossColumns(
   const destinationIndex = clampIndex(toIndex, nextDestinationIds.length);
   nextDestinationIds.splice(destinationIndex, 0, cardId);
 
+  const movedRow = state.cardsById[cardId];
+  const nextCardsById = movedRow
+    ? {
+        ...state.cardsById,
+        [cardId]: {
+          ...movedRow,
+          stage: toStage,
+        },
+      }
+    : state.cardsById;
+
   return {
     ...state,
+    cardsById: nextCardsById,
     columnCardIds: {
       ...state.columnCardIds,
       [fromStage]: nextSourceIds,

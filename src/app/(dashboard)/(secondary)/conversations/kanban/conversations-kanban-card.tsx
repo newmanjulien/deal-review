@@ -5,11 +5,7 @@ import { Building } from "lucide-react";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
-import {
-  CARD_NUMBER_BY_ID,
-  KANBAN_CARD_WIDTH_PX,
-  OWNER_AVATAR_BY_NAME,
-} from "./conversations-kanban-constants";
+import { KANBAN_CARD_WIDTH_PX } from "./conversations-kanban-constants";
 import { createCardDragId } from "./conversations-kanban-utils";
 import type {
   ConversationRow,
@@ -26,9 +22,6 @@ function ConversationsKanbanCardView({
   row,
   className,
 }: ConversationsKanbanCardViewProps) {
-  const ownerAvatar = OWNER_AVATAR_BY_NAME[row.owner];
-  const cardNumber = CARD_NUMBER_BY_ID[row.id] ?? 0;
-
   return (
     <article
       className={cn(
@@ -37,12 +30,12 @@ function ConversationsKanbanCardView({
       )}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[10px] tracking-wide text-zinc-500">#{cardNumber}</p>
+        <p className="text-[10px] tracking-wide text-zinc-500">#{row.cardNumber}</p>
 
-        {ownerAvatar ? (
+        {row.ownerAvatar ? (
           <span className="inline-flex size-7 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50">
             <Image
-              src={ownerAvatar}
+              src={row.ownerAvatar}
               alt={`${row.owner} avatar`}
               width={28}
               height={28}

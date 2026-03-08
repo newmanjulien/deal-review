@@ -7,10 +7,12 @@ export type ConversationStage =
 
 export type ConversationRow = {
   id: string;
+  cardNumber: number;
   company: string;
   contact: string;
   topic: string;
   owner: string;
+  ownerAvatar: string;
   stage: ConversationStage;
   lastUpdate: string;
 };

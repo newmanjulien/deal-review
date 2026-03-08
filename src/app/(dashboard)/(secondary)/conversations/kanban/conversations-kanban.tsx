@@ -15,8 +15,14 @@ import {
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { conversationRows } from "../conversations-data";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import type {
   ConversationStage,
   KanbanDestination,
@@ -39,13 +45,17 @@ import { ConversationsKanbanDragOverlayCard } from "./conversations-kanban-card"
 import { ConversationsKanbanColumn } from "./conversations-kanban-column";
 import {
   cloneKanbanState,
-  createKanbanState,
   findCardLocation,
   moveCardToDestination,
   parseCardDragId,
   resolveDestinationFromDragId,
   restoreFromSnapshot,
 } from "./conversations-kanban-utils";
+
+type ConversationsKanbanProps = {
+  boardState: KanbanState;
+  setBoardState: Dispatch<SetStateAction<KanbanState>>;
+};
 
 function createEmptyColumnListRefs(): Record<
   ConversationStage,
@@ -114,7 +124,10 @@ function getEdgeScrollVelocity(
   return 0;
 }
 
-export function ConversationsKanban() {
+export function ConversationsKanban({
+  boardState,
+  setBoardState,
+}: ConversationsKanbanProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const columnListRefsRef = useRef(createEmptyColumnListRefs());
   const dragSnapshotRef = useRef<KanbanState | null>(null);
@@ -122,9 +135,6 @@ export function ConversationsKanban() {
   const dragStartPointerRef = useRef<KanbanPointer | null>(null);
   const pointerRef = useRef<KanbanPointer | null>(null);
 
-  const [boardState, setBoardState] = useState<KanbanState>(() =>
-    createKanbanState(conversationRows),
-  );
   const [activeDrag, setActiveDrag] = useState<KanbanDragState | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -190,7 +200,7 @@ export function ConversationsKanban() {
     setBoardState((currentState) =>
       restoreFromSnapshot(dragSnapshotRef.current, currentState),
     );
-  }, []);
+  }, [setBoardState]);
 
   const handleDragStart = ({ active, activatorEvent }: DragStartEvent) => {
     const cardId = parseCardDragId(active.id);

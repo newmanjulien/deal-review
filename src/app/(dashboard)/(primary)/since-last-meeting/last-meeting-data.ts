@@ -6,7 +6,7 @@ import type { HeaderPerson } from "@/components/canvas/canvas-types";
 
 export const lastMeetingSharedPeople: HeaderPerson[] = [
   {
-    name: "Aditya Newman",
+    name: "Julien Newman",
     avatar: "/avatars/aditya.jpg",
   },
   {

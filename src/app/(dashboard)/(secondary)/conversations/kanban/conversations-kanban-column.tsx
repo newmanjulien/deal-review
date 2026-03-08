@@ -9,7 +9,6 @@ import {
   CircleOff,
   Compass,
   FileText,
-  Grip,
   Handshake,
   Trophy,
   type LucideIcon,
