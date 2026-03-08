@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { cloneElement, isValidElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export type CanvasHeroProps = {
@@ -23,16 +23,25 @@ export function CanvasHero({
   const hasTitle = Boolean(title);
 
   return (
-    <header className="mb-6 border-b border-zinc-100 pb-4">
+    <header className="mb-7 border-b border-zinc-100 pb-4">
       {hasMeta ? (
         <div className="space-y-2">
           {metaIcon ? (
-            <div className="inline-flex size-8 items-center justify-center rounded-md bg-zinc-100 text-zinc-500">
-              {metaIcon}
+            <div className="mb-4 inline-flex size-11 items-center justify-center rounded-md bg-zinc-100 text-zinc-500">
+              {isValidElement<{ className?: string }>(metaIcon)
+                ? cloneElement(metaIcon, {
+                    className: cn(
+                      "size-5.5 text-current",
+                      metaIcon.props.className,
+                    ),
+                  })
+                : metaIcon}
             </div>
           ) : null}
           {normalizedMetaId ? (
-            <p className="text-xs tracking-wide text-zinc-400">#{normalizedMetaId}</p>
+            <p className="text-xs tracking-wide text-zinc-400">
+              #{normalizedMetaId}
+            </p>
           ) : null}
         </div>
       ) : null}

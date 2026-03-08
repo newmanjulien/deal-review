@@ -74,7 +74,7 @@ function RailNavItem({
         <Link href={item.href}>
           <item.icon className="size-3.5 shrink-0" />
           {expanded ? (
-            <span className="truncate text-left font-normal">{item.label}</span>
+            <span className="truncate text-left font-[460]">{item.label}</span>
           ) : (
             <span className="sr-only">{item.label}</span>
           )}

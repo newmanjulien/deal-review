@@ -62,7 +62,7 @@ export function DataDisplayCardDetailPage({
         description={description}
         metaId={card.id}
         metaIcon={
-          <DataDisplayCardIcon iconKey={card.iconKey} className="size-4 text-current" />
+          <DataDisplayCardIcon iconKey={card.iconKey} />
         }
       />
 
