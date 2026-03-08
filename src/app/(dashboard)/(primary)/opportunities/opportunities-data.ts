@@ -1,4 +1,4 @@
-import type { DataDisplayCard } from "@/components/data-display/data-display-types";
+import type { DataDisplayCard } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
 
 export const opportunitiesSharedPeople: HeaderPerson[] = [

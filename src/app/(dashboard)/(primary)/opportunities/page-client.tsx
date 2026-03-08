@@ -2,7 +2,7 @@
 
 import { Lightbulb, TriangleAlert } from "lucide-react";
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
+import type { DataDisplaySectionInstance } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 import { OPPORTUNITIES_PAGE_CONFIG } from "./opportunities-config";
 import { risksCards, opportunitiesCards } from "./opportunities-data";
 

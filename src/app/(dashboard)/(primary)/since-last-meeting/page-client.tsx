@@ -1,9 +1,10 @@
 "use client";
 
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
+import type { DataDisplaySectionInstance } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 import { LAST_MEETING_PAGE_CONFIG } from "./last-meeting-config";
 import {
+  lastMeetingTableColumns,
   lastMeetingTableRows,
   lastMeetingTimelineItems,
 } from "./last-meeting-data";
@@ -16,10 +17,11 @@ const LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
     items: lastMeetingTimelineItems,
   },
   {
-    id: "accounts",
-    label: "Accounts",
+    id: "deals",
+    label: "Deals",
     kind: "table",
     rows: lastMeetingTableRows,
+    columns: lastMeetingTableColumns,
   },
 ];
 

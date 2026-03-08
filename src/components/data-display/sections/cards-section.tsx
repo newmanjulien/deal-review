@@ -8,7 +8,7 @@ import type {
   DataDisplayCard,
   DataDisplayCardsSectionIcon,
   DataDisplayCardPriority,
-} from "../data-display-types";
+} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 
 const PRIORITY_ICON_VARIANT: Record<
   DataDisplayCardPriority,

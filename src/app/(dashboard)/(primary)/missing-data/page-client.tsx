@@ -2,7 +2,7 @@
 
 import { Clock3, CircleOff } from "lucide-react";
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
+import type { DataDisplaySectionInstance } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 import { MISSING_DATA_PAGE_CONFIG } from "./missing-data-config";
 import {
   missingDataCards,

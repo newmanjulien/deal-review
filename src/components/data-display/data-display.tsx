@@ -7,9 +7,10 @@ import type {
   DataDisplayCardsSectionIcon,
   DataDisplaySectionInstance,
   DataDisplaySectionKind,
+  DataDisplayTableColumn,
   DataDisplayTableRow,
   DataDisplayTimelineItem,
-} from "@/components/data-display/data-display-types";
+} from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 import { TableSection } from "@/components/data-display/sections/table-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
 import { CardsSection } from "@/components/data-display/sections/cards-section";
@@ -18,7 +19,7 @@ const MAX_SECTION_COUNT = 3;
 
 type DataDisplaySectionPropsByKind = {
   timeline: { items: DataDisplayTimelineItem[] };
-  table: { rows: DataDisplayTableRow[] };
+  table: { rows: DataDisplayTableRow[]; columns: DataDisplayTableColumn[] };
   cards: { cards: DataDisplayCard[]; icon: DataDisplayCardsSectionIcon };
 };
 
@@ -70,7 +71,7 @@ function renderSection(section: DataDisplaySectionInstance) {
     }
     case "table": {
       const TableComponent = DATA_DISPLAY_SECTION_COMPONENTS.table;
-      return <TableComponent rows={section.rows} />;
+      return <TableComponent rows={section.rows} columns={section.columns} />;
     }
     case "cards": {
       const CardsComponent = DATA_DISPLAY_SECTION_COMPONENTS.cards;

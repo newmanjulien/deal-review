@@ -1,8 +1,9 @@
-import type {
-  DataDisplayTableRow,
-  DataDisplayTimelineItem,
-} from "@/components/data-display/data-display-types";
+import type { DataDisplayTimelineItem } from "@/app/(dashboard)/(primary)/_shared/data-display-types";
 import type { HeaderPerson } from "@/components/canvas/canvas-types";
+import type {
+  SinceLastMeetingTableColumn,
+  SinceLastMeetingTableRow,
+} from "./last-meeting-types";
 
 export const lastMeetingSharedPeople: HeaderPerson[] = [
   {
@@ -17,26 +18,63 @@ export const lastMeetingSharedPeople: HeaderPerson[] = [
 
 export const lastMeetingTimelineItems: DataDisplayTimelineItem[] = [
   {
-    id: "new-issue",
-    title: "New issue detected",
-    date: "Jan 25",
-    body: "Interfere flagged the incident after observing a surge in failed password reset attempts. Metrics showed a spike in users clicking on reset links but not completing the reset flow. Error rates crossed the anomaly threshold within ten minutes of deployment.",
+    id: "tyson",
+    title: "2nd meeting with Tyson Foods",
+    date: "Jan 13",
+    body: "Julien coordinated the 2nd meeting, aligned stakeholders on a refreshed proposal, and walked Tyson through pricing, implementation, and timeline. They captured objections live and left the call with clear next steps and owners.",
   },
   {
-    id: "session-analysis",
-    title: "Session analysis",
+    id: "whirlpool",
+    title: "1:1 with Whirlpool's CFO",
+    date: "Jan 25",
+    body: "Julien completed a dedicated 1:1 with the CFO, presented the ROI case and risk mitigation plan, and addressed budget/timing questions. They confirmed approval criteria and the internal path to a decision.",
+  },
+  {
+    id: "3m",
+    title: "Legal signoff from 3M",
     date: "Jan 26",
-    body: 'Password reset links were clicked successfully, but users never reached the final "Password updated" confirmation screen.',
+    body: "Julien drove the contract through legal by coordinating redlines, resolving liability and security terms, and keeping both counsels moving on deadlines. Legal signoff was secured, clearing the deal to proceed.",
   },
 ] as const;
 
-export const lastMeetingTableRows: DataDisplayTableRow[] = [
-  { id: "mobile-web", account: "Mobile web", impacted: "7,214", share: "56%" },
+export const lastMeetingTableColumns: SinceLastMeetingTableColumn[] = [
   {
-    id: "desktop-web",
-    account: "Desktop web",
-    impacted: "4,790",
-    share: "37%",
+    key: "deal",
+    label: "Deal",
+    cellClassName:
+      "whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900",
   },
-  { id: "api-clients", account: "API clients", impacted: "877", share: "7%" },
+  {
+    key: "probability",
+    label: "Probability",
+    cellClassName:
+      "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600",
+  },
+  {
+    key: "stage",
+    label: "Stage",
+    cellClassName:
+      "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-500",
+  },
+] as const;
+
+export const lastMeetingTableRows: SinceLastMeetingTableRow[] = [
+  {
+    id: "whirlpool",
+    deal: "Whirlpool deal",
+    probability: "25% likely to close",
+    stage: "Discovery stage",
+  },
+  {
+    id: "tyson",
+    deal: "Tyson Foods deal",
+    probability: "85% likely to close",
+    stage: "Proposal stage",
+  },
+  {
+    id: "3m",
+    deal: "3M deal",
+    probability: "85% likely to close",
+    stage: "Proposal stage",
+  },
 ] as const;
