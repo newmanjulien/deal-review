@@ -1,16 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 import { HEADER_MENU_CONFIG } from "./header-config";
-import {
-  HeaderMenu,
-  HeaderMenuCheckboxItem,
-  HeaderMenuList,
-  HeaderMenuSectionLabel,
-} from "./header-menu";
+import { PeopleMultiSelectMenu } from "@/components/chrome";
 
 type ShareMenuProps = {
   people: HeaderPerson[];
@@ -27,23 +21,28 @@ export function ShareMenu({
   open,
   onOpenChange,
 }: ShareMenuProps) {
-  const [selectedPeople, setSelectedPeople] = useState<string[]>(
-    people.map((person) => person.name),
-  );
-
-  const selectedPeopleSet = useMemo(
-    () => new Set(selectedPeople),
-    [selectedPeople],
-  );
-
-  const visibleAvatars = people.filter((person) =>
-    selectedPeopleSet.has(person.name),
-  );
-
   return (
-    <div className="mr-2 flex items-center">
-      <div className="flex items-center -space-x-2">
-        {visibleAvatars.map((person) => (
+    <PeopleMultiSelectMenu
+      people={people}
+      contentId={id}
+      align="end"
+      open={open}
+      onOpenChange={onOpenChange}
+      sectionLabel={HEADER_MENU_CONFIG.share.sectionLabel}
+      containerClassName="mr-2 flex items-center"
+      triggerGroupClassName="-space-x-2"
+      trigger={
+        <button
+          id={triggerId}
+          type="button"
+          aria-label="Share with team members"
+          className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"
+        >
+          <Plus className="h-3 w-3" />
+        </button>
+      }
+      renderLeading={(selectedPeople) =>
+        selectedPeople.map((person) => (
           <span
             key={person.name}
             className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-white"
@@ -56,61 +55,8 @@ export function ShareMenu({
               className="h-full w-full object-cover"
             />
           </span>
-        ))}
-        <HeaderMenu
-          id={id}
-          align="end"
-          open={open}
-          onOpenChange={onOpenChange}
-          trigger={
-            <button
-              id={triggerId}
-              type="button"
-              aria-label="Share with team members"
-              className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"
-            >
-              <Plus className="h-3 w-3" />
-            </button>
-          }
-        >
-          <HeaderMenuSectionLabel>
-            {HEADER_MENU_CONFIG.share.sectionLabel}
-          </HeaderMenuSectionLabel>
-          <HeaderMenuList>
-            {people.map((person) => (
-              <li key={person.name}>
-                <HeaderMenuCheckboxItem
-                  checked={selectedPeopleSet.has(person.name)}
-                  onCheckedChange={(checked) => {
-                    const isChecked = checked === true;
-                    setSelectedPeople((current) => {
-                      const hasPerson = current.includes(person.name);
-                      if (isChecked && !hasPerson) {
-                        return [...current, person.name];
-                      }
-                      if (!isChecked && hasPerson) {
-                        return current.filter((name) => name !== person.name);
-                      }
-                      return current;
-                    });
-                  }}
-                >
-                  <span className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-zinc-200">
-                    <Image
-                      src={person.avatar}
-                      alt={`${person.name} avatar`}
-                      width={28}
-                      height={28}
-                      className="h-full w-full object-cover"
-                    />
-                  </span>
-                  <span className="font-medium">{person.name}</span>
-                </HeaderMenuCheckboxItem>
-              </li>
-            ))}
-          </HeaderMenuList>
-        </HeaderMenu>
-      </div>
-    </div>
+        ))
+      }
+    />
   );
 }

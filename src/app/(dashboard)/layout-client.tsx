@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { QuestionsProvider } from "@/app/(dashboard)/_questions";
+import { QuestionsProvider } from "@/app/(dashboard)/_chrome/questions";
 import { DashboardChromeProvider, useDashboardChromeUi } from "./_chrome/chrome-ui";
 import { MobileNavigation } from "./_nav/mobile";
 import { Sidebar } from "./_nav/sidebar/sidebar";

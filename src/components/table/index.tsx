@@ -166,9 +166,4 @@ function DashboardDataTable<Row>({
 
 export {
   DashboardDataTable,
-  DashboardTable,
-  DashboardTableBody,
-  DashboardTableHead,
-  DashboardTableHeader,
-  DashboardTableRow,
 };

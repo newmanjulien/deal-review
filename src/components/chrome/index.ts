@@ -11,4 +11,6 @@ export {
   MobileChromeHeaderShell,
 } from "./chrome-header-shell";
 export { ChromeNavItemLink } from "./chrome-nav-item-link";
+export { PeopleMultiSelectMenu } from "./people-multi-select-menu";
 export type { ChromeNavItem } from "./chrome-nav-item-link";
+export type { SelectablePerson } from "./people-multi-select-menu";

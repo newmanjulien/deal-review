@@ -1,6 +1,6 @@
 import { normalizeDashboardPathname } from "@/app/(dashboard)/_routes/dashboard-pathname";
 
-export type DashboardChromeUiState = {
+type DashboardChromeUiState = {
   pathname: string;
   isDesktopViewport: boolean;
   isSidebarExpanded: boolean;
@@ -8,7 +8,7 @@ export type DashboardChromeUiState = {
   openMenuId: string | null;
 };
 
-export type DashboardChromeUiAction =
+type DashboardChromeUiAction =
   | {
       type: "ROUTE_CHANGED";
       pathname: string;

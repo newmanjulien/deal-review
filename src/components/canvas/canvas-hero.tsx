@@ -1,7 +1,7 @@
 import { cloneElement, isValidElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type CanvasHeroProps = {
+type CanvasHeroProps = {
   title?: string;
   description?: string;
   metaId?: string;

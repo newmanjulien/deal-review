@@ -19,14 +19,15 @@ export type ConversationRow = {
 
 export type KanbanCardId = ConversationRow["id"];
 
-export type KanbanState = {
-  cardsById: Record<KanbanCardId, ConversationRow>;
-  columnCardIds: Record<ConversationStage, KanbanCardId[]>;
-};
-
 export type KanbanCardLocation = {
   stage: ConversationStage;
   index: number;
+};
+
+export type KanbanState = {
+  cardsById: Record<KanbanCardId, ConversationRow>;
+  columnCardIds: Record<ConversationStage, KanbanCardId[]>;
+  cardLocationsById: Record<KanbanCardId, KanbanCardLocation>;
 };
 
 export type KanbanDragState = {
@@ -39,7 +40,6 @@ export type KanbanDestination = KanbanCardLocation;
 
 export type KanbanCardDragId = `card:${string}`;
 export type KanbanColumnDragId = `column:${ConversationStage}`;
-export type KanbanDragId = KanbanCardDragId | KanbanColumnDragId;
 
 export type KanbanPointer = {
   x: number;

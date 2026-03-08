@@ -7,6 +7,7 @@ import {
   useEffect,
   useMemo,
   useReducer,
+  type Dispatch,
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
@@ -20,47 +21,31 @@ import {
   type DashboardChromeModel,
 } from "@/app/(dashboard)/_routes/dashboard-routes";
 
-type DashboardChromeContextValue = {
-  chrome: DashboardChromeModel | null;
-  state: {
-    pathname: string;
-    isDesktopViewport: boolean;
-    isSidebarExpanded: boolean;
-    isMobileDrawerOpen: boolean;
-    openMenuId: string | null;
-  };
-  actions: {
-    toggleSidebar: () => void;
-    setSidebarExpanded: (expanded: boolean) => void;
-    collapseSidebar: () => void;
-    toggleMobileDrawer: () => void;
-    setMobileDrawerOpen: (open: boolean) => void;
-    setMenuOpen: (menuId: string, open: boolean) => void;
-    isMenuOpen: (menuId: string) => boolean;
-  };
+type DashboardChromeUiState = ReturnType<typeof createDashboardChromeUiState>;
+type DashboardChromeUiAction = Parameters<typeof dashboardChromeUiReducer>[1];
+
+type DashboardChromeUiActions = {
+  toggleSidebar: () => void;
+  setSidebarExpanded: (expanded: boolean) => void;
+  collapseSidebar: () => void;
+  toggleMobileDrawer: () => void;
+  setMobileDrawerOpen: (open: boolean) => void;
+  setMenuOpen: (menuId: string, open: boolean) => void;
+  isMenuOpen: (menuId: string) => boolean;
 };
 
-const DashboardChromeContext = createContext<DashboardChromeContextValue | null>(
-  null,
-);
+type DashboardChromeUiContextValue = {
+  state: DashboardChromeUiState;
+  actions: DashboardChromeUiActions;
+};
 
-export function DashboardChromeProvider({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  const normalizedPathname = normalizeDashboardPathname(pathname);
+const DashboardChromeUiContext =
+  createContext<DashboardChromeUiContextValue | null>(null);
+const DashboardChromeModelContext = createContext<
+  DashboardChromeModel | null | undefined
+>(undefined);
 
-  const [state, dispatch] = useReducer(
-    dashboardChromeUiReducer,
-    normalizedPathname,
-    (initialPathname) => createDashboardChromeUiState({ pathname: initialPathname }),
-  );
-
-  useEffect(() => {
-    dispatch({
-      type: "ROUTE_CHANGED",
-      pathname: normalizedPathname,
-    });
-  }, [normalizedPathname]);
-
+function useViewportSync(dispatch: Dispatch<DashboardChromeUiAction>) {
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
 
@@ -79,77 +64,144 @@ export function DashboardChromeProvider({ children }: { children: ReactNode }) {
 
     mediaQuery.addEventListener("change", onMediaQueryChange);
     return () => mediaQuery.removeEventListener("change", onMediaQueryChange);
-  }, []);
+  }, [dispatch]);
+}
 
-  const chrome = useMemo(() => resolveDashboardChrome(normalizedPathname), [
-    normalizedPathname,
-  ]);
-
+function useDashboardChromeActions(
+  dispatch: Dispatch<DashboardChromeUiAction>,
+  openMenuId: DashboardChromeUiState["openMenuId"],
+): DashboardChromeUiActions {
   const toggleSidebar = useCallback(() => {
     dispatch({ type: "TOGGLE_SIDEBAR" });
-  }, []);
+  }, [dispatch]);
 
-  const setSidebarExpanded = useCallback((expanded: boolean) => {
-    dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded });
-  }, []);
+  const setSidebarExpanded = useCallback(
+    (expanded: boolean) => {
+      dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded });
+    },
+    [dispatch],
+  );
 
   const collapseSidebar = useCallback(() => {
     dispatch({ type: "SET_SIDEBAR_EXPANDED", expanded: false });
-  }, []);
+  }, [dispatch]);
 
   const toggleMobileDrawer = useCallback(() => {
     dispatch({ type: "TOGGLE_MOBILE_DRAWER" });
-  }, []);
+  }, [dispatch]);
 
-  const setMobileDrawerOpen = useCallback((open: boolean) => {
-    dispatch({ type: "SET_MOBILE_DRAWER_OPEN", open });
-  }, []);
-
-  const setMenuOpen = useCallback((menuId: string, open: boolean) => {
-    dispatch({ type: "SET_MENU_OPEN", menuId, open });
-  }, []);
-
-  const isMenuOpen = useCallback(
-    (menuId: string) => state.openMenuId === menuId,
-    [state.openMenuId],
+  const setMobileDrawerOpen = useCallback(
+    (open: boolean) => {
+      dispatch({ type: "SET_MOBILE_DRAWER_OPEN", open });
+    },
+    [dispatch],
   );
 
-  const value = useMemo(
+  const setMenuOpen = useCallback(
+    (menuId: string, open: boolean) => {
+      dispatch({ type: "SET_MENU_OPEN", menuId, open });
+    },
+    [dispatch],
+  );
+
+  const isMenuOpen = useCallback(
+    (menuId: string) => openMenuId === menuId,
+    [openMenuId],
+  );
+
+  return useMemo(
     () => ({
-      chrome,
-      state,
-      actions: {
-        toggleSidebar,
-        setSidebarExpanded,
-        collapseSidebar,
-        toggleMobileDrawer,
-        setMobileDrawerOpen,
-        setMenuOpen,
-        isMenuOpen,
-      },
+      toggleSidebar,
+      setSidebarExpanded,
+      collapseSidebar,
+      toggleMobileDrawer,
+      setMobileDrawerOpen,
+      setMenuOpen,
+      isMenuOpen,
     }),
     [
-      chrome,
+      collapseSidebar,
       isMenuOpen,
       setMenuOpen,
       setMobileDrawerOpen,
       setSidebarExpanded,
-      state,
       toggleMobileDrawer,
       toggleSidebar,
-      collapseSidebar,
     ],
   );
+}
+
+function useCreateDashboardChromeUiValue({
+  state,
+  actions,
+}: {
+  state: DashboardChromeUiState;
+  actions: DashboardChromeUiActions;
+}): DashboardChromeUiContextValue {
+  return useMemo(
+    () => ({
+      state,
+      actions,
+    }),
+    [actions, state],
+  );
+}
+
+function DashboardChromeContextProviders({
+  chrome,
+  uiValue,
+  children,
+}: {
+  chrome: DashboardChromeModel | null;
+  uiValue: DashboardChromeUiContextValue;
+  children: ReactNode;
+}) {
+  return (
+    <DashboardChromeModelContext.Provider value={chrome}>
+      <DashboardChromeUiContext.Provider value={uiValue}>
+        {children}
+      </DashboardChromeUiContext.Provider>
+    </DashboardChromeModelContext.Provider>
+  );
+}
+
+export function DashboardChromeProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const normalizedPathname = normalizeDashboardPathname(pathname);
+
+  const [state, dispatch] = useReducer(
+    dashboardChromeUiReducer,
+    normalizedPathname,
+    (initialPathname) => createDashboardChromeUiState({ pathname: initialPathname }),
+  );
+
+  useEffect(() => {
+    dispatch({
+      type: "ROUTE_CHANGED",
+      pathname: normalizedPathname,
+    });
+  }, [dispatch, normalizedPathname]);
+
+  useViewportSync(dispatch);
+
+  const chrome = useMemo(() => resolveDashboardChrome(normalizedPathname), [
+    normalizedPathname,
+  ]);
+  const actions = useDashboardChromeActions(dispatch, state.openMenuId);
+  const uiValue = useCreateDashboardChromeUiValue({
+    state,
+    actions,
+  });
 
   return (
-    <DashboardChromeContext.Provider value={value}>
+    <DashboardChromeContextProviders chrome={chrome} uiValue={uiValue}>
       {children}
-    </DashboardChromeContext.Provider>
+    </DashboardChromeContextProviders>
   );
 }
 
 export function useDashboardChromeUi() {
-  const context = useContext(DashboardChromeContext);
+  const context = useContext(DashboardChromeUiContext);
 
   if (!context) {
     throw new Error("useDashboardChromeUi must be used within a DashboardChromeProvider");
@@ -159,5 +211,13 @@ export function useDashboardChromeUi() {
 }
 
 export function useDashboardChromeModel() {
-  return useDashboardChromeUi().chrome;
+  const context = useContext(DashboardChromeModelContext);
+
+  if (context === undefined) {
+    throw new Error(
+      "useDashboardChromeModel must be used within a DashboardChromeProvider",
+    );
+  }
+
+  return context;
 }

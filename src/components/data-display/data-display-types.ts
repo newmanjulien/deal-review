@@ -17,7 +17,7 @@ export type DataDisplayTableColumn =
   DashboardDataTableColumn<DataDisplayTableRow>;
 
 export type DataDisplayCardPriority = "high" | "medium" | "low";
-export type DataDisplayCardAvatars = [string] | [string, string];
+type DataDisplayCardAvatars = [string] | [string, string];
 export type DataDisplayCardIconKey =
   | "circle-off"
   | "clock-3"
@@ -42,19 +42,19 @@ type DataDisplaySectionInstanceBase = {
   label: string;
 };
 
-export type DataDisplayTimelineSectionInstance =
+type DataDisplayTimelineSectionInstance =
   DataDisplaySectionInstanceBase & {
     kind: "timeline";
     items: DataDisplayTimelineItem[];
   };
 
-export type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
+type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
   kind: "table";
   rows: DataDisplayTableRow[];
   columns: DataDisplayTableColumn[];
 };
 
-export type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
+type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
   kind: "cards";
   cards: DataDisplayCard[];
 };

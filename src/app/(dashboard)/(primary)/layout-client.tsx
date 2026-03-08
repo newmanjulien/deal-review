@@ -8,7 +8,7 @@ import { DashboardHeaderSlot } from "../_chrome/header";
 import {
   QuestionComposerConnected,
   QuestionsPanelConnected,
-} from "../_questions";
+} from "../_chrome/questions";
 
 export function LayoutClient({ children }: { children: ReactNode }) {
   const { isExpanded } = useDashboardSidebar();

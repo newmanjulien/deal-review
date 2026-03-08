@@ -6,8 +6,8 @@ import type {
   KanbanCardDragId,
   KanbanCardId,
   KanbanCardLocation,
-  KanbanDestination,
   KanbanColumnDragId,
+  KanbanDestination,
   KanbanState,
 } from "../conversations-types";
 
@@ -32,6 +32,67 @@ function clampIndex(index: number, length: number): number {
   return Math.max(0, Math.min(index, length));
 }
 
+function normalizeDestinationIndex(
+  currentIndex: number,
+  destinationIndex: number,
+): number {
+  return currentIndex < destinationIndex ? destinationIndex - 1 : destinationIndex;
+}
+
+function cloneCardLocationsById(
+  cardLocationsById: KanbanState["cardLocationsById"],
+): KanbanState["cardLocationsById"] {
+  const nextLocations: KanbanState["cardLocationsById"] = {};
+
+  for (const [cardId, location] of Object.entries(cardLocationsById)) {
+    nextLocations[cardId] = { stage: location.stage, index: location.index };
+  }
+
+  return nextLocations;
+}
+
+function updateColumnCardLocations(
+  cardLocationsById: KanbanState["cardLocationsById"],
+  stage: ConversationStage,
+  cardIds: KanbanCardId[],
+) {
+  for (let index = 0; index < cardIds.length; index += 1) {
+    const cardId = cardIds[index];
+    cardLocationsById[cardId] = { stage, index };
+  }
+}
+
+export function createCardLocationsById(
+  columnCardIds: Record<ConversationStage, KanbanCardId[]>,
+): KanbanState["cardLocationsById"] {
+  const cardLocationsById: KanbanState["cardLocationsById"] = {};
+
+  for (const stage of KANBAN_STAGES) {
+    updateColumnCardLocations(cardLocationsById, stage, columnCardIds[stage]);
+  }
+
+  return cardLocationsById;
+}
+
+function updateCardStage(
+  cardsById: KanbanState["cardsById"],
+  cardId: KanbanCardId,
+  nextStage: ConversationStage,
+): KanbanState["cardsById"] {
+  const movedRow = cardsById[cardId];
+  if (!movedRow) {
+    return cardsById;
+  }
+
+  return {
+    ...cardsById,
+    [cardId]: {
+      ...movedRow,
+      stage: nextStage,
+    },
+  };
+}
+
 export function createKanbanState(rows: ConversationRow[]): KanbanState {
   const cardsById: Record<KanbanCardId, ConversationRow> = {};
   const columnCardIds = createEmptyColumnCardIds();
@@ -48,6 +109,7 @@ export function createKanbanState(rows: ConversationRow[]): KanbanState {
   return {
     cardsById,
     columnCardIds,
+    cardLocationsById: createCardLocationsById(columnCardIds),
   };
 }
 
@@ -61,6 +123,7 @@ export function cloneKanbanState(state: KanbanState): KanbanState {
   return {
     cardsById: { ...state.cardsById },
     columnCardIds: nextColumnCardIds,
+    cardLocationsById: cloneCardLocationsById(state.cardLocationsById),
   };
 }
 
@@ -93,7 +156,7 @@ export function parseCardDragId(
   return dragId.slice(CARD_DRAG_ID_PREFIX.length);
 }
 
-export function parseColumnDragId(
+function parseColumnDragId(
   dragId: UniqueIdentifier | null | undefined,
 ): ConversationStage | null {
   if (typeof dragId !== "string" || !dragId.startsWith(COLUMN_DRAG_ID_PREFIX)) {
@@ -108,14 +171,15 @@ export function findCardLocation(
   state: KanbanState,
   cardId: KanbanCardId,
 ): KanbanCardLocation | null {
-  for (const stage of KANBAN_STAGES) {
-    const index = state.columnCardIds[stage].indexOf(cardId);
-    if (index >= 0) {
-      return { stage, index };
-    }
+  const location = state.cardLocationsById[cardId];
+  if (!location) {
+    return null;
   }
 
-  return null;
+  return {
+    stage: location.stage,
+    index: location.index,
+  };
 }
 
 export function resolveDestinationFromDragId(
@@ -138,7 +202,7 @@ export function resolveDestinationFromDragId(
   return findCardLocation(state, cardId);
 }
 
-export function moveWithinColumn(
+function moveWithinColumn(
   state: KanbanState,
   stage: ConversationStage,
   fromIndex: number,
@@ -163,45 +227,47 @@ export function moveWithinColumn(
 
   nextColumnIds.splice(targetIndex, 0, movedCardId);
 
+  const nextCardLocationsById = { ...state.cardLocationsById };
+  updateColumnCardLocations(nextCardLocationsById, stage, nextColumnIds);
+
   return {
     ...state,
     columnCardIds: {
       ...state.columnCardIds,
       [stage]: nextColumnIds,
     },
+    cardLocationsById: nextCardLocationsById,
   };
 }
 
-export function moveAcrossColumns(
+function moveAcrossColumns(
   state: KanbanState,
   cardId: KanbanCardId,
   fromStage: ConversationStage,
+  fromIndex: number,
   toStage: ConversationStage,
   toIndex: number,
 ): KanbanState {
   const sourceIds = state.columnCardIds[fromStage];
   const destinationIds = state.columnCardIds[toStage];
-  const sourceIndex = sourceIds.indexOf(cardId);
+  const normalizedSourceIndex =
+    sourceIds[fromIndex] === cardId ? fromIndex : sourceIds.indexOf(cardId);
 
-  if (sourceIndex < 0) {
+  if (normalizedSourceIndex < 0) {
     return state;
   }
 
-  const nextSourceIds = sourceIds.filter((id) => id !== cardId);
+  const nextSourceIds = [...sourceIds];
+  nextSourceIds.splice(normalizedSourceIndex, 1);
+
   const nextDestinationIds = [...destinationIds];
   const destinationIndex = clampIndex(toIndex, nextDestinationIds.length);
   nextDestinationIds.splice(destinationIndex, 0, cardId);
 
-  const movedRow = state.cardsById[cardId];
-  const nextCardsById = movedRow
-    ? {
-        ...state.cardsById,
-        [cardId]: {
-          ...movedRow,
-          stage: toStage,
-        },
-      }
-    : state.cardsById;
+  const nextCardsById = updateCardStage(state.cardsById, cardId, toStage);
+  const nextCardLocationsById = { ...state.cardLocationsById };
+  updateColumnCardLocations(nextCardLocationsById, fromStage, nextSourceIds);
+  updateColumnCardLocations(nextCardLocationsById, toStage, nextDestinationIds);
 
   return {
     ...state,
@@ -211,6 +277,7 @@ export function moveAcrossColumns(
       [fromStage]: nextSourceIds,
       [toStage]: nextDestinationIds,
     },
+    cardLocationsById: nextCardLocationsById,
   };
 }
 
@@ -225,11 +292,10 @@ export function moveCardToDestination(
   }
 
   if (currentLocation.stage === destination.stage) {
-    let nextIndex = destination.index;
-
-    if (currentLocation.index < destination.index) {
-      nextIndex -= 1;
-    }
+    const nextIndex = normalizeDestinationIndex(
+      currentLocation.index,
+      destination.index,
+    );
 
     return moveWithinColumn(
       state,
@@ -243,6 +309,7 @@ export function moveCardToDestination(
     state,
     cardId,
     currentLocation.stage,
+    currentLocation.index,
     destination.stage,
     destination.index,
   );

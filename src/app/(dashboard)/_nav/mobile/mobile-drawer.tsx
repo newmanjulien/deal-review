@@ -8,19 +8,7 @@ import { useDashboardChromeModel } from "@/app/(dashboard)/_chrome/chrome-ui";
 import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/_routes/dashboard-routes";
 import { DrawerNav } from "./drawer-nav";
 
-export function MobileDrawer({
-  isOpen,
-  onClose,
-  triggerRef,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  triggerRef: RefObject<HTMLButtonElement | null>;
-}) {
-  const chrome = useDashboardChromeModel();
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const wasOpenRef = useRef(false);
-
+function useDrawerBodyScrollLock(isOpen: boolean) {
   useEffect(() => {
     if (!isOpen) return;
 
@@ -30,7 +18,9 @@ export function MobileDrawer({
       document.body.style.overflow = previousOverflow;
     };
   }, [isOpen]);
+}
 
+function useDrawerCloseOnEscape(isOpen: boolean, onClose: () => void) {
   useEffect(() => {
     if (!isOpen) return;
 
@@ -44,6 +34,16 @@ export function MobileDrawer({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isOpen, onClose]);
+}
+
+type DrawerFocusOptions = {
+  isOpen: boolean;
+  closeButtonRef: RefObject<HTMLButtonElement | null>;
+  triggerRef: RefObject<HTMLButtonElement | null>;
+};
+
+function useDrawerFocus({ isOpen, closeButtonRef, triggerRef }: DrawerFocusOptions) {
+  const wasOpenRef = useRef(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -57,7 +57,24 @@ export function MobileDrawer({
     if (!wasOpenRef.current) return;
     wasOpenRef.current = false;
     triggerRef.current?.focus();
-  }, [isOpen, triggerRef]);
+  }, [closeButtonRef, isOpen, triggerRef]);
+}
+
+export function MobileDrawer({
+  isOpen,
+  onClose,
+  triggerRef,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  triggerRef: RefObject<HTMLButtonElement | null>;
+}) {
+  const chrome = useDashboardChromeModel();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useDrawerBodyScrollLock(isOpen);
+  useDrawerCloseOnEscape(isOpen, onClose);
+  useDrawerFocus({ isOpen, closeButtonRef, triggerRef });
 
   if (!isOpen || !chrome) {
     return null;
