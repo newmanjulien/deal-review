@@ -1,5 +1,5 @@
 import type { DataDisplayCard } from "@/components/data-display/data-display-types";
-import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 
 export const opportunitiesSharedPeople: HeaderPerson[] = [
   {

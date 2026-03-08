@@ -1,11 +1,6 @@
 import type { ReactNode } from "react";
-import { DashboardHeaderSlot } from "@/app/(dashboard)/_header";
-import { CanvasWorkspaceShell } from "@/components/canvas/canvas-workspace-shell";
+import { LayoutClient } from "./layout-client";
 
 export default function SecondaryLayout({ children }: { children: ReactNode }) {
-  return (
-    <CanvasWorkspaceShell header={<DashboardHeaderSlot />}>
-      {children}
-    </CanvasWorkspaceShell>
-  );
+  return <LayoutClient>{children}</LayoutClient>;
 }

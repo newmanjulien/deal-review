@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
-import type { NavGroups, NavItem } from "./nav-types";
-import { normalizeNavGroups } from "./nav-utils";
+import type { NavGroups, NavItem } from "../nav-types";
+import { normalizeNavGroups } from "../nav-utils";
 
 type DrawerNavProps = {
   groups: NavGroups;
@@ -22,20 +21,15 @@ type DrawerNavItemProps = {
 function DrawerNavItem({ item, isActive, onItemSelect }: DrawerNavItemProps) {
   return (
     <span className="relative z-10 inline-flex">
-      <Button
-        asChild
-        variant="ghost"
-        size="default"
-        className={cn(
+      <ChromeNavItemLink
+        item={item}
+        buttonSize="default"
+        onClick={onItemSelect}
+        buttonClassName={cn(
           "h-10 w-full justify-start gap-2.5 rounded-md px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-100/70 hover:text-zinc-900 focus-visible:ring-2",
           isActive && "bg-zinc-100/70 text-zinc-900",
         )}
-      >
-        <Link href={item.href} onClick={onItemSelect}>
-          <item.icon className="size-3.5" />
-          <span>{item.label}</span>
-        </Link>
-      </Button>
+      />
     </span>
   );
 }
@@ -60,7 +54,7 @@ export function DrawerNav({
 
   return (
     <nav
-      aria-label="aria"
+      aria-label="Dashboard navigation"
       className={cn("relative flex min-h-full flex-col", className)}
     >
       <div className="flex flex-col gap-1.5">{renderItems(normalizedGroups.main)}</div>

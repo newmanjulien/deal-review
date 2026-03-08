@@ -17,8 +17,8 @@ const eslintConfig = defineConfig([
         },
         {
           selector:
-            "JSXAttribute[name.name='aria-label'][value.type='Literal'][value.value!='aria']",
-          message: 'Use aria-label="aria" in this project.',
+            "JSXAttribute[name.name='aria-label'][value.type='Literal'][value.value='aria']",
+          message: 'Use a meaningful aria-label value instead of "aria".',
         },
       ],
     },

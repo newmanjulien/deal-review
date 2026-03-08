@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import {
   HeaderMenu,
@@ -14,9 +14,19 @@ import {
 
 type ShareMenuProps = {
   people: HeaderPerson[];
+  id?: string;
+  triggerId?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function ShareMenu({ people }: ShareMenuProps) {
+export function ShareMenu({
+  people,
+  id = HEADER_MENU_CONFIG.share.id,
+  triggerId = HEADER_MENU_CONFIG.share.triggerId,
+  open,
+  onOpenChange,
+}: ShareMenuProps) {
   const [selectedPeople, setSelectedPeople] = useState<string[]>(
     people.map((person) => person.name),
   );
@@ -48,13 +58,15 @@ export function ShareMenu({ people }: ShareMenuProps) {
           </span>
         ))}
         <HeaderMenu
-          id={HEADER_MENU_CONFIG.share.id}
+          id={id}
           align="end"
+          open={open}
+          onOpenChange={onOpenChange}
           trigger={
             <button
-              id={HEADER_MENU_CONFIG.share.triggerId}
+              id={triggerId}
               type="button"
-              aria-label="aria"
+              aria-label="Share with team members"
               className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"
             >
               <Plus className="h-3 w-3" />

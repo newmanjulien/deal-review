@@ -1,7 +1,7 @@
 import {
   DashboardDataTable,
   type DashboardDataTableFormatters,
-} from "@/components/table/table";
+} from "@/components/table";
 import { Badge } from "@/components/ui/badge";
 import { CONVERSATIONS_TABLE_COLUMNS } from "./conversations-config";
 import type { ConversationRow } from "./conversations-types";

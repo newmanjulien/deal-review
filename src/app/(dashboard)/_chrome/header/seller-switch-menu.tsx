@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 import { HEADER_MENU_CONFIG } from "./header-config";
 import {
   HeaderMenu,
@@ -10,19 +10,31 @@ import {
 
 type SellerSwitchMenuProps = {
   people: HeaderPerson[];
+  id?: string;
+  triggerId?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function SellerSwitchMenu({ people }: SellerSwitchMenuProps) {
+export function SellerSwitchMenu({
+  people,
+  id = HEADER_MENU_CONFIG.sellerSwitch.id,
+  triggerId = HEADER_MENU_CONFIG.sellerSwitch.triggerId,
+  open,
+  onOpenChange,
+}: SellerSwitchMenuProps) {
   return (
     <HeaderMenu
-      id={HEADER_MENU_CONFIG.sellerSwitch.id}
+      id={id}
       align="end"
+      open={open}
+      onOpenChange={onOpenChange}
       trigger={
         <button
-          id={HEADER_MENU_CONFIG.sellerSwitch.triggerId}
+          id={triggerId}
           type="button"
-          aria-label="aria"
-          className="mr-2 flex h-7 items-center justify-center rounded-sm border border-zinc-100 px-2 text-xs font-medium text-zinc-500 tracking-wide transition-colors hover:bg-zinc-100"
+          aria-label="Switch seller"
+          className="mr-2 flex h-7 items-center justify-center rounded-sm border border-zinc-100 px-2 text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:bg-zinc-100"
         >
           {HEADER_MENU_CONFIG.sellerSwitch.triggerLabel}
         </button>

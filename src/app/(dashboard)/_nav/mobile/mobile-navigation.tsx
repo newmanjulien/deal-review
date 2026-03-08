@@ -1,35 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useDashboardChromeUi } from "@/app/(dashboard)/_chrome/chrome-ui";
 import { MobileDrawer } from "./mobile-drawer";
 import { MobileHeader } from "./mobile-header";
 
 export function MobileNavigation() {
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const {
+    state: { isMobileDrawerOpen },
+    actions,
+  } = useDashboardChromeUi();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-
-    const onMediaQueryChange = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        setIsMobileNavOpen(false);
-      }
-    };
-
-    mediaQuery.addEventListener("change", onMediaQueryChange);
-    return () => mediaQuery.removeEventListener("change", onMediaQueryChange);
-  }, []);
 
   return (
     <>
       <MobileDrawer
-        isOpen={isMobileNavOpen}
-        onClose={() => setIsMobileNavOpen(false)}
+        isOpen={isMobileDrawerOpen}
+        onClose={() => actions.setMobileDrawerOpen(false)}
         triggerRef={menuButtonRef}
       />
       <MobileHeader
-        onToggleNav={() => setIsMobileNavOpen((current) => !current)}
+        onToggleNav={actions.toggleMobileDrawer}
         menuButtonRef={menuButtonRef}
       />
     </>

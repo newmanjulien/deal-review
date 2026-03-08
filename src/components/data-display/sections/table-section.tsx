@@ -1,6 +1,4 @@
-import {
-  DashboardDataTable,
-} from "@/components/table/table";
+import { DashboardDataTable } from "@/components/table";
 import type {
   DataDisplayTableColumn,
   DataDisplayTableRow,

@@ -1,4 +1,4 @@
-export const LAST_MEETING_PAGE_CONFIG = {
+export const SINCE_LAST_MEETING_PAGE_CONFIG = {
   headerTitle: "Since last meeting",
   title: "Since your last meeting with Julien",
   description:

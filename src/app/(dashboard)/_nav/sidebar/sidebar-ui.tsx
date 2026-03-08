@@ -1,71 +1,24 @@
 "use client";
 
+import type { ReactNode } from "react";
 import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
-
-type DashboardSidebarContextValue = {
-  isExpanded: boolean;
-  toggleSidebar: () => void;
-  collapseSidebar: () => void;
-};
-
-const DashboardSidebarContext = createContext<DashboardSidebarContextValue | null>(
-  null,
-);
+  DashboardChromeProvider,
+  useDashboardChromeUi,
+} from "@/app/(dashboard)/_chrome/chrome-ui";
 
 export function DashboardSidebarProvider({ children }: { children: ReactNode }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-
-    const onMediaQueryChange = (event: MediaQueryListEvent) => {
-      if (!event.matches) {
-        setIsExpanded(false);
-      }
-    };
-
-    mediaQuery.addEventListener("change", onMediaQueryChange);
-    return () => mediaQuery.removeEventListener("change", onMediaQueryChange);
-  }, []);
-
-  const toggleSidebar = useCallback(() => {
-    setIsExpanded((current) => !current);
-  }, []);
-
-  const collapseSidebar = useCallback(() => {
-    setIsExpanded(false);
-  }, []);
-
-  const value = useMemo(
-    () => ({
-      isExpanded,
-      toggleSidebar,
-      collapseSidebar,
-    }),
-    [collapseSidebar, isExpanded, toggleSidebar],
-  );
-
-  return (
-    <DashboardSidebarContext.Provider value={value}>
-      {children}
-    </DashboardSidebarContext.Provider>
-  );
+  return <DashboardChromeProvider>{children}</DashboardChromeProvider>;
 }
 
 export function useDashboardSidebar() {
-  const context = useContext(DashboardSidebarContext);
-  if (!context) {
-    throw new Error(
-      "useDashboardSidebar must be used within a DashboardSidebarProvider",
-    );
-  }
-  return context;
+  const {
+    state: { isSidebarExpanded },
+    actions: { toggleSidebar, collapseSidebar },
+  } = useDashboardChromeUi();
+
+  return {
+    isExpanded: isSidebarExpanded,
+    toggleSidebar,
+    collapseSidebar,
+  };
 }

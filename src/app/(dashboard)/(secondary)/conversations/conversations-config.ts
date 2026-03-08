@@ -1,4 +1,4 @@
-import type { DashboardDataTableColumn } from "@/components/table/table";
+import type { DashboardDataTableColumn } from "@/components/table";
 import type { ConversationRow } from "./conversations-types";
 
 export const CONVERSATIONS_PAGE_CONFIG = {

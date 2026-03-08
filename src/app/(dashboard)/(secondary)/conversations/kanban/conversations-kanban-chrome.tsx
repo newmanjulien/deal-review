@@ -29,7 +29,7 @@ export function ConversationsKanbanChrome({
           size="icon-xs"
           onClick={onScrollLeft}
           disabled={!canScrollLeft}
-          aria-label="aria"
+          aria-label="Scroll left"
         >
           <ChevronLeft className="size-3.5" />
         </Button>
@@ -39,7 +39,7 @@ export function ConversationsKanbanChrome({
           size="icon-xs"
           onClick={onScrollRight}
           disabled={!canScrollRight}
-          aria-label="aria"
+          aria-label="Scroll right"
         >
           <ChevronRight className="size-3.5" />
         </Button>

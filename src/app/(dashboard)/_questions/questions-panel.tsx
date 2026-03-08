@@ -57,7 +57,7 @@ export function QuestionsPanel({
                     type="button"
                     variant="ghost"
                     size="icon-xs"
-                    aria-label="aria"
+                    aria-label="Delete question"
                     className="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
                     onClick={() => onQuestionDelete(question.id)}
                   >

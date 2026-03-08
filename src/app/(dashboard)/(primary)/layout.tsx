@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { PrimaryLayoutShell } from "./primary-layout-shell";
+import { LayoutClient } from "./layout-client";
 
 export default function PrimaryLayout({ children }: { children: ReactNode }) {
-  return <PrimaryLayoutShell>{children}</PrimaryLayoutShell>;
+  return <LayoutClient>{children}</LayoutClient>;
 }

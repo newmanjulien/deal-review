@@ -1,4 +1,4 @@
-import type { DashboardDataTableColumn } from "@/components/table/table";
+import type { DashboardDataTableColumn } from "@/components/table";
 
 export type DataDisplaySectionKind = "timeline" | "table" | "cards";
 
@@ -13,7 +13,8 @@ export type DataDisplayTableRow = {
   id: string;
 } & Record<string, string>;
 
-export type DataDisplayTableColumn = DashboardDataTableColumn<DataDisplayTableRow>;
+export type DataDisplayTableColumn =
+  DashboardDataTableColumn<DataDisplayTableRow>;
 
 export type DataDisplayCardPriority = "high" | "medium" | "low";
 export type DataDisplayCardAvatars = [string] | [string, string];

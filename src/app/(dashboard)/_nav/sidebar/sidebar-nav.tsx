@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import type { RefObject } from "react";
-import { Button } from "@/components/ui/button";
+import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
-import type { NavGroups, NavItem } from "./nav-types";
-import { normalizeNavGroups } from "./nav-utils";
+import type { NavGroups, NavItem } from "../nav-types";
+import { normalizeNavGroups } from "../nav-utils";
 
-type RailNavProps = {
+type SidebarNavProps = {
   groups: NavGroups;
   activeHref: string | null;
   onHoveredHrefChange: (href: string | null) => void;
@@ -18,7 +17,7 @@ type RailNavProps = {
   className?: string;
 };
 
-type RailNavItemProps = {
+type SidebarNavItemProps = {
   item: NavItem;
   section: "main" | "secondary" | "tertiary";
   expanded: boolean;
@@ -27,14 +26,14 @@ type RailNavItemProps = {
   setItemRef: (href: string, el: HTMLSpanElement | null) => void;
 };
 
-function RailNavItem({
+function SidebarNavItem({
   item,
   section,
   expanded,
   isActive,
   onHoveredHrefChange,
   setItemRef,
-}: RailNavItemProps) {
+}: SidebarNavItemProps) {
   const isTertiary = section === "tertiary";
 
   return (
@@ -43,20 +42,18 @@ function RailNavItem({
         if (isTertiary) return;
         setItemRef(item.href, el);
       }}
-      onMouseEnter={
-        !isTertiary ? () => onHoveredHrefChange(item.href) : undefined
-      }
+      onMouseEnter={!isTertiary ? () => onHoveredHrefChange(item.href) : undefined}
       className={cn(
         "relative z-10",
         expanded ? "block w-full" : "inline-flex",
         isTertiary && !expanded && "self-center",
       )}
     >
-      <Button
-        asChild
-        variant="ghost"
-        size={expanded ? "default" : "icon-sm"}
-        className={cn(
+      <ChromeNavItemLink
+        item={item}
+        buttonSize={expanded ? "default" : "icon-sm"}
+        showLabel={expanded}
+        buttonClassName={cn(
           expanded
             ? "h-7 w-full justify-start gap-2.5 rounded-sm border border-transparent px-2 text-xs text-zinc-600 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
             : isTertiary
@@ -70,21 +67,13 @@ function RailNavItem({
                 : "text-zinc-900"
             : null,
         )}
-      >
-        <Link href={item.href}>
-          <item.icon className="size-3.5 shrink-0" />
-          {expanded ? (
-            <span className="truncate text-left font-[460]">{item.label}</span>
-          ) : (
-            <span className="sr-only">{item.label}</span>
-          )}
-        </Link>
-      </Button>
+        labelClassName={expanded ? "font-[460]" : undefined}
+      />
     </span>
   );
 }
 
-export function RailNav({
+export function SidebarNav({
   groups,
   activeHref,
   onHoveredHrefChange,
@@ -93,7 +82,7 @@ export function RailNav({
   setItemRef,
   expanded = false,
   className,
-}: RailNavProps) {
+}: SidebarNavProps) {
   const normalizedGroups = normalizeNavGroups(groups);
 
   const renderItems = (
@@ -101,7 +90,7 @@ export function RailNav({
     section: "main" | "secondary" | "tertiary",
   ) =>
     sectionItems.map((item) => (
-      <RailNavItem
+      <SidebarNavItem
         key={item.href}
         item={item}
         section={section}
@@ -115,7 +104,7 @@ export function RailNav({
   return (
     <nav
       ref={navRef}
-      aria-label="aria"
+      aria-label="Dashboard navigation"
       className={cn("relative flex min-h-0 flex-1 flex-col", className)}
       onMouseLeave={() => onHoveredHrefChange(null)}
     >

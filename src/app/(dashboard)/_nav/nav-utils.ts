@@ -1,12 +1,8 @@
+import {
+  isDashboardPathWithinRoute,
+  normalizeDashboardPathname,
+} from "@/app/(dashboard)/_routes/dashboard-pathname";
 import type { NavGroups, NormalizedNavGroups } from "./nav-types";
-
-function normalizePathname(pathname: string): string {
-  if (!pathname) return "/";
-  if (pathname !== "/" && pathname.endsWith("/")) {
-    return pathname.slice(0, -1);
-  }
-  return pathname;
-}
 
 export function normalizeNavGroups(groups: NavGroups): NormalizedNavGroups {
   const main = groups.main;
@@ -23,29 +19,24 @@ export function normalizeNavGroups(groups: NavGroups): NormalizedNavGroups {
 }
 
 export function isNavItemActive(pathname: string, href: string): boolean {
-  const normalizedPathname = normalizePathname(pathname);
-  const normalizedHref = normalizePathname(href);
+  const normalizedPathname = normalizeDashboardPathname(pathname);
+  const normalizedHref = normalizeDashboardPathname(href);
 
   if (href === "/") {
     return normalizedPathname === "/";
   }
 
-  return (
-    normalizedPathname === normalizedHref ||
-    normalizedPathname.startsWith(`${normalizedHref}/`)
-  );
+  return isDashboardPathWithinRoute(normalizedPathname, normalizedHref);
 }
 
 export function getActiveHref(pathname: string, groups: NavGroups): string | null {
-  const normalizedPathname = normalizePathname(pathname);
+  const normalizedPathname = normalizeDashboardPathname(pathname);
   const normalizedGroups = normalizeNavGroups(groups);
   const items = [
     ...normalizedGroups.main,
     ...normalizedGroups.secondary,
     ...normalizedGroups.tertiary,
   ];
-  return (
-    items.find((item) => isNavItemActive(normalizedPathname, item.href))?.href ??
-    null
-  );
+
+  return items.find((item) => isNavItemActive(normalizedPathname, item.href))?.href ?? null;
 }

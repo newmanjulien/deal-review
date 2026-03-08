@@ -1,7 +1,6 @@
 "use client";
 
-import type { ComponentProps } from "react";
-import type { HeaderMenuProps } from "@/app/(dashboard)/_header/header-types";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -12,10 +11,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-export function HeaderMenu({
+export type ChromeMenuAlign = "start" | "center" | "end";
+
+export type ChromeMenuProps = {
+  trigger: ReactElement;
+  children: ReactNode;
+  contentId?: string;
+  align?: ChromeMenuAlign;
+  sideOffset?: number;
+  className?: string;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  modal?: boolean;
+};
+
+export function ChromeMenu({
   trigger,
   children,
-  id,
+  contentId,
   align = "end",
   sideOffset = 4,
   className,
@@ -23,7 +37,7 @@ export function HeaderMenu({
   defaultOpen,
   onOpenChange,
   modal,
-}: HeaderMenuProps) {
+}: ChromeMenuProps) {
   return (
     <DropdownMenu
       open={open}
@@ -33,7 +47,7 @@ export function HeaderMenu({
     >
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent
-        id={id}
+        id={contentId}
         align={align}
         sideOffset={sideOffset}
         className={cn("w-64 p-1", className)}
@@ -44,7 +58,7 @@ export function HeaderMenu({
   );
 }
 
-export function HeaderMenuSectionLabel({
+export function ChromeMenuSectionLabel({
   className,
   ...props
 }: ComponentProps<typeof DropdownMenuLabel>) {
@@ -59,11 +73,11 @@ export function HeaderMenuSectionLabel({
   );
 }
 
-export function HeaderMenuList({ className, ...props }: ComponentProps<"ul">) {
+export function ChromeMenuList({ className, ...props }: ComponentProps<"ul">) {
   return <ul className={cn("mt-1 space-y-1", className)} {...props} />;
 }
 
-export function HeaderMenuItem({
+export function ChromeMenuItem({
   className,
   ...props
 }: ComponentProps<typeof DropdownMenuItem>) {
@@ -78,7 +92,7 @@ export function HeaderMenuItem({
   );
 }
 
-export function HeaderMenuCheckboxItem({
+export function ChromeMenuCheckboxItem({
   className,
   ...props
 }: ComponentProps<typeof DropdownMenuCheckboxItem>) {

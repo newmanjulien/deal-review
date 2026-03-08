@@ -1,4 +1,4 @@
-import type { DashboardDataTableColumn } from "@/components/table/table";
+import type { DashboardDataTableColumn } from "@/components/table";
 
 export type SinceLastMeetingTableRow = {
   id: string;

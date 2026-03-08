@@ -1,10 +1,5 @@
 import type { ReactElement, ReactNode } from "react";
 
-export type HeaderPerson = {
-  name: string;
-  avatar: string;
-};
-
 export type HeaderMenuAlign = "start" | "center" | "end";
 
 export type HeaderMenuProps = {

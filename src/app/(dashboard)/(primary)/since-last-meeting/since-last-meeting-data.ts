@@ -1,11 +1,11 @@
 import type { DataDisplayTimelineItem } from "@/components/data-display/data-display-types";
-import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 import type {
   SinceLastMeetingTableColumn,
   SinceLastMeetingTableRow,
-} from "./last-meeting-types";
+} from "./since-last-meeting-types";
 
-export const lastMeetingSharedPeople: HeaderPerson[] = [
+export const sinceLastMeetingSharedPeople: HeaderPerson[] = [
   {
     name: "Julien Newman",
     avatar: "/avatars/aditya.jpg",
@@ -16,7 +16,7 @@ export const lastMeetingSharedPeople: HeaderPerson[] = [
   },
 ];
 
-export const lastMeetingTimelineItems: DataDisplayTimelineItem[] = [
+export const sinceLastMeetingTimelineItems: DataDisplayTimelineItem[] = [
   {
     id: "tyson",
     title: "2nd meeting with Tyson Foods",
@@ -37,7 +37,7 @@ export const lastMeetingTimelineItems: DataDisplayTimelineItem[] = [
   },
 ] as const;
 
-export const lastMeetingTableColumns: SinceLastMeetingTableColumn[] = [
+export const sinceLastMeetingTableColumns: SinceLastMeetingTableColumn[] = [
   {
     key: "deal",
     label: "Deal",
@@ -58,7 +58,7 @@ export const lastMeetingTableColumns: SinceLastMeetingTableColumn[] = [
   },
 ] as const;
 
-export const lastMeetingTableRows: SinceLastMeetingTableRow[] = [
+export const sinceLastMeetingTableRows: SinceLastMeetingTableRow[] = [
   {
     id: "whirlpool",
     deal: "Whirlpool deal",

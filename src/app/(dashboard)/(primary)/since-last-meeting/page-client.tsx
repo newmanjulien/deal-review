@@ -2,35 +2,35 @@
 
 import { DataDisplay } from "@/components/data-display/data-display";
 import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
-import { LAST_MEETING_PAGE_CONFIG } from "./last-meeting-config";
+import { SINCE_LAST_MEETING_PAGE_CONFIG } from "./since-last-meeting-config";
 import {
-  lastMeetingTableColumns,
-  lastMeetingTableRows,
-  lastMeetingTimelineItems,
-} from "./last-meeting-data";
+  sinceLastMeetingTableColumns,
+  sinceLastMeetingTableRows,
+  sinceLastMeetingTimelineItems,
+} from "./since-last-meeting-data";
 
-const LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
+const SINCE_LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
   {
     id: "timeline",
     label: "Timeline",
     kind: "timeline",
-    items: lastMeetingTimelineItems,
+    items: sinceLastMeetingTimelineItems,
   },
   {
     id: "deals",
     label: "Deals",
     kind: "table",
-    rows: lastMeetingTableRows,
-    columns: lastMeetingTableColumns,
+    rows: sinceLastMeetingTableRows,
+    columns: sinceLastMeetingTableColumns,
   },
 ];
 
 export function SinceLastMeetingPageClient() {
   return (
     <DataDisplay
-      title={LAST_MEETING_PAGE_CONFIG.title}
-      description={LAST_MEETING_PAGE_CONFIG.description}
-      sections={LAST_MEETING_SECTIONS}
+      title={SINCE_LAST_MEETING_PAGE_CONFIG.title}
+      description={SINCE_LAST_MEETING_PAGE_CONFIG.description}
+      sections={SINCE_LAST_MEETING_SECTIONS}
     />
   );
 }

@@ -3,20 +3,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { PRIMARY_NAV_GROUPS, RailNav, useNav } from "..";
-import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/dashboard-routes";
-import { useSidebarNavMotion } from "@/app/(dashboard)/_nav/sidebar/use-sidebar-nav-motion";
-import { useDashboardSidebar } from "@/app/(dashboard)/_nav/sidebar/sidebar-ui";
+import { useDashboardChromeModel } from "@/app/(dashboard)/_chrome/chrome-ui";
+import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/_routes/dashboard-routes";
+import { SidebarNav } from "./sidebar-nav";
+import { useSidebarNavMotion } from "./use-sidebar-nav-motion";
+import { useDashboardSidebar } from "./sidebar-ui";
 import { cn } from "@/lib/utils";
 
 export function Sidebar({ className }: { className?: string }) {
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+  const chrome = useDashboardChromeModel();
   const { isExpanded } = useDashboardSidebar();
-  const { activeHref } = useNav(PRIMARY_NAV_GROUPS);
+  const activeHref = chrome?.nav.activeHref ?? null;
+
   const { refs, actions } = useSidebarNavMotion({
     activeHref,
     hoveredHref,
   });
+
+  if (!chrome) {
+    return null;
+  }
 
   return (
     <aside
@@ -25,11 +32,11 @@ export function Sidebar({ className }: { className?: string }) {
         isExpanded ? "w-56 items-stretch px-2" : "w-10 items-start pl-0.5",
         className,
       )}
-      aria-label="aria"
+      aria-label="Dashboard sidebar"
     >
       <Link
         href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
-        aria-label="aria"
+        aria-label="Go to since last meeting"
         className={cn(
           "mb-4 overflow-hidden rounded-sm",
           isExpanded && "ml-0.5 w-fit self-start",
@@ -56,8 +63,8 @@ export function Sidebar({ className }: { className?: string }) {
         )}
       </Link>
 
-      <RailNav
-        groups={PRIMARY_NAV_GROUPS}
+      <SidebarNav
+        groups={chrome.nav.groups}
         activeHref={activeHref}
         onHoveredHrefChange={setHoveredHref}
         navRef={refs.navRef}

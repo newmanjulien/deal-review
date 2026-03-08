@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
-import { DrawerNav, PRIMARY_NAV_GROUPS, useNav } from "..";
-import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/dashboard-routes";
+import { useDashboardChromeModel } from "@/app/(dashboard)/_chrome/chrome-ui";
+import { DASHBOARD_ROUTE_PATHS } from "@/app/(dashboard)/_routes/dashboard-routes";
+import { DrawerNav } from "./drawer-nav";
 
 export function MobileDrawer({
   isOpen,
@@ -16,17 +17,9 @@ export function MobileDrawer({
   onClose: () => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
 }) {
-  const { activeHref, pathname } = useNav(PRIMARY_NAV_GROUPS);
+  const chrome = useDashboardChromeModel();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const previousPathnameRef = useRef(pathname);
   const wasOpenRef = useRef(false);
-
-  useEffect(() => {
-    const previousPathname = previousPathnameRef.current;
-    previousPathnameRef.current = pathname;
-    if (!isOpen || pathname === previousPathname) return;
-    onClose();
-  }, [pathname, isOpen, onClose]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -66,7 +59,7 @@ export function MobileDrawer({
     triggerRef.current?.focus();
   }, [isOpen, triggerRef]);
 
-  if (!isOpen) {
+  if (!isOpen || !chrome) {
     return null;
   }
 
@@ -76,13 +69,13 @@ export function MobileDrawer({
         id="mobile-nav-drawer"
         role="dialog"
         aria-modal="true"
-        aria-label="aria"
+        aria-label="Navigation menu"
         className="flex h-full flex-col"
       >
         <header className="flex h-11 items-center border-b border-zinc-100 bg-white px-[var(--shell-gutter-mobile)]">
           <Link
             href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
-            aria-label="aria"
+            aria-label="Go to since last meeting"
             className="overflow-hidden rounded-sm"
             onClick={onClose}
           >
@@ -98,7 +91,7 @@ export function MobileDrawer({
           <button
             ref={closeButtonRef}
             type="button"
-            aria-label="aria"
+            aria-label="Close navigation menu"
             className="ml-auto inline-flex size-8 items-center justify-center rounded-sm text-zinc-700 transition-colors hover:bg-zinc-100"
             onClick={onClose}
           >
@@ -108,8 +101,8 @@ export function MobileDrawer({
 
         <div className="flex-1 overflow-y-auto p-4">
           <DrawerNav
-            groups={PRIMARY_NAV_GROUPS}
-            activeHref={activeHref}
+            groups={chrome.nav.groups}
+            activeHref={chrome.nav.activeHref}
             onItemSelect={onClose}
             className="mt-2"
           />

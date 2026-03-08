@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import type { HeaderPerson } from "@/app/(dashboard)/_header/header-types";
+import type { HeaderPerson } from "@/app/(dashboard)/_chrome/chrome-types";
 import {
-  HeaderMenu,
-  HeaderMenuCheckboxItem,
-  HeaderMenuList,
-  HeaderMenuSectionLabel,
-} from "@/app/(dashboard)/_header/header-menu";
+  ChromeMenu,
+  ChromeMenuCheckboxItem,
+  ChromeMenuList,
+  ChromeMenuSectionLabel,
+} from "@/components/chrome";
 
 type ConversationsSellerFilterMenuProps = {
   people: HeaderPerson[];
@@ -27,26 +27,26 @@ export function ConversationsSellerFilterMenu({
   );
 
   return (
-    <HeaderMenu
-      id="conversations-seller-filter-menu"
+    <ChromeMenu
+      contentId="conversations-seller-filter-menu"
       align="end"
       trigger={
         <button
           type="button"
-          aria-label="aria"
+          aria-label="Filter sellers"
           className="mr-0.5 flex h-7 items-center justify-center rounded-sm border border-zinc-100 px-2 text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:bg-zinc-100"
         >
           Filter sellers
         </button>
       }
     >
-      <HeaderMenuSectionLabel>
+      <ChromeMenuSectionLabel>
         Filter conversations by seller
-      </HeaderMenuSectionLabel>
-      <HeaderMenuList>
+      </ChromeMenuSectionLabel>
+      <ChromeMenuList>
         {people.map((person) => (
           <li key={person.name}>
-            <HeaderMenuCheckboxItem
+            <ChromeMenuCheckboxItem
               checked={selectedPeopleSet.has(person.name)}
               onCheckedChange={(checked) => {
                 const isChecked = checked === true;
@@ -72,10 +72,10 @@ export function ConversationsSellerFilterMenu({
                 />
               </span>
               <span className="font-medium">{person.name}</span>
-            </HeaderMenuCheckboxItem>
+            </ChromeMenuCheckboxItem>
           </li>
         ))}
-      </HeaderMenuList>
-    </HeaderMenu>
+      </ChromeMenuList>
+    </ChromeMenu>
   );
 }
