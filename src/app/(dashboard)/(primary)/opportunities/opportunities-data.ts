@@ -15,8 +15,8 @@ export const opportunitiesSharedPeople: HeaderPerson[] = [
 export const opportunitiesCards: DataDisplayCard[] = [
   {
     id: "118",
-    title: "Checkout confirmation email delay",
-    iconKey: "lightbulb",
+    title: "CFO was a customer at his last job",
+    iconKey: "opportunity",
     dealLabel: "Honeywell",
     avatars: [
       opportunitiesSharedPeople[1].avatar,
@@ -30,9 +30,9 @@ export const opportunitiesCards: DataDisplayCard[] = [
 export const risksCards: DataDisplayCard[] = [
   {
     id: "118",
-    title: "Checkout confirmation email delay",
-    iconKey: "triangle-alert",
-    dealLabel: "Honeywell",
+    title: "We've lost multiple RFPs at 3M",
+    iconKey: "risk",
+    dealLabel: "3M",
     avatars: [
       opportunitiesSharedPeople[1].avatar,
       opportunitiesSharedPeople[0].avatar,

@@ -1,7 +1,6 @@
 import {
   CircleOff,
   Clock3,
-  KeyRound,
   Lightbulb,
   TriangleAlert,
   type LucideIcon,
@@ -9,11 +8,10 @@ import {
 import type { DataDisplayCardIconKey } from "@/components/data-display/data-display-types";
 
 const DATA_DISPLAY_CARD_ICON_MAP: Record<DataDisplayCardIconKey, LucideIcon> = {
-  "circle-off": CircleOff,
-  "clock-3": Clock3,
-  "key-round": KeyRound,
-  lightbulb: Lightbulb,
-  "triangle-alert": TriangleAlert,
+  missing: CircleOff,
+  timing: Clock3,
+  opportunity: Lightbulb,
+  risk: TriangleAlert,
 };
 
 type DataDisplayCardIconProps = {

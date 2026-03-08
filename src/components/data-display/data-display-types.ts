@@ -19,11 +19,10 @@ export type DataDisplayTableColumn =
 export type DataDisplayCardPriority = "high" | "medium" | "low";
 type DataDisplayCardAvatars = [string] | [string, string];
 export type DataDisplayCardIconKey =
-  | "circle-off"
-  | "clock-3"
-  | "key-round"
-  | "lightbulb"
-  | "triangle-alert";
+  | "missing"
+  | "timing"
+  | "opportunity"
+  | "risk";
 
 export type DataDisplayCard = {
   id: string;
@@ -42,11 +41,10 @@ type DataDisplaySectionInstanceBase = {
   label: string;
 };
 
-type DataDisplayTimelineSectionInstance =
-  DataDisplaySectionInstanceBase & {
-    kind: "timeline";
-    items: DataDisplayTimelineItem[];
-  };
+type DataDisplayTimelineSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "timeline";
+  items: DataDisplayTimelineItem[];
+};
 
 type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
   kind: "table";
