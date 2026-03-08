@@ -11,17 +11,10 @@ import {
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
+import { useRef, type Dispatch, type SetStateAction } from "react";
+import type { KanbanState } from "../conversations-types";
 import {
-  useCallback,
-  useRef,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
-import type {
-  ConversationStage,
-  KanbanState,
-} from "../conversations-types";
-import {
+  KANBAN_DRAG_ACTIVATION_DISTANCE_PX,
   KANBAN_COLUMN_WIDTH_PX,
   KANBAN_DROP_ANIMATION_DURATION_MS,
   KANBAN_OVERLAY_Z_INDEX,
@@ -30,11 +23,9 @@ import {
 import { ConversationsKanbanChrome } from "./conversations-kanban-chrome";
 import { ConversationsKanbanDragOverlayCard } from "./conversations-kanban-card";
 import { ConversationsKanbanColumn } from "./conversations-kanban-column";
-import {
-  useKanbanAutoScroll,
-  useKanbanDragState,
-  useKanbanScrollControls,
-} from "./conversations-kanban-hooks";
+import { useKanbanAutoScroll } from "./use-kanban-auto-scroll";
+import { useKanbanDragState } from "./use-kanban-drag-state";
+import { useKanbanScrollControls } from "./use-kanban-scroll-controls";
 
 type ConversationsKanbanProps = {
   boardState: KanbanState;
@@ -54,8 +45,7 @@ export function ConversationsKanban({
     });
   const {
     activeDrag,
-    pointerRef,
-    dragDestinationRef,
+    dragSessionRef,
     columnListRefsRef,
     handleDragStart,
     handleDragMove,
@@ -71,7 +61,7 @@ export function ConversationsKanban({
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 4,
+        distance: KANBAN_DRAG_ACTIVATION_DISTANCE_PX,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -81,23 +71,13 @@ export function ConversationsKanban({
 
   useKanbanAutoScroll({
     activeDrag,
-    pointerRef,
-    dragDestinationRef,
+    dragSessionRef,
     columnListRefsRef,
     scrollContainerRef,
     updateScrollState,
   });
 
-  const handleColumnListRefChange = useCallback(
-    (stage: ConversationStage, element: HTMLOListElement | null) => {
-      columnListRefsRef.current[stage] = element;
-    },
-    [columnListRefsRef],
-  );
-
-  const activeDragRow = activeDrag
-    ? boardState.cardsById[activeDrag.cardId]
-    : null;
+  const activeDragRow = activeDrag && boardState.cardsById[activeDrag.cardId];
   const canUsePortal = typeof document !== "undefined";
 
   return (
@@ -132,29 +112,30 @@ export function ConversationsKanban({
                 cardIds={boardState.columnCardIds[stage]}
                 cardsById={boardState.cardsById}
                 activeDragCardId={activeDrag?.cardId ?? null}
-                onColumnListRefChange={handleColumnListRefChange}
+                onColumnListRefChange={(columnStage, element) => {
+                  columnListRefsRef.current[columnStage] = element;
+                }}
               />
             ))}
           </div>
         </div>
       </ConversationsKanbanChrome>
 
-      {canUsePortal
-        ? createPortal(
-            <DragOverlay
-              zIndex={KANBAN_OVERLAY_Z_INDEX}
-              dropAnimation={{
-                duration: KANBAN_DROP_ANIMATION_DURATION_MS,
-                easing: "ease",
-              }}
-            >
-              {activeDragRow ? (
-                <ConversationsKanbanDragOverlayCard row={activeDragRow} />
-              ) : null}
-            </DragOverlay>,
-            document.body,
-          )
-        : null}
+      {canUsePortal &&
+        createPortal(
+          <DragOverlay
+            zIndex={KANBAN_OVERLAY_Z_INDEX}
+            dropAnimation={{
+              duration: KANBAN_DROP_ANIMATION_DURATION_MS,
+              easing: "ease",
+            }}
+          >
+            {activeDragRow ? (
+              <ConversationsKanbanDragOverlayCard row={activeDragRow} />
+            ) : null}
+          </DragOverlay>,
+          document.body,
+        )}
     </DndContext>
   );
 }

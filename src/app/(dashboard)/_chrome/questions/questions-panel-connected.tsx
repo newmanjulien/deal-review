@@ -5,20 +5,18 @@ import { useQuestions } from "./use-questions";
 
 export function QuestionsPanelConnected() {
   const {
-    state: { draftQuestions },
-    actions: {
-      handleQuestionChange,
-      handleQuestionDelete,
-      handleSendAll,
-    },
+    draftQuestions,
+    updateQuestion,
+    deleteQuestion,
+    sendAllQuestions,
   } = useQuestions();
 
   return (
     <QuestionsPanel
       draftQuestions={draftQuestions}
-      onQuestionChange={handleQuestionChange}
-      onQuestionDelete={handleQuestionDelete}
-      onSendAll={handleSendAll}
+      onQuestionChange={updateQuestion}
+      onQuestionDelete={deleteQuestion}
+      onSendAll={sendAllQuestions}
     />
   );
 }

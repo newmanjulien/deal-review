@@ -90,15 +90,10 @@ function renderCellValue<Row, K extends Extract<keyof Row, string>>(
   key: K,
   formatters?: DashboardDataTableFormatters<Row>,
 ) {
-  const rawValue = row[key];
   const formatter = formatters?.[key] as
     | ((value: Row[K], currentRow: Row) => React.ReactNode)
     | undefined;
-  if (formatter) {
-    return formatter(rawValue, row);
-  }
-
-  return rawValue as React.ReactNode;
+  return formatter ? formatter(row[key], row) : (row[key] as React.ReactNode);
 }
 
 type DashboardDataTableProps<Row> = {

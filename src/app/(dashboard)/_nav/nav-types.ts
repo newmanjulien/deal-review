@@ -12,11 +12,3 @@ export type NavGroups = {
   secondary?: NavItem[];
   tertiary?: NavItem[];
 };
-
-export type NormalizedNavGroups = {
-  main: NavItem[];
-  secondary: NavItem[];
-  tertiary: NavItem[];
-  hasSecondary: boolean;
-  showMainSecondaryDivider: boolean;
-};

@@ -5,7 +5,6 @@ import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
 import type { AppPath } from "@/types/domain/app-path";
 import type { NavGroups, NavItem } from "../nav-types";
-import { normalizeNavGroups } from "../nav-utils";
 
 type SidebarSection = "main" | "secondary" | "tertiary";
 
@@ -38,47 +37,6 @@ type SidebarNavItemGroupProps = {
   setItemRef: (href: AppPath, el: HTMLSpanElement | null) => void;
 };
 
-function getItemContainerClassName(expanded: boolean, isTertiary: boolean) {
-  return cn(
-    "relative z-10",
-    expanded ? "block w-full" : "inline-flex",
-    isTertiary && !expanded && "self-center",
-  );
-}
-
-function getItemButtonClassName({
-  expanded,
-  isTertiary,
-  isActive,
-}: {
-  expanded: boolean;
-  isTertiary: boolean;
-  isActive: boolean;
-}) {
-  const baseClassName = expanded
-    ? "h-7 w-full justify-start gap-2.5 rounded-sm border border-transparent px-2 text-xs text-zinc-600 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
-    : isTertiary
-      ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
-      : "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2";
-
-  const activeClassName = !isActive
-    ? null
-    : expanded
-      ? "text-zinc-900"
-      : isTertiary
-        ? "border-zinc-300 bg-white text-zinc-900"
-        : "text-zinc-900";
-
-  return cn(baseClassName, activeClassName);
-}
-
-function getSecondaryDividerClassName(expanded: boolean) {
-  return cn(
-    "block h-px bg-zinc-200/50",
-    expanded ? "mx-2 w-auto" : "mx-auto w-4",
-  );
-}
-
 function SidebarNavItem({
   item,
   section,
@@ -88,6 +46,24 @@ function SidebarNavItem({
   setItemRef,
 }: SidebarNavItemProps) {
   const isTertiary = section === "tertiary";
+  const containerClassName = cn(
+    "relative z-10",
+    expanded ? "block w-full" : "inline-flex",
+    isTertiary && !expanded && "self-center",
+  );
+  const buttonClassName = cn(
+    expanded
+      ? "h-7 w-full justify-start gap-2.5 rounded-sm border border-transparent px-2 text-xs text-zinc-600 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2"
+      : isTertiary
+        ? "size-7 rounded-full border border-zinc-100 bg-white text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2"
+        : "size-7 rounded-sm border border-transparent text-zinc-500 transition-colors hover:bg-transparent hover:text-zinc-800 focus-visible:ring-2",
+    isActive &&
+      (expanded
+        ? "text-zinc-900"
+        : isTertiary
+          ? "border-zinc-300 bg-white text-zinc-900"
+          : "text-zinc-900"),
+  );
 
   return (
     <span
@@ -96,13 +72,13 @@ function SidebarNavItem({
         setItemRef(item.href, el);
       }}
       onMouseEnter={!isTertiary ? () => onHoveredHrefChange(item.href) : undefined}
-      className={getItemContainerClassName(expanded, isTertiary)}
+      className={containerClassName}
     >
       <ChromeNavItemLink
         item={item}
         buttonSize={expanded ? "default" : "icon-sm"}
         showLabel={expanded}
-        buttonClassName={getItemButtonClassName({ expanded, isTertiary, isActive })}
+        buttonClassName={buttonClassName}
         labelClassName={expanded ? "font-[460]" : undefined}
       />
     </span>
@@ -144,7 +120,10 @@ export function SidebarNav({
   expanded = false,
   className,
 }: SidebarNavProps) {
-  const normalizedGroups = normalizeNavGroups(groups);
+  const secondaryItems = groups.secondary ?? [];
+  const tertiaryItems = groups.tertiary ?? [];
+  const hasSecondary = secondaryItems.length > 0;
+  const showMainSecondaryDivider = groups.main.length > 0 && hasSecondary;
 
   return (
     <nav
@@ -159,22 +138,28 @@ export function SidebarNav({
         className="sidebar-nav-indicator pointer-events-none absolute rounded-sm bg-zinc-200/60 transition-[top,left,width,height,opacity] duration-200 ease-out"
       />
       <SidebarNavItemGroup
-        items={normalizedGroups.main}
+        items={groups.main}
         section="main"
         expanded={expanded}
         activeHref={activeHref}
         onHoveredHrefChange={onHoveredHrefChange}
         setItemRef={setItemRef}
       />
-      {normalizedGroups.hasSecondary ? (
+      {hasSecondary && (
         <div className="flex flex-col">
-          {normalizedGroups.showMainSecondaryDivider ? (
+          {showMainSecondaryDivider && (
             <div className="py-3">
-              <span aria-hidden="true" className={getSecondaryDividerClassName(expanded)} />
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "block h-px bg-zinc-200/50",
+                  expanded ? "mx-2 w-auto" : "mx-auto w-4",
+                )}
+              />
             </div>
-          ) : null}
+          )}
           <SidebarNavItemGroup
-            items={normalizedGroups.secondary}
+            items={secondaryItems}
             section="secondary"
             expanded={expanded}
             activeHref={activeHref}
@@ -182,11 +167,11 @@ export function SidebarNav({
             setItemRef={setItemRef}
           />
         </div>
-      ) : null}
-      {normalizedGroups.tertiary.length > 0 ? (
+      )}
+      {tertiaryItems.length > 0 && (
         <div className="mt-auto flex flex-col pb-1 pt-3">
           <SidebarNavItemGroup
-            items={normalizedGroups.tertiary}
+            items={tertiaryItems}
             section="tertiary"
             expanded={expanded}
             activeHref={activeHref}
@@ -194,7 +179,7 @@ export function SidebarNav({
             setItemRef={setItemRef}
           />
         </div>
-      ) : null}
+      )}
     </nav>
   );
 }

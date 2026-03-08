@@ -10,23 +10,23 @@ if (!DEFAULT_ROUTE) {
   throw new Error("Dashboard route registry is missing an implemented default route.");
 }
 
-const navItemsByGroup = DASHBOARD_ROUTES.reduce<Record<DashboardNavGroup, NavItem[]>>(
-  (groups, route) => {
-    if (route.implemented && route.nav) {
-      groups[route.nav.group].push({
-        href: route.href,
-        label: route.nav.label,
-        icon: route.nav.icon,
-      });
-    }
-    return groups;
-  },
-  {
-    main: [],
-    secondary: [],
-    tertiary: [],
-  },
-);
+const navItemsByGroup: Record<DashboardNavGroup, NavItem[]> = {
+  main: [],
+  secondary: [],
+  tertiary: [],
+};
+
+for (const route of DASHBOARD_ROUTES) {
+  if (!route.implemented || !route.nav) {
+    continue;
+  }
+
+  navItemsByGroup[route.nav.group].push({
+    href: route.href,
+    label: route.nav.label,
+    icon: route.nav.icon,
+  });
+}
 
 export const DASHBOARD_NAV_GROUPS: NavGroups = {
   main: navItemsByGroup.main,

@@ -1,14 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
-import {
-  DashboardChromeProvider,
-  useDashboardChromeUi,
-} from "@/app/(dashboard)/_chrome/chrome-ui";
-
-export function DashboardSidebarProvider({ children }: { children: ReactNode }) {
-  return <DashboardChromeProvider>{children}</DashboardChromeProvider>;
-}
+import { useDashboardChromeUi } from "@/app/(dashboard)/_chrome/chrome-ui";
 
 export function useDashboardSidebar() {
   const {

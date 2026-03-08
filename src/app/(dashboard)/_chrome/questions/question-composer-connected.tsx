@@ -4,9 +4,7 @@ import { QuestionComposerBar } from "./question-composer-bar";
 import { useQuestions } from "./use-questions";
 
 export function QuestionComposerConnected() {
-  const {
-    actions: { handleQuestionAdd },
-  } = useQuestions();
+  const { addQuestion } = useQuestions();
 
-  return <QuestionComposerBar onAdd={handleQuestionAdd} />;
+  return <QuestionComposerBar onAdd={addQuestion} />;
 }

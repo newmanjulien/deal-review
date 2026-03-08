@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { useMemo, useState, type ReactElement, type ReactNode } from "react";
+import {
+  DropdownMenuCheckboxItem,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import {
   ChromeMenu,
-  ChromeMenuCheckboxItem,
-  ChromeMenuList,
-  ChromeMenuSectionLabel,
   type ChromeMenuAlign,
 } from "./chrome-menu";
 
@@ -80,11 +81,14 @@ export function PeopleMultiSelectMenu({
           trigger={trigger}
           className={className}
         >
-          <ChromeMenuSectionLabel>{sectionLabel}</ChromeMenuSectionLabel>
-          <ChromeMenuList>
+          <DropdownMenuLabel className="px-3 pt-3 pb-1 text-xs font-medium tracking-wide text-zinc-500">
+            {sectionLabel}
+          </DropdownMenuLabel>
+          <ul className="mt-1 space-y-1">
             {people.map((person) => (
               <li key={person.name}>
-                <ChromeMenuCheckboxItem
+                <DropdownMenuCheckboxItem
+                  className="gap-2 rounded-md py-1 pr-2 text-xs"
                   checked={selectedNameSet.has(person.name)}
                   onCheckedChange={(checked) => {
                     setSelectedNames((current) =>
@@ -102,10 +106,10 @@ export function PeopleMultiSelectMenu({
                     />
                   </span>
                   <span className="font-medium">{person.name}</span>
-                </ChromeMenuCheckboxItem>
+                </DropdownMenuCheckboxItem>
               </li>
             ))}
-          </ChromeMenuList>
+          </ul>
         </ChromeMenu>
       </div>
     </div>

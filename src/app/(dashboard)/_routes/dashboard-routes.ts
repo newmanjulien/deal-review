@@ -32,44 +32,25 @@ export type {
   DashboardRouteId,
 } from "./dashboard-routes-types";
 
-type DashboardChromeMatch = Omit<DashboardChromeModel, "pathname" | "nav">;
-
-type DashboardChromeDynamicResolver = (pathname: string) => DashboardChromeMatch | null;
-
-const DASHBOARD_CHROME_DYNAMIC_RESOLVERS: DashboardChromeDynamicResolver[] = [
-  resolveMissingDataCardChrome,
-];
-
-type DashboardChromeRoute = Extract<
-  (typeof DASHBOARD_ROUTES)[number],
-  { implemented: true }
->;
-
-function createDashboardChromeModel(
-  pathname: string,
-  match: DashboardChromeMatch,
-): DashboardChromeModel {
+function createChromeNav(pathname: string) {
   return {
-    ...match,
-    pathname,
-    nav: {
-      groups: DASHBOARD_NAV_GROUPS,
-      activeHref: getActiveHref(pathname, DASHBOARD_NAV_GROUPS),
-    },
+    groups: DASHBOARD_NAV_GROUPS,
+    activeHref: getActiveHref(pathname, DASHBOARD_NAV_GROUPS),
   };
 }
 
 export function resolveDashboardChrome(pathname: string): DashboardChromeModel | null {
   const normalizedPathname = normalizeDashboardPathname(pathname);
-
-  for (const resolveDynamicChrome of DASHBOARD_CHROME_DYNAMIC_RESOLVERS) {
-    const dynamicChrome = resolveDynamicChrome(normalizedPathname);
-    if (dynamicChrome) {
-      return createDashboardChromeModel(normalizedPathname, dynamicChrome);
-    }
+  const dynamicChrome = resolveMissingDataCardChrome(normalizedPathname);
+  if (dynamicChrome) {
+    return {
+      ...dynamicChrome,
+      pathname: normalizedPathname,
+      nav: createChromeNav(normalizedPathname),
+    };
   }
 
-  let bestMatch: DashboardChromeRoute | null = null;
+  let bestMatch: (typeof DASHBOARD_ROUTES)[number] | null = null;
 
   for (const route of DASHBOARD_ROUTES) {
     if (!route.implemented) {
@@ -85,13 +66,15 @@ export function resolveDashboardChrome(pathname: string): DashboardChromeModel |
     }
   }
 
-  if (!bestMatch) {
+  if (!bestMatch || !bestMatch.implemented) {
     return null;
   }
 
-  return createDashboardChromeModel(normalizedPathname, {
+  return {
     routeId: bestMatch.id,
     header: bestMatch.chrome.header,
     capabilities: bestMatch.chrome.capabilities,
-  });
+    pathname: normalizedPathname,
+    nav: createChromeNav(normalizedPathname),
+  };
 }

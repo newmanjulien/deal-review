@@ -1,17 +1,17 @@
 import { DashboardDataTable } from "@/components/table";
 import type {
-  DataDisplayAnyTableRow,
-  DataDisplayTableSectionFormatters,
+  DataDisplayTableFormatters,
   DataDisplayTableColumn,
+  DataDisplayTableRow,
 } from "@/components/data-display/data-display-types";
 
-type GenericTableSectionProps<Row extends DataDisplayAnyTableRow> = {
+type GenericTableSectionProps<Row extends DataDisplayTableRow> = {
   rows: Row[];
   columns: DataDisplayTableColumn<Row>[];
-  formatters?: DataDisplayTableSectionFormatters<Row>;
+  formatters?: DataDisplayTableFormatters<Row>;
 };
 
-export function TableSection<Row extends DataDisplayAnyTableRow>({
+export function TableSection<Row extends DataDisplayTableRow>({
   rows,
   columns,
   formatters,

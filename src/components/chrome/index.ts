@@ -1,9 +1,5 @@
 export {
   ChromeMenu,
-  ChromeMenuCheckboxItem,
-  ChromeMenuItem,
-  ChromeMenuList,
-  ChromeMenuSectionLabel,
 } from "./chrome-menu";
 export type { ChromeMenuAlign, ChromeMenuProps } from "./chrome-menu";
 export {

@@ -5,14 +5,6 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import {
-  CircleOff,
-  Compass,
-  FileText,
-  Handshake,
-  Trophy,
-  type LucideIcon,
-} from "lucide-react";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import type {
@@ -26,6 +18,7 @@ import {
   createCardDragId,
   createColumnDragId,
 } from "./conversations-kanban-utils";
+import { KANBAN_COLUMN_EMPTY_STATE_CONTENT } from "./conversations-kanban-column-meta";
 
 type ConversationsKanbanColumnProps = {
   stage: ConversationStage;
@@ -38,37 +31,6 @@ type ConversationsKanbanColumnProps = {
   ) => void;
 };
 
-type KanbanColumnEmptyStateContent = {
-  icon: LucideIcon;
-  description: string;
-};
-
-const EMPTY_STATE_CONTENT_BY_STAGE: Record<
-  ConversationStage,
-  KanbanColumnEmptyStateContent
-> = {
-  Discovery: {
-    icon: Compass,
-    description: "Early-stage replies and first-call notes land in this lane",
-  },
-  Proposal: {
-    icon: FileText,
-    description: "Pricing, scope, and proposal conversations belong here",
-  },
-  Negotiation: {
-    icon: Handshake,
-    description: "Contract redlines and procurement back-and-forth live here",
-  },
-  "Closed won": {
-    icon: Trophy,
-    description: "Move signed opportunities here to keep pipeline clean",
-  },
-  "Closed lost": {
-    icon: CircleOff,
-    description: "Track stalled or lost opportunities in this lane",
-  },
-};
-
 type ConversationsKanbanColumnEmptyStateProps = {
   stage: ConversationStage;
 };
@@ -76,7 +38,7 @@ type ConversationsKanbanColumnEmptyStateProps = {
 function ConversationsKanbanColumnEmptyState({
   stage,
 }: ConversationsKanbanColumnEmptyStateProps) {
-  const content = EMPTY_STATE_CONTENT_BY_STAGE[stage];
+  const content = KANBAN_COLUMN_EMPTY_STATE_CONTENT[stage];
   const Icon = content.icon;
 
   return (
@@ -148,19 +110,21 @@ export function ConversationsKanbanColumn({
           className="flex-1 space-y-2.5 overflow-y-auto pt-2 pr-0.5"
         >
           {cardIds.length > 0 ? (
-            cardIds.flatMap((cardId) => {
+            cardIds.map((cardId) => {
               const row = cardsById[cardId];
-              return row
-                ? [
-                    <ConversationsKanbanSortableCard
-                      key={cardId}
-                      cardId={cardId}
-                      row={row}
-                      stage={stage}
-                      activeDragCardId={activeDragCardId}
-                    />,
-                  ]
-                : [];
+              if (!row) {
+                return null;
+              }
+
+              return (
+                <ConversationsKanbanSortableCard
+                  key={cardId}
+                  cardId={cardId}
+                  row={row}
+                  stage={stage}
+                  activeDragCardId={activeDragCardId}
+                />
+              );
             })
           ) : !isOver ? (
             <ConversationsKanbanColumnEmptyState stage={stage} />

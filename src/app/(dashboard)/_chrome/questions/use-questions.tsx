@@ -20,23 +20,19 @@ function createDraftQuestion(text: string): DraftQuestion {
 }
 
 type QuestionsContextValue = {
-  state: {
-    draftQuestions: DraftQuestion[];
-  };
-  actions: {
-    handleQuestionAdd: (text: string) => void;
-    handleQuestionChange: (id: string, text: string) => void;
-    handleQuestionDelete: (id: string) => void;
-    handleSendAll: () => void;
-  };
+  draftQuestions: DraftQuestion[];
+  addQuestion: (text: string) => void;
+  updateQuestion: (id: string, text: string) => void;
+  deleteQuestion: (id: string) => void;
+  sendAllQuestions: () => void;
 };
 
 const QuestionsContext = createContext<QuestionsContextValue | null>(null);
 
-function useCreateQuestionsContextValue(): QuestionsContextValue {
+export function QuestionsProvider({ children }: { children: ReactNode }) {
   const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([]);
 
-  const handleQuestionAdd = (text: string) => {
+  const addQuestion = (text: string) => {
     const normalizedText = normalizeQuestionText(text);
     if (!normalizedText) return;
 
@@ -46,7 +42,7 @@ function useCreateQuestionsContextValue(): QuestionsContextValue {
     ]);
   };
 
-  const handleQuestionChange = (id: string, text: string) => {
+  const updateQuestion = (id: string, text: string) => {
     setDraftQuestions((current) =>
       current.map((question) =>
         question.id === id ? { ...question, text } : question,
@@ -54,40 +50,31 @@ function useCreateQuestionsContextValue(): QuestionsContextValue {
     );
   };
 
-  const handleQuestionDelete = (id: string) => {
+  const deleteQuestion = (id: string) => {
     setDraftQuestions((current) =>
       current.filter((question) => question.id !== id),
     );
   };
 
-  const handleSendAll = () => {
-    setDraftQuestions((current) => {
-      const remainingQuestions = current.filter(
-        (question) => !isQuestionSendable(question.text),
-      );
-
-      return remainingQuestions.length === current.length
-        ? current
-        : remainingQuestions;
-    });
+  const sendAllQuestions = () => {
+    setDraftQuestions((current) =>
+      current.filter((question) => !isQuestionSendable(question.text)),
+    );
   };
 
-  return {
-    state: {
-      draftQuestions,
-    },
-    actions: {
-      handleQuestionAdd,
-      handleQuestionChange,
-      handleQuestionDelete,
-      handleSendAll,
-    },
-  };
-}
-
-export function QuestionsProvider({ children }: { children: ReactNode }) {
-  const value = useCreateQuestionsContextValue();
-  return <QuestionsContext.Provider value={value}>{children}</QuestionsContext.Provider>;
+  return (
+    <QuestionsContext.Provider
+      value={{
+        draftQuestions,
+        addQuestion,
+        updateQuestion,
+        deleteQuestion,
+        sendAllQuestions,
+      }}
+    >
+      {children}
+    </QuestionsContext.Provider>
+  );
 }
 
 export function useQuestions() {

@@ -20,14 +20,12 @@ export type DataDisplayTableRow<
   id: string;
 } & Fields;
 
-export type DataDisplayAnyTableRow = DataDisplayTableRow;
-
 export type DataDisplayTableColumn<
-  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
 > = DashboardDataTableColumn<Row>;
 
-export type DataDisplayTableSectionFormatters<
-  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+export type DataDisplayTableFormatters<
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
 > = DashboardDataTableFormatters<Row>;
 
 export type DataDisplayCardPriority = "high" | "medium" | "low";
@@ -62,12 +60,12 @@ type DataDisplayTimelineSectionInstance =
   };
 
 type DataDisplayTableSectionInstance<
-  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
 > = DataDisplaySectionInstanceBase & {
   kind: "table";
   rows: Row[];
   columns: DataDisplayTableColumn<Row>[];
-  formatters?: DataDisplayTableSectionFormatters<Row>;
+  formatters?: DataDisplayTableFormatters<Row>;
 };
 
 type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
@@ -76,7 +74,7 @@ type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
 };
 
 export type DataDisplaySectionInstance<
-  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
 > =
   | DataDisplayTimelineSectionInstance
   | DataDisplayTableSectionInstance<Row>

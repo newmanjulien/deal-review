@@ -4,7 +4,6 @@ import { ChromeNavItemLink } from "@/components/chrome";
 import { cn } from "@/lib/utils";
 import type { AppPath } from "@/types/domain/app-path";
 import type { NavGroups, NavItem } from "../nav-types";
-import { normalizeNavGroups } from "../nav-utils";
 
 type DrawerNavProps = {
   groups: NavGroups;
@@ -41,7 +40,10 @@ export function DrawerNav({
   onItemSelect,
   className,
 }: DrawerNavProps) {
-  const normalizedGroups = normalizeNavGroups(groups);
+  const secondaryItems = groups.secondary ?? [];
+  const tertiaryItems = groups.tertiary ?? [];
+  const hasSecondary = secondaryItems.length > 0;
+  const showMainSecondaryDivider = groups.main.length > 0 && hasSecondary;
 
   const renderItems = (sectionItems: NavItem[]) =>
     sectionItems.map((item) => (
@@ -58,20 +60,20 @@ export function DrawerNav({
       aria-label="Dashboard navigation"
       className={cn("relative flex min-h-full flex-col", className)}
     >
-      <div className="flex flex-col gap-1.5">{renderItems(normalizedGroups.main)}</div>
-      {normalizedGroups.hasSecondary ? (
+      <div className="flex flex-col gap-1.5">{renderItems(groups.main)}</div>
+      {hasSecondary ? (
         <div className="flex flex-col">
-          {normalizedGroups.showMainSecondaryDivider ? (
+          {showMainSecondaryDivider ? (
             <div className="py-4">
               <span aria-hidden="true" className="block h-px w-full bg-zinc-200/50" />
             </div>
           ) : null}
-          <div className="flex flex-col gap-1.5">{renderItems(normalizedGroups.secondary)}</div>
+          <div className="flex flex-col gap-1.5">{renderItems(secondaryItems)}</div>
         </div>
       ) : null}
-      {normalizedGroups.tertiary.length > 0 ? (
+      {tertiaryItems.length > 0 ? (
         <div className="mt-auto flex flex-col pt-6">
-          <div className="flex flex-col gap-1.5">{renderItems(normalizedGroups.tertiary)}</div>
+          <div className="flex flex-col gap-1.5">{renderItems(tertiaryItems)}</div>
         </div>
       ) : null}
     </nav>

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CanvasWidePage } from "@/components/canvas/canvas-page";
+import { SectionTabs } from "@/components/ui/section-tabs";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { CONVERSATIONS_PAGE_CONFIG } from "./conversations-config";
 import { conversationSellerPeople } from "./conversations-data";
@@ -39,26 +40,11 @@ export default function ConversationsPage() {
       <section className="space-y-4">
         {isDesktop ? (
           <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-100">
-            <div className="flex items-center gap-6">
-              {DESKTOP_VIEW_OPTIONS.map(({ id, label }) => {
-                const isActive = activeDesktopView === id;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setActiveDesktopView(id)}
-                    className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
-                      isActive ? "text-zinc-900" : "text-zinc-500"
-                    }`}
-                  >
-                    {label}
-                    {isActive ? (
-                      <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
-                    ) : null}
-                  </button>
-                );
-              })}
-            </div>
+            <SectionTabs
+              tabs={DESKTOP_VIEW_OPTIONS}
+              activeTabId={activeDesktopView}
+              onTabChange={setActiveDesktopView}
+            />
 
             <div className="flex items-center gap-2 pb-3">
               <ConversationsSellerFilterMenu people={conversationSellerPeople} />

@@ -48,13 +48,13 @@ export default function OptionalAppsPage() {
               </header>
 
               <div className="space-y-3">
-                {sectionApps.map((app) => {
-                  const AppIcon = OPTIONAL_APP_ICONS[app.id];
-
-                  return (
-                    <OptionalAppCard key={app.id} app={app} icon={AppIcon} />
-                  );
-                })}
+                {sectionApps.map((app) => (
+                  <OptionalAppCard
+                    key={app.id}
+                    app={app}
+                    icon={OPTIONAL_APP_ICONS[app.id]}
+                  />
+                ))}
               </div>
             </section>
           );

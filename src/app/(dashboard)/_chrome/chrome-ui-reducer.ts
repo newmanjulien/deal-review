@@ -99,14 +99,12 @@ export function dashboardChromeUiReducer(
     }
 
     case "SET_SIDEBAR_EXPANDED": {
-      if (action.expanded === state.isSidebarExpanded) {
-        return state;
-      }
-
-      return {
-        ...state,
-        isSidebarExpanded: action.expanded,
-      };
+      return action.expanded === state.isSidebarExpanded
+        ? state
+        : {
+            ...state,
+            isSidebarExpanded: action.expanded,
+          };
     }
 
     case "TOGGLE_MOBILE_DRAWER": {

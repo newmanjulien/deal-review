@@ -44,24 +44,14 @@ export function QuadrantPoints({
               if (!pointer) {
                 return;
               }
-              onHover(point, {
-                x: pointer.x,
-                y: pointer.y,
-                width: pointer.width,
-                height: pointer.height,
-              });
+              onHover(point, pointer);
             }}
             onMouseMove={(event) => {
               const pointer = getPointerContext(event);
               if (!pointer) {
                 return;
               }
-              onMove({
-                x: pointer.x,
-                y: pointer.y,
-                width: pointer.width,
-                height: pointer.height,
-              });
+              onMove(pointer);
             }}
           >
             <circle

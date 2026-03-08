@@ -6,11 +6,12 @@ import { CanvasHero } from "@/components/canvas/canvas-hero";
 import { DataDisplayCardIcon } from "@/components/data-display/card-icon";
 import { TableSection } from "@/components/data-display/sections/table-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
+import { SectionTabs } from "@/components/ui/section-tabs";
 import type {
-  DataDisplayAnyTableRow,
   DataDisplayCard,
+  DataDisplayTableFormatters,
   DataDisplayTableColumn,
-  DataDisplayTableSectionFormatters,
+  DataDisplayTableRow,
   DataDisplayTimelineItem,
 } from "@/components/data-display/data-display-types";
 
@@ -21,12 +22,12 @@ const DETAIL_SECTIONS: Array<{ id: DetailSectionId; label: string }> = [
   { id: "table", label: "Table" },
 ];
 
-type DataDisplayCardDetailPageProps<Row extends DataDisplayAnyTableRow> = {
+type DataDisplayCardDetailPageProps<Row extends DataDisplayTableRow> = {
   card: DataDisplayCard;
   timelineItems: DataDisplayTimelineItem[];
   tableRows: Row[];
   tableColumns: DataDisplayTableColumn<Row>[];
-  tableFormatters?: DataDisplayTableSectionFormatters<Row>;
+  tableFormatters?: DataDisplayTableFormatters<Row>;
   fallbackDescription?: string;
 };
 
@@ -46,7 +47,7 @@ function getCardDescription(
 }
 
 export function DataDisplayCardDetailPage<
-  Row extends DataDisplayAnyTableRow = DataDisplayAnyTableRow,
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
 >({
   card,
   timelineItems,
@@ -73,21 +74,11 @@ export function DataDisplayCardDetailPage<
 
       <section className="space-y-4">
         <div className="flex items-center gap-6 border-b border-zinc-100">
-          {DETAIL_SECTIONS.map((section) => (
-            <button
-              key={section.id}
-              type="button"
-              onClick={() => setActiveSectionId(section.id)}
-              className={`relative pb-3 text-xs leading-relaxed font-medium tracking-wide transition-colors ${
-                activeSectionId === section.id ? "text-zinc-900" : "text-zinc-500"
-              }`}
-            >
-              {section.label}
-              {activeSectionId === section.id ? (
-                <span className="absolute inset-x-0 bottom-[-1px] h-px bg-zinc-900" />
-              ) : null}
-            </button>
-          ))}
+          <SectionTabs
+            tabs={DETAIL_SECTIONS}
+            activeTabId={activeSectionId}
+            onTabChange={setActiveSectionId}
+          />
         </div>
 
         {activeSectionId === "timeline" ? (
