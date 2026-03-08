@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { Building, Lightbulb } from "lucide-react";
+import { Building } from "lucide-react";
 import {
   PriorityGridIcon,
   type PriorityGridVariant,
 } from "./priority-grid-icon";
 import type {
   DataDisplayCard,
+  DataDisplayCardsSectionIcon,
   DataDisplayCardPriority,
 } from "../data-display-types";
 
@@ -20,6 +21,7 @@ const PRIORITY_ICON_VARIANT: Record<
 
 type CardsSectionProps = {
   cards: DataDisplayCard[];
+  icon: DataDisplayCardsSectionIcon;
 };
 
 type CardAvatarsProps = {
@@ -60,7 +62,7 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
   );
 }
 
-export function CardsSection({ cards }: CardsSectionProps) {
+export function CardsSection({ cards, icon: SectionIcon }: CardsSectionProps) {
   return (
     <ol className="space-y-2.5 pt-1">
       {cards.map((card) => (
@@ -76,7 +78,7 @@ export function CardsSection({ cards }: CardsSectionProps) {
           </div>
 
           <div className="mt-2 flex items-center gap-1.5">
-            <Lightbulb className="size-3 text-zinc-500" />
+            <SectionIcon className="size-3 text-zinc-500" />
             <h2 className="text-xs leading-snug tracking-wide text-zinc-800">
               {card.title}
             </h2>

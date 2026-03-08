@@ -1,3 +1,5 @@
+import type { ComponentType } from "react";
+
 export type DataDisplaySectionKind = "timeline" | "table" | "cards";
 
 export type DataDisplayTimelineItem = {
@@ -26,6 +28,8 @@ export type DataDisplayCard = {
   priorityLabel: string;
 };
 
+export type DataDisplayCardsSectionIcon = ComponentType<{ className?: string }>;
+
 type DataDisplaySectionInstanceBase = {
   id: string;
   label: string;
@@ -45,6 +49,7 @@ export type DataDisplayTableSectionInstance = DataDisplaySectionInstanceBase & {
 export type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
   kind: "cards";
   cards: DataDisplayCard[];
+  icon: DataDisplayCardsSectionIcon;
 };
 
 export type DataDisplaySectionInstance =

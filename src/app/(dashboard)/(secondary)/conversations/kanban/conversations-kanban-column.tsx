@@ -80,7 +80,7 @@ function ConversationsKanbanColumnEmptyState({
   const Icon = content.icon;
 
   return (
-    <li className="list-none px-1 pt-10">
+    <li className="list-none px-1 pt-13">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-zinc-100/20" />
       <div className="relative flex h-full flex-col items-center justify-center gap-2 text-center">
         <div className="flex items-center gap-1.5">
@@ -92,7 +92,7 @@ function ConversationsKanbanColumnEmptyState({
           </p>
         </div>
 
-        <p className="max-w-[11rem] text-[11px] text-zinc-400">
+        <p className="max-w-[14rem] text-[11px] text-zinc-400">
           {content.description}
         </p>
       </div>

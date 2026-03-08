@@ -1,5 +1,6 @@
 "use client";
 
+import { Lightbulb, TriangleAlert } from "lucide-react";
 import { DataDisplay } from "@/components/data-display/data-display";
 import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
 import { OPPORTUNITIES_PAGE_CONFIG } from "./opportunities-config";
@@ -11,12 +12,14 @@ const OPPORTUNITIES_SECTIONS: DataDisplaySectionInstance[] = [
     label: "Opportunities",
     kind: "cards",
     cards: opportunitiesCards,
+    icon: Lightbulb,
   },
   {
     id: "risks-cards",
     label: "Risks",
     kind: "cards",
     cards: risksCards,
+    icon: TriangleAlert,
   },
 ];
 

@@ -8,9 +8,9 @@ export type ConversationStage =
 export type ConversationRow = {
   id: string;
   cardNumber: number;
-  company: string;
+  probability: number;
   contact: string;
-  topic: string;
+  deal: string;
   owner: string;
   ownerAvatar: string;
   stage: ConversationStage;

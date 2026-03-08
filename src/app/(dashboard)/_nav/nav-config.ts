@@ -1,4 +1,11 @@
-import { Activity, CircleOff, LayoutGrid, Lightbulb, List } from "lucide-react";
+import {
+  Activity,
+  CircleOff,
+  CircleQuestionMark,
+  LayoutGrid,
+  Lightbulb,
+  List,
+} from "lucide-react";
 import { DASHBOARD_ROUTE_PATHS } from "../dashboard-routes";
 import type { NavGroups } from "./nav-types";
 
@@ -30,6 +37,13 @@ export const PRIMARY_NAV_GROUPS: NavGroups = {
       href: DASHBOARD_ROUTE_PATHS.conversations,
       label: "All conversations",
       icon: List,
+    },
+  ],
+  tertiary: [
+    {
+      href: DASHBOARD_ROUTE_PATHS["contact-support"],
+      label: "Contact support",
+      icon: CircleQuestionMark,
     },
   ],
 };

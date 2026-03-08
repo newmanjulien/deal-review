@@ -1,5 +1,6 @@
 "use client";
 
+import { Clock3, CircleOff } from "lucide-react";
 import { DataDisplay } from "@/components/data-display/data-display";
 import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
 import { MISSING_DATA_PAGE_CONFIG } from "./missing-data-config";
@@ -14,12 +15,14 @@ const MISSING_DATA_SECTIONS: DataDisplaySectionInstance[] = [
     label: "Missing data",
     kind: "cards",
     cards: missingDataCards,
+    icon: CircleOff,
   },
   {
     id: "timelines-cards",
     label: "Timelines",
     kind: "cards",
     cards: missingDataTimelineCards,
+    icon: Clock3,
   },
 ];
 

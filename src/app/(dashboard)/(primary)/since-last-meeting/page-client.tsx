@@ -16,8 +16,8 @@ const LAST_MEETING_SECTIONS: DataDisplaySectionInstance[] = [
     items: lastMeetingTimelineItems,
   },
   {
-    id: "table",
-    label: "Table",
+    id: "accounts",
+    label: "Accounts",
     kind: "table",
     rows: lastMeetingTableRows,
   },

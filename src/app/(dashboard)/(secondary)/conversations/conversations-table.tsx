@@ -8,6 +8,7 @@ import type { ConversationRow } from "./conversations-types";
 
 const CONVERSATION_CELL_FORMATTERS: DashboardDataTableFormatters<ConversationRow> =
   {
+    probability: (probability) => `${probability}% likely to close`,
     stage: (stage) => (
       <Badge
         variant="outline"

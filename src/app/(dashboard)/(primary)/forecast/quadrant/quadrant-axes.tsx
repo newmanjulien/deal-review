@@ -33,7 +33,7 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
               x={plotArea.left - 12}
               y={tick.y + 4}
               textAnchor="end"
-              className="fill-current text-xs"
+              className="fill-current text-[11px]"
             >
               {tick.value}%
             </text>
@@ -41,7 +41,7 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
               x={tick.x}
               y={plotArea.bottom + 22}
               textAnchor="middle"
-              className="fill-current text-xs"
+              className="fill-current text-[11px]"
             >
               {tick.value}%
             </text>
@@ -68,7 +68,7 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
         x={plotArea.left - axisLabelOffset.x}
         y={chartCenterY}
         textAnchor="middle"
-        className="fill-current text-xs"
+        className="fill-current text-[11px]"
         transform={`rotate(-90 ${plotArea.left - axisLabelOffset.x} ${chartCenterY})`}
       >
         {chart.yLabel}
@@ -77,7 +77,7 @@ export function QuadrantAxes({ chart, layout }: QuadrantAxesProps) {
         x={chartCenterX}
         y={plotArea.bottom + axisLabelOffset.y}
         textAnchor="middle"
-        className="fill-current text-xs"
+        className="fill-current text-[11px]"
       >
         {chart.xLabel}
       </text>

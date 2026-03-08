@@ -1,7 +1,7 @@
 "use client";
 
 import { useSortable } from "@dnd-kit/sortable";
-import { Building } from "lucide-react";
+import { ChartPie } from "lucide-react";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
@@ -30,15 +30,17 @@ function ConversationsKanbanCardView({
       )}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[10px] tracking-wide text-zinc-500">#{row.cardNumber}</p>
+        <p className="text-[10px] tracking-wide text-zinc-500">
+          #{row.cardNumber}
+        </p>
 
         {row.ownerAvatar ? (
-          <span className="inline-flex size-7 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50">
+          <span className="inline-flex size-6.5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50">
             <Image
               src={row.ownerAvatar}
               alt={`${row.owner} avatar`}
-              width={28}
-              height={28}
+              width={26}
+              height={26}
               className="h-full w-full object-cover"
             />
           </span>
@@ -47,15 +49,15 @@ function ConversationsKanbanCardView({
         )}
       </div>
 
-      <div className="mt-1.5">
+      <div className="mt-0.5">
         <h3 className="text-xs leading-snug tracking-wide text-zinc-800">
-          {row.topic}
+          {row.deal}
         </h3>
       </div>
 
       <div className="mt-1.5 inline-flex items-center gap-1 rounded-sm border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-700">
-        <Building className="size-2.5 text-zinc-400" />
-        {row.company}
+        <ChartPie className="size-2.5 text-zinc-400" />
+        {`${row.probability}% likely to close`}
       </div>
     </article>
   );
