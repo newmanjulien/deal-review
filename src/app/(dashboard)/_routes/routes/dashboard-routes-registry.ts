@@ -57,24 +57,24 @@ export const DASHBOARD_ROUTES = [
       icon: LayoutGrid,
     },
   },
-  {
-    id: "missing-data",
-    href: DASHBOARD_ROUTE_PATHS["missing-data"],
-    implemented: true,
-    chrome: {
-      header: {
-        leadingControl: { kind: "meeting-date" },
-        breadcrumbs: [{ label: MISSING_DATA_PAGE_CONFIG.headerTitle }],
-        sharedPeople: missingDataData.views.sharedPeople,
-      },
-      capabilities: { questions: true },
-    },
-    nav: {
-      group: "main",
-      label: "Missing data and timelines",
-      icon: CircleOff,
-    },
-  },
+  // {
+  //   id: "missing-data",
+  //   href: DASHBOARD_ROUTE_PATHS["missing-data"],
+  //   implemented: true,
+  //   chrome: {
+  //     header: {
+  //       leadingControl: { kind: "meeting-date" },
+  //       breadcrumbs: [{ label: MISSING_DATA_PAGE_CONFIG.headerTitle }],
+  //       sharedPeople: missingDataData.views.sharedPeople,
+  //     },
+  //     capabilities: { questions: true },
+  //   },
+  //   nav: {
+  //     group: "main",
+  //     label: "Missing data and timelines",
+  //     icon: CircleOff,
+  //   },
+  // },
   {
     id: "opportunities",
     href: DASHBOARD_ROUTE_PATHS.opportunities,
