@@ -1,36 +1,19 @@
 import { CircleOff, Clock3 } from "lucide-react";
 import type {
   DataDisplayTile,
-  DataDisplayTableColumn,
-  DataDisplayTableRow,
   DataDisplayTileWithDetail,
 } from "@/components/data-display/data-display-types";
 import { dashboardSellersData } from "../../_data/dashboard-sellers-data";
 
-type MissingDataTableRow = DataDisplayTableRow<{
+type MissingDataTableRow = {
+  id: string;
   signal: string;
   status: string;
-}>;
+};
 
 type MissingDataTile = DataDisplayTile<MissingDataTableRow>;
 
-const TABLE_CELL_CLASS_BASE =
-  "whitespace-nowrap px-4 py-3 text-xs tracking-wide";
-
 const [julienSeller, yashSeller] = dashboardSellersData.views.people;
-
-const detailTableColumns: DataDisplayTableColumn<MissingDataTableRow>[] = [
-  {
-    key: "signal",
-    label: "Signal",
-    cellClassName: `${TABLE_CELL_CLASS_BASE} font-medium text-zinc-900`,
-  },
-  {
-    key: "status",
-    label: "Status",
-    cellClassName: `${TABLE_CELL_CLASS_BASE} text-zinc-600`,
-  },
-];
 
 const missingDataTiles: MissingDataTile[] = [
   {
@@ -52,19 +35,19 @@ const missingDataTiles: MissingDataTile[] = [
     avatars: [julienSeller.avatar, yashSeller.avatar],
     priority: "medium",
     priorityLabel: "Medium priority",
-    // href: "/missing-data/detail/120",
+    href: "/missing-data/detail/120",
     detail: {
       timelineItems: [
         {
           id: "120-stage-change",
           title: "RFP owner changed and timeline slipped",
-          occurredOnIso: "2026-02-24",
+          occurredOnIso: "2026-01-04",
           body: "The original owner left the project and the new owner has not confirmed a revised date. Last two calls closed without next-step commitments.",
         },
         {
           id: "120-procurement-update",
           title: "Procurement requested updated checklist",
-          occurredOnIso: "2026-02-28",
+          occurredOnIso: "2026-01-08",
           body: "Procurement asked for a revised requirements checklist and security mapping before sharing an updated RFP deadline.",
         },
       ],
@@ -137,7 +120,6 @@ export const missingDataData = {
       missingDataTiles,
       timelineTiles,
     },
-    detailTableColumns,
   },
   queries: {
     getTileById: (tileId: string) => tilesById[tileId] ?? null,

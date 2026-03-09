@@ -6,7 +6,7 @@ import type {
 import type { AppPath } from "@/types/domain/app-path";
 import type { IsoDateString } from "@/types/domain/date-time";
 
-export type DataDisplaySectionKind = "timeline" | "table" | "tiles";
+export type DataDisplaySectionKind = "timeline" | "table" | "tiles" | "input";
 
 export type DataDisplayTimelineItem = {
   id: string;
@@ -98,12 +98,21 @@ type DataDisplayTilesSectionInstance = DataDisplaySectionInstanceBase & {
   tiles: DataDisplayTile<DataDisplayTableRow>[];
 };
 
+type DataDisplayInputSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "input";
+  uploadLabel?: string;
+  uploadDescription?: string;
+  acceptedFileTypes?: string;
+  allowMultipleFiles?: boolean;
+};
+
 export type DataDisplaySectionInstance<
   Row extends DataDisplayTableRow = DataDisplayTableRow,
 > =
   | DataDisplayTimelineSectionInstance
   | DataDisplayTableSectionInstance<Row>
-  | DataDisplayTilesSectionInstance;
+  | DataDisplayTilesSectionInstance
+  | DataDisplayInputSectionInstance;
 
 export type DataDisplayDetailSectionInstance<
   Row extends DataDisplayTableRow = DataDisplayTableRow,

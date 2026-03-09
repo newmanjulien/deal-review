@@ -1,13 +1,7 @@
 "use client";
 
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplayTableRow } from "@/components/data-display/data-display-types";
 import { missingDataData } from "../../missing-data-data";
-
-type MissingDataDetailTableRow = DataDisplayTableRow<{
-  signal: string;
-  status: string;
-}>;
 
 type MissingDataDetailProps = {
   detailId: string;
@@ -20,7 +14,7 @@ export function MissingDataDetail({ detailId }: MissingDataDetailProps) {
   }
 
   return (
-    <DataDisplay<MissingDataDetailTableRow>
+    <DataDisplay
       mode="detail"
       hero={{
         id: detail.id,
@@ -38,9 +32,10 @@ export function MissingDataDetail({ detailId }: MissingDataDetailProps) {
         {
           id: "update",
           label: "Update",
-          kind: "table",
-          rows: detail.detail.tableRows,
-          columns: missingDataData.views.detailTableColumns,
+          kind: "input",
+          uploadLabel: "Upload files",
+          uploadDescription:
+            "Upload screenshots or any docs with the information we're missing",
         },
       ]}
     />

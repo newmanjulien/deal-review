@@ -14,6 +14,7 @@ import type {
 import { TableSection } from "@/components/data-display/sections/table-section";
 import { TileListSection } from "@/components/data-display/sections/tile-list-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
+import { InputSection } from "@/components/data-display/sections/input-section";
 import { SectionTabs } from "@/components/ui/section-tabs";
 
 const MAX_SECTION_COUNT = 3;
@@ -34,6 +35,16 @@ function renderSection<Row extends DataDisplayTableRow>(
       );
     case "tiles":
       return <TileListSection tiles={section.tiles} />;
+    case "input":
+      return (
+        <InputSection
+          sectionId={section.id}
+          uploadLabel={section.uploadLabel}
+          uploadDescription={section.uploadDescription}
+          acceptedFileTypes={section.acceptedFileTypes}
+          allowMultipleFiles={section.allowMultipleFiles}
+        />
+      );
   }
 }
 
