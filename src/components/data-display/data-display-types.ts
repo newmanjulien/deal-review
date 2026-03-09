@@ -6,7 +6,7 @@ import type {
 import type { AppPath } from "@/types/domain/app-path";
 import type { IsoDateString } from "@/types/domain/date-time";
 
-export type DataDisplaySectionKind = "timeline" | "table" | "tiles" | "input";
+export type DataDisplaySectionKind = "timeline" | "table" | "tiles" | "upload";
 
 export type DataDisplayTimelineItem = {
   id: string;
@@ -98,8 +98,8 @@ type DataDisplayTilesSectionInstance = DataDisplaySectionInstanceBase & {
   tiles: DataDisplayTile<DataDisplayTableRow>[];
 };
 
-type DataDisplayInputSectionInstance = DataDisplaySectionInstanceBase & {
-  kind: "input";
+type DataDisplayUploadSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "upload";
   uploadLabel?: string;
   uploadDescription?: string;
   acceptedFileTypes?: string;
@@ -112,7 +112,7 @@ export type DataDisplaySectionInstance<
   | DataDisplayTimelineSectionInstance
   | DataDisplayTableSectionInstance<Row>
   | DataDisplayTilesSectionInstance
-  | DataDisplayInputSectionInstance;
+  | DataDisplayUploadSectionInstance;
 
 export type DataDisplayDetailSectionInstance<
   Row extends DataDisplayTableRow = DataDisplayTableRow,

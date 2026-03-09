@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type InputSectionProps = {
+type UploadSectionProps = {
   sectionId: string;
   uploadLabel?: string;
   uploadDescription?: string;
@@ -8,13 +8,13 @@ type InputSectionProps = {
   allowMultipleFiles?: boolean;
 };
 
-export function InputSection({
+export function UploadSection({
   sectionId,
   uploadLabel = "Upload files",
   uploadDescription,
   acceptedFileTypes,
   allowMultipleFiles = true,
-}: InputSectionProps) {
+}: UploadSectionProps) {
   const [selectedFileNames, setSelectedFileNames] = useState<string[]>([]);
   const fileInputId = `${sectionId}-file-input`;
   const hasSelectedFiles = selectedFileNames.length > 0;

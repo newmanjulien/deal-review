@@ -32,7 +32,7 @@ export function MissingDataDetail({ detailId }: MissingDataDetailProps) {
         {
           id: "update",
           label: "Update",
-          kind: "input",
+          kind: "upload",
           uploadLabel: "Upload files",
           uploadDescription:
             "Upload screenshots or any docs with the information we're missing",
