@@ -1,4 +1,4 @@
-export type OptionalAppTier = "paid" | "free";
+export type OptionalAppTier = "free" | "paid";
 
 export type OptionalAppId = "reminders" | "call-transcriber" | "rfps";
 
@@ -9,7 +9,7 @@ export type OptionalApp = {
   tier: OptionalAppTier;
 };
 
-export const optionalApps: OptionalApp[] = [
+const appRecords: OptionalApp[] = [
   {
     id: "reminders",
     name: "Reminders",
@@ -32,3 +32,25 @@ export const optionalApps: OptionalApp[] = [
     tier: "paid",
   },
 ];
+
+const appsByTier: Record<OptionalAppTier, OptionalApp[]> = {
+  free: appRecords.filter((app) => app.tier === "free"),
+  paid: appRecords.filter((app) => app.tier === "paid"),
+};
+
+function getAppById(appId: OptionalAppId): OptionalApp | null {
+  return appRecords.find((app) => app.id === appId) ?? null;
+}
+
+export const optionalAppsData = {
+  records: {
+    apps: appRecords,
+  },
+  views: {
+    apps: appRecords,
+    appsByTier,
+  },
+  queries: {
+    getAppById,
+  },
+} as const;

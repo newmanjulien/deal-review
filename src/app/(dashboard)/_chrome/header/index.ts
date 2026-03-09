@@ -1,7 +1,7 @@
 export { DashboardHeaderSlot } from "./dashboard-header-slot";
 export { HeaderLeadingControl } from "./header-leading-control";
 export { HEADER_MENU_CONFIG } from "./header-config";
-export { HEADER_MEETING_DATES } from "./header-data";
+export { headerData } from "./header-data";
 export {
   HeaderMenu,
   HeaderMenuCheckboxItem,

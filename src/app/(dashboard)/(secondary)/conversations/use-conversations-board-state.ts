@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { conversationRows } from "./conversations-data";
+import { conversationsData } from "./conversations-data";
 import type { ConversationRow, KanbanState } from "./conversations-types";
 import { KANBAN_STAGES } from "./kanban/conversations-kanban-constants";
 import {
@@ -33,7 +33,7 @@ export function buildRowsFromBoardState(boardState: KanbanState): ConversationRo
 
 export function useConversationsBoardState() {
   const [boardState, setBoardState] = useState<KanbanState>(() =>
-    createKanbanState(conversationRows),
+    createKanbanState(conversationsData.views.rows),
   );
   const latestBoardStateRef = useRef(boardState);
 
@@ -48,7 +48,7 @@ export function useConversationsBoardState() {
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       setBoardState(
-        readBoardStateFromLocalStorage(createKanbanState(conversationRows)),
+        readBoardStateFromLocalStorage(createKanbanState(conversationsData.views.rows)),
       );
     }, BOARD_STATE_HYDRATION_DELAY_MS);
 

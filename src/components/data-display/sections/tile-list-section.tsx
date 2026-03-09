@@ -1,18 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Building } from "lucide-react";
 import {
   PriorityGridIcon,
   type PriorityGridVariant,
 } from "./priority-grid-icon";
-import { DataDisplayCardIcon } from "@/components/data-display/card-icon";
 import type {
-  DataDisplayCard,
-  DataDisplayCardPriority,
+  DataDisplayTile,
+  DataDisplayTilePriority,
+  DataDisplayTableRow,
 } from "@/components/data-display/data-display-types";
 
 const PRIORITY_ICON_VARIANT: Record<
-  DataDisplayCardPriority,
+  DataDisplayTilePriority,
   PriorityGridVariant
 > = {
   high: "full-grid",
@@ -20,16 +19,16 @@ const PRIORITY_ICON_VARIANT: Record<
   low: "quarter-grid",
 };
 
-type CardsSectionProps = {
-  cards: DataDisplayCard[];
+type TileListSectionProps = {
+  tiles: DataDisplayTile<DataDisplayTableRow>[];
 };
 
-type CardAvatarsProps = {
-  cardId: string;
-  avatars: DataDisplayCard["avatars"];
+type TileAvatarsProps = {
+  tileId: string;
+  avatars: DataDisplayTile["avatars"];
 };
 
-function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
+function TileAvatars({ tileId, avatars }: TileAvatarsProps) {
   const isStacked = avatars.length === 2;
 
   return (
@@ -40,7 +39,7 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
     >
       {avatars.map((avatar, index) => (
         <span
-          key={`${cardId}-${avatar}-${index}`}
+          key={`${tileId}-${avatar}-${index}`}
           className={
             isStacked
               ? `absolute inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-white bg-zinc-50 ${
@@ -51,7 +50,7 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
         >
           <Image
             src={avatar}
-            alt={`Card ${cardId} avatar ${index + 1}`}
+            alt={`Tile ${tileId} avatar ${index + 1}`}
             width={20}
             height={20}
             className="h-full w-full object-cover"
@@ -62,24 +61,22 @@ function CardAvatars({ cardId, avatars }: CardAvatarsProps) {
   );
 }
 
-export function CardsSection({ cards }: CardsSectionProps) {
+export function TileListSection({ tiles }: TileListSectionProps) {
   return (
     <ol className="space-y-2.5 pt-1">
-      {cards.map((card) => {
-        const cardContent = (
+      {tiles.map((tile) => {
+        const TileIcon = tile.icon;
+        const tileContent = (
           <>
             <div className="flex items-start justify-between gap-3">
-              <p className="text-[10px] tracking-wide text-zinc-500">#{card.id}</p>
-              <CardAvatars cardId={card.id} avatars={card.avatars} />
+              <p className="text-[10px] tracking-wide text-zinc-500">#{tile.id}</p>
+              <TileAvatars tileId={tile.id} avatars={tile.avatars} />
             </div>
 
             <div className="mt-2 flex items-center gap-1.5">
-              <DataDisplayCardIcon
-                iconKey={card.iconKey}
-                className="size-3 text-zinc-500"
-              />
+              <TileIcon className="size-3 text-zinc-500" />
               <h2 className="text-xs leading-snug tracking-wide text-zinc-800">
-                {card.title}
+                {tile.title}
               </h2>
             </div>
 
@@ -91,33 +88,33 @@ export function CardsSection({ cards }: CardsSectionProps) {
 
             <div className="mt-4 flex flex-wrap items-center gap-1.5">
               <span className="inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-800">
-                <Building className="size-2.5 text-zinc-400" />
-                {card.dealLabel}
+                <span aria-hidden className="size-2 rounded-[2px] bg-zinc-300" />
+                {tile.dealLabel}
               </span>
               <span className="inline-flex items-center gap-1 rounded-md border border-zinc-100 px-2 py-0.5 text-[11px] tracking-wide text-zinc-800">
                 <PriorityGridIcon
-                  variant={PRIORITY_ICON_VARIANT[card.priority]}
+                  variant={PRIORITY_ICON_VARIANT[tile.priority]}
                   className="size-2.5 text-zinc-400"
                 />
-                {card.priorityLabel}
+                {tile.priorityLabel}
               </span>
             </div>
           </>
         );
 
-        const cardBaseClassName = "rounded-md border border-zinc-100 px-3 py-3";
+        const tileBaseClassName = "rounded-md border border-zinc-100 px-3 py-3";
 
         return (
-          <li key={card.id}>
-            {card.href ? (
+          <li key={tile.id}>
+            {tile.href ? (
               <Link
-                href={card.href}
-                className={`${cardBaseClassName} block transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300`}
+                href={tile.href}
+                className={`${tileBaseClassName} block transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300`}
               >
-                {cardContent}
+                {tileContent}
               </Link>
             ) : (
-              <div className={cardBaseClassName}>{cardContent}</div>
+              <div className={tileBaseClassName}>{tileContent}</div>
             )}
           </li>
         );

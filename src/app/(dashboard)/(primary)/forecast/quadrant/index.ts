@@ -6,7 +6,7 @@ export {
   QUADRANT_LAYOUT_CONFIG,
   QUADRANT_TOOLTIP_CONFIG,
 } from "./quadrant-config";
-export { quadrantExamplePointSeeds } from "./quadrant-data";
+export { quadrantData } from "./quadrant-data";
 export { QuadrantPoints } from "./quadrant-points";
 export { QuadrantTooltip } from "./quadrant-tooltip";
 export type {

@@ -3,7 +3,7 @@ import {
   QUADRANT_EXAMPLE_CHART_CONFIG,
   QUADRANT_LAYOUT_CONFIG,
 } from "./quadrant-config";
-import { quadrantExamplePointSeeds } from "./quadrant-data";
+import { quadrantData } from "./quadrant-data";
 import type { QuadrantChartData, QuadrantPointSeed } from "./quadrant-types";
 import { buildQuadrantLayout, projectQuadrantPoints } from "./quadrant-utils";
 
@@ -52,5 +52,5 @@ export function createQuadrantChartData({
 
 export const quadrantExampleChart = createQuadrantChartData({
   chart: QUADRANT_EXAMPLE_CHART_CONFIG,
-  points: quadrantExamplePointSeeds,
+  points: quadrantData.views.examplePointSeeds,
 });

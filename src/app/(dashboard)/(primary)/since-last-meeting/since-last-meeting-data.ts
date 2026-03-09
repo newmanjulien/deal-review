@@ -1,23 +1,14 @@
 import type { DataDisplayTimelineItem } from "@/components/data-display/data-display-types";
-import type { HeaderPerson } from "@/types/domain/people";
 import type { DashboardDataTableFormatters } from "@/components/table";
+import { dashboardSellersData } from "../../_data/dashboard-sellers-data";
 import type {
   SinceLastMeetingTableColumn,
   SinceLastMeetingTableRow,
 } from "./since-last-meeting-types";
 
-export const sinceLastMeetingSharedPeople: HeaderPerson[] = [
-  {
-    name: "Julien Newman",
-    avatar: "/avatars/aditya.jpg",
-  },
-  {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
-  },
-];
+const TABLE_CELL_CLASS_BASE = "whitespace-nowrap px-4 py-3 text-xs tracking-wide";
 
-export const sinceLastMeetingTimelineItems: DataDisplayTimelineItem[] = [
+const timelineItems: DataDisplayTimelineItem[] = [
   {
     id: "tyson",
     title: "2nd meeting with Tyson Foods",
@@ -38,28 +29,25 @@ export const sinceLastMeetingTimelineItems: DataDisplayTimelineItem[] = [
   },
 ] as const;
 
-export const sinceLastMeetingTableColumns: SinceLastMeetingTableColumn[] = [
+const tableColumns: SinceLastMeetingTableColumn[] = [
   {
     key: "deal",
     label: "Deal",
-    cellClassName:
-      "whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900",
+    cellClassName: `${TABLE_CELL_CLASS_BASE} font-medium text-zinc-900`,
   },
   {
     key: "probability",
     label: "Probability",
-    cellClassName:
-      "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600",
+    cellClassName: `${TABLE_CELL_CLASS_BASE} text-zinc-600`,
   },
   {
     key: "stage",
     label: "Stage",
-    cellClassName:
-      "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-500",
+    cellClassName: `${TABLE_CELL_CLASS_BASE} text-zinc-500`,
   },
 ] as const;
 
-export const sinceLastMeetingTableRows: SinceLastMeetingTableRow[] = [
+const tableRows: SinceLastMeetingTableRow[] = [
   {
     id: "whirlpool",
     deal: "Whirlpool deal",
@@ -80,8 +68,35 @@ export const sinceLastMeetingTableRows: SinceLastMeetingTableRow[] = [
   },
 ] as const;
 
-export const sinceLastMeetingTableFormatters: DashboardDataTableFormatters<SinceLastMeetingTableRow> =
-  {
-    probability: (probability) => `${probability}% likely to close`,
-    stage: (stage) => `${stage} stage`,
-  };
+const tableFormatters: DashboardDataTableFormatters<SinceLastMeetingTableRow> = {
+  probability: (probability) => `${probability}% likely to close`,
+  stage: (stage) => `${stage} stage`,
+};
+
+function getTimelineItemById(itemId: string): DataDisplayTimelineItem | null {
+  return timelineItems.find((item) => item.id === itemId) ?? null;
+}
+
+function getTableRowById(rowId: string): SinceLastMeetingTableRow | null {
+  return tableRows.find((row) => row.id === rowId) ?? null;
+}
+
+export const sinceLastMeetingData = {
+  records: {
+    timelineItems,
+    tableRows,
+  },
+  views: {
+    sharedPeople: dashboardSellersData.views.people,
+    timelineItems,
+    table: {
+      rows: tableRows,
+      columns: tableColumns,
+      formatters: tableFormatters,
+    },
+  },
+  queries: {
+    getTimelineItemById,
+    getTableRowById,
+  },
+} as const;

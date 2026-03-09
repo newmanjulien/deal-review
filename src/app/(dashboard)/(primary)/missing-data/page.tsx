@@ -1,33 +1,35 @@
 "use client";
 
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
+import type {
+  DataDisplaySectionInstance,
+  DataDisplayTableRow,
+} from "@/components/data-display/data-display-types";
 import { MISSING_DATA_PAGE_CONFIG } from "./missing-data-config";
-import {
-  missingDataCards,
-  missingDataTimelineCards,
-} from "./missing-data-data";
+import { missingDataData } from "./missing-data-data";
 
-const MISSING_DATA_SECTIONS: DataDisplaySectionInstance[] = [
+const MISSING_DATA_SECTIONS: DataDisplaySectionInstance<DataDisplayTableRow>[] = [
   {
-    id: "missing-data-cards",
+    id: "missing-data-tiles",
     label: "Missing data",
-    kind: "cards",
-    cards: missingDataCards,
+    kind: "tiles",
+    tiles: missingDataData.views.sections.missingDataTiles,
   },
   {
-    id: "timelines-cards",
+    id: "timelines-tiles",
     label: "Timelines",
-    kind: "cards",
-    cards: missingDataTimelineCards,
+    kind: "tiles",
+    tiles: missingDataData.views.sections.timelineTiles,
   },
 ];
 
 export default function MissingDataPage() {
   return (
     <DataDisplay
-      title={MISSING_DATA_PAGE_CONFIG.title}
-      description={MISSING_DATA_PAGE_CONFIG.description}
+      hero={{
+        title: MISSING_DATA_PAGE_CONFIG.title,
+        description: MISSING_DATA_PAGE_CONFIG.description,
+      }}
       sections={MISSING_DATA_SECTIONS}
     />
   );

@@ -7,13 +7,13 @@ import {
   List,
 } from "lucide-react";
 import { FORECAST_PAGE_CONFIG } from "../../(primary)/forecast/forecast-config";
-import { forecastSharedPeople } from "../../(primary)/forecast/forecast-data";
+import { forecastData } from "../../(primary)/forecast/forecast-data";
 import { MISSING_DATA_PAGE_CONFIG } from "../../(primary)/missing-data/missing-data-config";
-import { missingDataSharedPeople } from "../../(primary)/missing-data/missing-data-data";
+import { missingDataData } from "../../(primary)/missing-data/missing-data-data";
 import { OPPORTUNITIES_PAGE_CONFIG } from "../../(primary)/opportunities/opportunities-config";
-import { opportunitiesSharedPeople } from "../../(primary)/opportunities/opportunities-data";
+import { opportunitiesData } from "../../(primary)/opportunities/opportunities-data";
 import { SINCE_LAST_MEETING_PAGE_CONFIG } from "../../(primary)/since-last-meeting/since-last-meeting-config";
-import { sinceLastMeetingSharedPeople } from "../../(primary)/since-last-meeting/since-last-meeting-data";
+import { sinceLastMeetingData } from "../../(primary)/since-last-meeting/since-last-meeting-data";
 import { CONVERSATIONS_PAGE_CONFIG } from "../../(secondary)/conversations/conversations-config";
 import { OPTIONAL_APPS_PAGE_CONFIG } from "../../(secondary)/optional-apps/optional-apps-config";
 import { DASHBOARD_ROUTE_PATHS } from "../dashboard-routes-types";
@@ -29,7 +29,7 @@ export const DASHBOARD_ROUTES = [
       header: {
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: SINCE_LAST_MEETING_PAGE_CONFIG.headerTitle }],
-        sharedPeople: sinceLastMeetingSharedPeople,
+        sharedPeople: sinceLastMeetingData.views.sharedPeople,
       },
       capabilities: { questions: true },
     },
@@ -47,7 +47,7 @@ export const DASHBOARD_ROUTES = [
       header: {
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: FORECAST_PAGE_CONFIG.headerTitle }],
-        sharedPeople: forecastSharedPeople,
+        sharedPeople: forecastData.views.sharedPeople,
       },
       capabilities: { questions: true },
     },
@@ -65,7 +65,7 @@ export const DASHBOARD_ROUTES = [
       header: {
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: MISSING_DATA_PAGE_CONFIG.headerTitle }],
-        sharedPeople: missingDataSharedPeople,
+        sharedPeople: missingDataData.views.sharedPeople,
       },
       capabilities: { questions: true },
     },
@@ -83,7 +83,7 @@ export const DASHBOARD_ROUTES = [
       header: {
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: OPPORTUNITIES_PAGE_CONFIG.headerTitle }],
-        sharedPeople: opportunitiesSharedPeople,
+        sharedPeople: opportunitiesData.views.sharedPeople,
       },
       capabilities: { questions: true },
     },

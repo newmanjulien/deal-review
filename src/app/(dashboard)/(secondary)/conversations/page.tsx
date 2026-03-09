@@ -5,7 +5,7 @@ import { CanvasWidePage } from "@/components/canvas/canvas-page";
 import { SectionTabs } from "@/components/ui/section-tabs";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { CONVERSATIONS_PAGE_CONFIG } from "./conversations-config";
-import { conversationSellerPeople } from "./conversations-data";
+import { conversationsData } from "./conversations-data";
 import { ConversationsSellerFilterMenu } from "./conversations-seller-filter-menu";
 import { ConversationsTable } from "./conversations-table";
 import { ConversationsKanban } from "./kanban/conversations-kanban";
@@ -47,7 +47,7 @@ export default function ConversationsPage() {
             />
 
             <div className="flex items-center gap-2 pb-3">
-              <ConversationsSellerFilterMenu people={conversationSellerPeople} />
+              <ConversationsSellerFilterMenu people={conversationsData.views.sellerPeople} />
             </div>
           </div>
         ) : null}

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 import { HEADER_MENU_CONFIG } from "./header-config";
-import { HEADER_MEETING_DATES } from "./header-data";
+import { headerData } from "./header-data";
 import {
   HeaderMenu,
   HeaderMenuItem,
@@ -21,6 +21,20 @@ type MeetingDateMenuProps = {
 const DEFAULT_TRIGGER_CLASS_NAME =
   "mr-2 ml-1 inline-flex items-center text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400";
 
+const MEETING_DATE_LABEL_FORMATTER = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+});
+
+function formatMeetingDateLabel(isoDate: string): string {
+  const date = new Date(`${isoDate}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) {
+    return isoDate;
+  }
+
+  return MEETING_DATE_LABEL_FORMATTER.format(date);
+}
+
 export function MeetingDateMenu({
   id = HEADER_MENU_CONFIG.meetingDate.id,
   triggerId = HEADER_MENU_CONFIG.meetingDate.triggerId,
@@ -29,6 +43,9 @@ export function MeetingDateMenu({
   open,
   onOpenChange,
 }: MeetingDateMenuProps = {}) {
+  const meetingDateLabels = headerData.views.meetingDateIsos.map(formatMeetingDateLabel);
+  const triggerDateLabel = meetingDateLabels[0] ?? "No date";
+
   return (
     <HeaderMenu
       id={id}
@@ -43,7 +60,7 @@ export function MeetingDateMenu({
           className={cn(DEFAULT_TRIGGER_CLASS_NAME, triggerClassName)}
         >
           <span>
-            {HEADER_MEETING_DATES[0]} {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
+            {triggerDateLabel} {HEADER_MENU_CONFIG.meetingDate.triggerSuffix}
           </span>
         </button>
       }
@@ -52,10 +69,12 @@ export function MeetingDateMenu({
         {HEADER_MENU_CONFIG.meetingDate.sectionLabel}
       </HeaderMenuSectionLabel>
       <HeaderMenuList>
-        {HEADER_MEETING_DATES.map((date) => (
-          <li key={date}>
+        {headerData.views.meetingDateIsos.map((isoDate, index) => (
+          <li key={isoDate}>
             <HeaderMenuItem>
-              <span className="font-medium">{date}</span>
+              <span className="font-medium">
+                {meetingDateLabels[index] ?? isoDate}
+              </span>
             </HeaderMenuItem>
           </li>
         ))}

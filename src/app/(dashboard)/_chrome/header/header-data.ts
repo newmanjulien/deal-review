@@ -1,7 +1,25 @@
-export const HEADER_MEETING_DATES = [
-  "January 26",
-  "January 12",
-  "December 29",
-  "December 15",
-  "December 1",
+import type { IsoDateString } from "@/types/domain/date-time";
+
+const meetingDateIsos: IsoDateString[] = [
+  "2026-01-26",
+  "2026-01-12",
+  "2025-12-29",
+  "2025-12-15",
+  "2025-12-01",
 ];
+
+function getLatestMeetingDateIso(): IsoDateString | null {
+  return meetingDateIsos[0] ?? null;
+}
+
+export const headerData = {
+  records: {
+    meetingDateIsos,
+  },
+  views: {
+    meetingDateIsos,
+  },
+  queries: {
+    getLatestMeetingDateIso,
+  },
+} as const;

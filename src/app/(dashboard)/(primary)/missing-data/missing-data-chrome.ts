@@ -1,44 +1,41 @@
 import type { DashboardChromeModel } from "@/app/(dashboard)/_routes/dashboard-routes-types";
 import { MISSING_DATA_PAGE_CONFIG } from "./missing-data-config";
-import {
-  getMissingDataCardById,
-  missingDataSharedPeople,
-} from "./missing-data-data";
+import { missingDataData } from "./missing-data-data";
 
 type DashboardChromeMatch = Omit<DashboardChromeModel, "pathname" | "nav">;
 
 const MISSING_DATA_ROUTE_HREF = "/missing-data" as const;
 
-export function resolveMissingDataCardChrome(
+export function resolveMissingDataDetailChrome(
   pathname: string,
 ): DashboardChromeMatch | null {
-  const match = pathname.match(/^\/missing-data\/cards\/([^/]+)$/);
+  const match = pathname.match(/^\/missing-data\/detail\/([^/]+)$/);
   if (!match?.[1]) {
     return null;
   }
 
-  let cardId = match[1];
+  let detailId = match[1];
   try {
-    cardId = decodeURIComponent(cardId);
+    detailId = decodeURIComponent(detailId);
   } catch {
     return null;
   }
 
-  const card = getMissingDataCardById(cardId);
-  if (!card) {
+  const detail = missingDataData.queries.getDetailById(detailId);
+  if (!detail) {
     return null;
   }
 
   return {
-    routeId: "missing-data-card",
+    routeId: "missing-data-detail",
     header: {
       leadingControl: {
         kind: "back-link",
         href: MISSING_DATA_ROUTE_HREF,
         label: MISSING_DATA_PAGE_CONFIG.headerTitle,
       },
-      breadcrumbs: [{ label: card.title }],
-      sharedPeople: missingDataSharedPeople,
+      breadcrumbs: [{ label: detail.title }],
+      sharedPeople: missingDataData.views.sharedPeople,
     },
     capabilities: {
       questions: true,

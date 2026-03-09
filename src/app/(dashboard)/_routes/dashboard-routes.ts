@@ -3,7 +3,7 @@ import {
   isDashboardPathWithinRoute,
   normalizeDashboardPathname,
 } from "./dashboard-pathname";
-import { resolveMissingDataCardChrome } from "../(primary)/missing-data/missing-data-chrome";
+import { resolveMissingDataDetailChrome } from "../(primary)/missing-data/missing-data-chrome";
 import {
   DASHBOARD_NAV_GROUPS,
   DASHBOARD_ROUTE_PATHS,
@@ -41,7 +41,7 @@ function createChromeNav(pathname: string) {
 
 export function resolveDashboardChrome(pathname: string): DashboardChromeModel | null {
   const normalizedPathname = normalizeDashboardPathname(pathname);
-  const dynamicChrome = resolveMissingDataCardChrome(normalizedPathname);
+  const dynamicChrome = resolveMissingDataDetailChrome(normalizedPathname);
   if (dynamicChrome) {
     return {
       ...dynamicChrome,

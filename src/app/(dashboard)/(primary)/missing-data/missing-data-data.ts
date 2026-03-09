@@ -1,29 +1,44 @@
+import { CircleOff, Clock3 } from "lucide-react";
 import type {
-  DataDisplayCard,
+  DataDisplayTile,
   DataDisplayTableColumn,
   DataDisplayTableRow,
-  DataDisplayTimelineItem,
+  DataDisplayTileWithDetail,
 } from "@/components/data-display/data-display-types";
-import type { HeaderPerson } from "@/types/domain/people";
+import { dashboardSellersData } from "../../_data/dashboard-sellers-data";
 
-export const missingDataSharedPeople: HeaderPerson[] = [
+type MissingDataTableRow = DataDisplayTableRow<{
+  signal: string;
+  status: string;
+}>;
+
+type MissingDataTile = DataDisplayTile<MissingDataTableRow>;
+
+const TABLE_CELL_CLASS_BASE =
+  "whitespace-nowrap px-4 py-3 text-xs tracking-wide";
+
+const [julienSeller, yashSeller] = dashboardSellersData.views.people;
+
+const detailTableColumns: DataDisplayTableColumn<MissingDataTableRow>[] = [
   {
-    name: "Julien Newman",
-    avatar: "/avatars/aditya.jpg",
+    key: "signal",
+    label: "Signal",
+    cellClassName: `${TABLE_CELL_CLASS_BASE} font-medium text-zinc-900`,
   },
   {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
+    key: "status",
+    label: "Status",
+    cellClassName: `${TABLE_CELL_CLASS_BASE} text-zinc-600`,
   },
 ];
 
-export const missingDataCards: DataDisplayCard[] = [
+const missingDataTiles: MissingDataTile[] = [
   {
     id: "118",
-    title: "Not sure who is the economic buyer",
-    iconKey: "missing",
+    title: "Not sure who is the economic buyer at Honeywell",
+    icon: CircleOff,
     dealLabel: "Honeywell",
-    avatars: [missingDataSharedPeople[1].avatar],
+    avatars: [yashSeller.avatar],
     priority: "high",
     priorityLabel: "High priority",
   },
@@ -31,93 +46,102 @@ export const missingDataCards: DataDisplayCard[] = [
     id: "120",
     title: "Deadline for 3M's RFP is unknown",
     description:
-      "A spike in users clicking on reset links but not completing the reset flow were detected. Error rates surged within ten minutes of the latest deployment.",
-    iconKey: "missing",
+      "Procurement has not confirmed a due date. We might want to find this out",
+    icon: CircleOff,
     dealLabel: "3M",
-    avatars: [
-      missingDataSharedPeople[0].avatar,
-      missingDataSharedPeople[1].avatar,
-    ],
+    avatars: [julienSeller.avatar, yashSeller.avatar],
     priority: "medium",
     priorityLabel: "Medium priority",
-    href: "/missing-data/cards/120",
+    // href: "/missing-data/detail/120",
+    detail: {
+      timelineItems: [
+        {
+          id: "120-stage-change",
+          title: "RFP owner changed and timeline slipped",
+          occurredOnIso: "2026-02-24",
+          body: "The original owner left the project and the new owner has not confirmed a revised date. Last two calls closed without next-step commitments.",
+        },
+        {
+          id: "120-procurement-update",
+          title: "Procurement requested updated checklist",
+          occurredOnIso: "2026-02-28",
+          body: "Procurement asked for a revised requirements checklist and security mapping before sharing an updated RFP deadline.",
+        },
+      ],
+      tableRows: [
+        {
+          id: "120-owner",
+          signal: "Economic buyer is not confirmed",
+          status: "Missing",
+        },
+        {
+          id: "120-date",
+          signal: "RFP close date",
+          status: "Unknown",
+        },
+        {
+          id: "120-procurement",
+          signal: "Procurement checkpoint",
+          status: "Pending",
+        },
+      ],
+    },
   },
 ] as const;
 
-export const missingDataTimelineCards: DataDisplayCard[] = [
+const timelineTiles: MissingDataTile[] = [
   {
     id: "119",
-    title: "Director of Finance was supposed to revert last week",
-    iconKey: "timing",
+    title: "Director of Finance hasn't answered for 2 weeks",
+    icon: Clock3,
     dealLabel: "Timeline review",
-    avatars: [
-      missingDataSharedPeople[0].avatar,
-      missingDataSharedPeople[1].avatar,
-    ],
+    avatars: [julienSeller.avatar, yashSeller.avatar],
     priority: "medium",
     priorityLabel: "Medium priority",
   },
 ] as const;
 
-const allMissingDataCards = [
-  ...missingDataCards,
-  ...missingDataTimelineCards,
-] as const;
+const allTiles = [...missingDataTiles, ...timelineTiles] as const;
+const tilesById = Object.fromEntries(
+  allTiles.map((tile) => [tile.id, tile]),
+) as Record<string, MissingDataTile>;
 
-export function getMissingDataCardById(cardId: string) {
-  return allMissingDataCards.find((card) => card.id === cardId) ?? null;
+function hasDetail(
+  tile: MissingDataTile,
+): tile is DataDisplayTileWithDetail<MissingDataTableRow> {
+  return Boolean(tile.detail && tile.description?.trim().length);
 }
 
-type MissingDataTableRow = DataDisplayTableRow<{
-  signal: string;
-  status: string;
-}>;
+function getDetailById(
+  detailId: string,
+): DataDisplayTileWithDetail<MissingDataTableRow> | null {
+  const tile = tilesById[detailId];
+  if (!tile || !hasDetail(tile)) {
+    return null;
+  }
 
-export const missingDataTimelineItems: DataDisplayTimelineItem[] = [
-  {
-    id: "120-stage-change",
-    title: "RFP owner changed and timeline slipped",
-    occurredOnIso: "2026-02-24",
-    body: "The original owner left the project and the new owner has not confirmed a revised date. Last two calls closed without next-step commitments.",
-  },
-  {
-    id: "120-procurement-update",
-    title: "Procurement requested updated checklist",
-    occurredOnIso: "2026-02-28",
-    body: "Procurement asked for a revised requirements checklist and security mapping before sharing an updated RFP deadline.",
-  },
-];
+  return tile;
+}
 
-export const missingDataTableColumns: DataDisplayTableColumn<MissingDataTableRow>[] =
-  [
-    {
-      key: "signal",
-      label: "Signal",
-      cellClassName:
-        "whitespace-nowrap px-4 py-3 text-xs font-medium tracking-wide text-zinc-900",
+export const missingDataData = {
+  records: {
+    tiles: {
+      missingData: missingDataTiles,
+      timelines: timelineTiles,
+      all: allTiles,
     },
-    {
-      key: "status",
-      label: "Status",
-      cellClassName:
-        "whitespace-nowrap px-4 py-3 text-xs tracking-wide text-zinc-600",
+  },
+  views: {
+    sharedPeople: dashboardSellersData.views.people,
+    sections: {
+      missingDataTiles,
+      timelineTiles,
     },
-  ];
-
-export const missingDataTableRows: MissingDataTableRow[] = [
-  {
-    id: "120-owner",
-    signal: "Economic buyer is not confirmed",
-    status: "Missing",
+    detailTableColumns,
   },
-  {
-    id: "120-date",
-    signal: "RFP close date",
-    status: "Unknown",
+  queries: {
+    getTileById: (tileId: string) => tilesById[tileId] ?? null,
+    hasDetail,
+    getDetailById,
   },
-  {
-    id: "120-procurement",
-    signal: "Procurement checkpoint",
-    status: "Pending",
-  },
-];
+} as const;

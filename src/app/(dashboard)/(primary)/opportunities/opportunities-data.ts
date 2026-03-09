@@ -1,43 +1,60 @@
-import type { DataDisplayCard } from "@/components/data-display/data-display-types";
-import type { HeaderPerson } from "@/types/domain/people";
+import { Lightbulb, TriangleAlert } from "lucide-react";
+import type {
+  DataDisplayTile,
+  DataDisplayTableRow,
+} from "@/components/data-display/data-display-types";
+import { dashboardSellersData } from "../../_data/dashboard-sellers-data";
 
-export const opportunitiesSharedPeople: HeaderPerson[] = [
-  {
-    name: "Julien Newman",
-    avatar: "/avatars/aditya.jpg",
-  },
-  {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
-  },
-];
+type OpportunitiesTile = DataDisplayTile<DataDisplayTableRow>;
 
-export const opportunitiesCards: DataDisplayCard[] = [
+const [julienSeller, yashSeller] = dashboardSellersData.views.people;
+
+const opportunitiesTiles: OpportunitiesTile[] = [
   {
     id: "118",
     title: "CFO was a customer at his last job",
-    iconKey: "opportunity",
+    icon: Lightbulb,
     dealLabel: "Honeywell",
-    avatars: [
-      opportunitiesSharedPeople[1].avatar,
-      opportunitiesSharedPeople[0].avatar,
-    ],
+    avatars: [yashSeller.avatar, julienSeller.avatar],
     priority: "high",
     priorityLabel: "High priority",
   },
 ] as const;
 
-export const risksCards: DataDisplayCard[] = [
+const risksTiles: OpportunitiesTile[] = [
   {
     id: "118",
     title: "We've lost multiple RFPs at 3M",
-    iconKey: "risk",
+    icon: TriangleAlert,
     dealLabel: "3M",
-    avatars: [
-      opportunitiesSharedPeople[1].avatar,
-      opportunitiesSharedPeople[0].avatar,
-    ],
+    avatars: [yashSeller.avatar, julienSeller.avatar],
     priority: "high",
     priorityLabel: "High priority",
   },
 ] as const;
+
+const allTiles = [...opportunitiesTiles, ...risksTiles] as const;
+const tilesById = Object.fromEntries(allTiles.map((tile) => [tile.id, tile])) as Record<
+  string,
+  OpportunitiesTile
+>;
+
+export const opportunitiesData = {
+  records: {
+    tiles: {
+      opportunities: opportunitiesTiles,
+      risks: risksTiles,
+      all: allTiles,
+    },
+  },
+  views: {
+    sharedPeople: dashboardSellersData.views.people,
+    sections: {
+      opportunitiesTiles,
+      risksTiles,
+    },
+  },
+  queries: {
+    getTileById: (tileId: string) => tilesById[tileId] ?? null,
+  },
+} as const;

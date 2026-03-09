@@ -1,30 +1,35 @@
 "use client";
 
 import { DataDisplay } from "@/components/data-display/data-display";
-import type { DataDisplaySectionInstance } from "@/components/data-display/data-display-types";
+import type {
+  DataDisplaySectionInstance,
+  DataDisplayTableRow,
+} from "@/components/data-display/data-display-types";
 import { OPPORTUNITIES_PAGE_CONFIG } from "./opportunities-config";
-import { risksCards, opportunitiesCards } from "./opportunities-data";
+import { opportunitiesData } from "./opportunities-data";
 
-const OPPORTUNITIES_SECTIONS: DataDisplaySectionInstance[] = [
+const OPPORTUNITIES_SECTIONS: DataDisplaySectionInstance<DataDisplayTableRow>[] = [
   {
-    id: "opportunities-cards",
+    id: "opportunities-tiles",
     label: "Opportunities",
-    kind: "cards",
-    cards: opportunitiesCards,
+    kind: "tiles",
+    tiles: opportunitiesData.views.sections.opportunitiesTiles,
   },
   {
-    id: "risks-cards",
+    id: "risks-tiles",
     label: "Risks",
-    kind: "cards",
-    cards: risksCards,
+    kind: "tiles",
+    tiles: opportunitiesData.views.sections.risksTiles,
   },
 ];
 
 export default function OpportunitiesPage() {
   return (
     <DataDisplay
-      title={OPPORTUNITIES_PAGE_CONFIG.title}
-      description={OPPORTUNITIES_PAGE_CONFIG.description}
+      hero={{
+        title: OPPORTUNITIES_PAGE_CONFIG.title,
+        description: OPPORTUNITIES_PAGE_CONFIG.description,
+      }}
       sections={OPPORTUNITIES_SECTIONS}
     />
   );

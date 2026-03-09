@@ -1,160 +1,23 @@
-import type { HeaderPerson } from "@/types/domain/people";
+import {
+  dashboardSellersData,
+  type DashboardSellerId,
+} from "../../_data/dashboard-sellers-data";
 import type { ConversationRow } from "./conversations-types";
 
-export const conversationSellerPeople: HeaderPerson[] = [
-  {
-    name: "Julien Newman",
-    avatar: "/avatars/aditya.jpg",
-  },
-  {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
-  },
-];
+type ConversationRowRecord = Omit<ConversationRow, "owner" | "ownerAvatar"> & {
+  ownerId: DashboardSellerId;
+};
 
-export const conversationRows: ConversationRow[] = [
-  {
-    id: "northwind-health-maya-rodriguez",
-    cardNumber: 87,
-    probability: 35,
-    contact: "Maya Rodriguez",
-    deal: "Caterpillar deal",
-    owner: "Julien Newman",
-    ownerAvatar: "/avatars/aditya.jpg",
-    stage: "Negotiation",
-    lastActivityAtIso: "2026-03-08T15:00:00Z",
-  },
-  {
-    id: "aperture-labs-nolan-pierce",
-    cardNumber: 65,
-    probability: 55,
-    contact: "Nolan Pierce",
-    deal: "Sherwin-Williams deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Proposal",
-    lastActivityAtIso: "2026-03-07T14:00:00Z",
-  },
-  {
-    id: "bluebird-logistics-leah-kim",
-    cardNumber: 42,
-    probability: 20,
-    contact: "Leah Kim",
-    deal: "Whirlpool deal",
-    owner: "Julien Newman",
-    ownerAvatar: "/avatars/aditya.jpg",
-    stage: "Discovery",
-    lastActivityAtIso: "2026-03-07T09:00:00Z",
-  },
-  {
-    id: "helix-financial-priya-nanda",
-    cardNumber: 31,
-    probability: 100,
-    contact: "Priya Nanda",
-    deal: "John Deere deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Closed won",
-    lastActivityAtIso: "2026-03-05T13:00:00Z",
-  },
+const conversationRowRecords: ConversationRowRecord[] = [
   {
     id: "greenline-energy-olivia-chen",
     cardNumber: 74,
     probability: 25,
     contact: "Olivia Chen",
     deal: "3M deal",
-    owner: "Julien Newman",
-    ownerAvatar: "/avatars/aditya.jpg",
+    ownerId: "julien",
     stage: "Discovery",
     lastActivityAtIso: "2026-03-08T12:00:00Z",
-  },
-  {
-    id: "stonegate-retail-ethan-ross",
-    cardNumber: 76,
-    probability: 45,
-    contact: "Ethan Ross",
-    deal: "General Mills deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Proposal",
-    lastActivityAtIso: "2026-03-07T10:00:00Z",
-  },
-  {
-    id: "atlas-biotech-sofia-mendez",
-    cardNumber: 78,
-    probability: 70,
-    contact: "Sofia Mendez",
-    deal: "Tyson Foods deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Negotiation",
-    lastActivityAtIso: "2026-03-08T13:00:00Z",
-  },
-  {
-    id: "harbor-insurance-liam-brooks",
-    cardNumber: 80,
-    probability: 50,
-    contact: "Liam Brooks",
-    deal: "Kroger deal",
-    owner: "Julien Newman",
-    ownerAvatar: "/avatars/aditya.jpg",
-    stage: "Proposal",
-    lastActivityAtIso: "2026-03-06T16:00:00Z",
-  },
-  {
-    id: "nova-manufacturing-zoe-patel",
-    cardNumber: 82,
-    probability: 30,
-    contact: "Zoe Patel",
-    deal: "Costco deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Discovery",
-    lastActivityAtIso: "2026-03-08T11:00:00Z",
-  },
-  {
-    id: "cedar-logistics-jason-lee",
-    cardNumber: 84,
-    probability: 65,
-    contact: "Jason Lee",
-    deal: "Marriott deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Negotiation",
-    lastActivityAtIso: "2026-03-08T09:00:00Z",
-  },
-  {
-    id: "brightpath-education-emma-davis",
-    cardNumber: 86,
-    probability: 0,
-    contact: "Emma Davis",
-    deal: "Hilton deal",
-    owner: "Julien Newman",
-    ownerAvatar: "/avatars/aditya.jpg",
-    stage: "Closed lost",
-    lastActivityAtIso: "2026-03-01T16:00:00Z",
-  },
-  {
-    id: "pinnacle-medical-marcus-ford",
-    cardNumber: 88,
-    probability: 100,
-    contact: "Marcus Ford",
-    deal: "Delta Air Lines deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Closed won",
-    lastActivityAtIso: "2026-03-04T15:00:00Z",
-  },
-  {
-    id: "summit-payments-ava-morgan",
-    cardNumber: 90,
-    probability: 75,
-    contact: "Ava Morgan",
-    deal: "Southwest Airlines deal",
-    owner: "Yash Patel",
-    ownerAvatar: "/avatars/yash.webp",
-    stage: "Negotiation",
-    lastActivityAtIso: "2026-03-08T14:00:00Z",
   },
   {
     id: "orion-telecom-noah-bennett",
@@ -162,9 +25,83 @@ export const conversationRows: ConversationRow[] = [
     probability: 60,
     contact: "Noah Bennett",
     deal: "FedEx deal",
-    owner: "Julien Newman",
-    ownerAvatar: "/avatars/aditya.jpg",
+    ownerId: "julien",
     stage: "Proposal",
     lastActivityAtIso: "2026-03-07T18:00:00Z",
   },
+  {
+    id: "northwind-health-maya-rodriguez",
+    cardNumber: 87,
+    probability: 35,
+    contact: "Maya Rodriguez",
+    deal: "Caterpillar deal",
+    ownerId: "julien",
+    stage: "Negotiation",
+    lastActivityAtIso: "2026-03-08T15:00:00Z",
+  },
+  {
+    id: "summit-payments-ava-morgan",
+    cardNumber: 90,
+    probability: 75,
+    contact: "Ava Morgan",
+    deal: "Southwest Airlines deal",
+    ownerId: "yash",
+    stage: "Negotiation",
+    lastActivityAtIso: "2026-03-08T14:00:00Z",
+  },
+  {
+    id: "helix-financial-priya-nanda",
+    cardNumber: 31,
+    probability: 100,
+    contact: "Priya Nanda",
+    deal: "John Deere deal",
+    ownerId: "yash",
+    stage: "Closed won",
+    lastActivityAtIso: "2026-03-05T13:00:00Z",
+  },
+  {
+    id: "brightpath-education-emma-davis",
+    cardNumber: 86,
+    probability: 0,
+    contact: "Emma Davis",
+    deal: "Hilton deal",
+    ownerId: "julien",
+    stage: "Closed lost",
+    lastActivityAtIso: "2026-03-01T16:00:00Z",
+  },
 ];
+
+function toConversationRow(record: ConversationRowRecord): ConversationRow {
+  const seller = dashboardSellersData.queries.getSellerById(record.ownerId);
+
+  return {
+    id: record.id,
+    cardNumber: record.cardNumber,
+    probability: record.probability,
+    contact: record.contact,
+    deal: record.deal,
+    stage: record.stage,
+    lastActivityAtIso: record.lastActivityAtIso,
+    owner: seller.name,
+    ownerAvatar: seller.avatar,
+  };
+}
+
+const conversationRows = conversationRowRecords.map(toConversationRow);
+
+function getConversationRowById(conversationId: string): ConversationRow | null {
+  return conversationRows.find((row) => row.id === conversationId) ?? null;
+}
+
+export const conversationsData = {
+  records: {
+    rows: conversationRowRecords,
+  },
+  views: {
+    sellerPeople: dashboardSellersData.views.people,
+    rows: conversationRows,
+  },
+  queries: {
+    getConversationRowById,
+  },
+} as const;

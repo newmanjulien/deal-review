@@ -15,7 +15,7 @@ export const DASHBOARD_ROUTE_PATHS = {
 
 export type DashboardNavGroup = "main" | "secondary" | "tertiary";
 export type DashboardRouteId = keyof typeof DASHBOARD_ROUTE_PATHS;
-export type DashboardChromeRouteId = DashboardRouteId | "missing-data-card";
+export type DashboardChromeRouteId = DashboardRouteId | "missing-data-detail";
 
 export type DashboardChromeLeadingControl =
   | { kind: "meeting-date" }

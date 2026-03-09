@@ -1,12 +1,9 @@
-import type { HeaderPerson } from "@/types/domain/people";
+import { dashboardSellersData } from "../../_data/dashboard-sellers-data";
 
-export const forecastSharedPeople: HeaderPerson[] = [
-  {
-    name: "Julien Newman",
-    avatar: "/avatars/aditya.jpg",
+export const forecastData = {
+  records: {},
+  views: {
+    sharedPeople: dashboardSellersData.views.people,
   },
-  {
-    name: "Yash Patel",
-    avatar: "/avatars/yash.webp",
-  },
-];
+  queries: {},
+} as const;

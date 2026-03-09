@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import type {
   DashboardDataTableColumn,
   DashboardDataTableFormatters,
@@ -5,7 +6,7 @@ import type {
 import type { AppPath } from "@/types/domain/app-path";
 import type { IsoDateString } from "@/types/domain/date-time";
 
-export type DataDisplaySectionKind = "timeline" | "table" | "cards";
+export type DataDisplaySectionKind = "timeline" | "table" | "tiles";
 
 export type DataDisplayTimelineItem = {
   id: string;
@@ -28,24 +29,48 @@ export type DataDisplayTableFormatters<
   Row extends DataDisplayTableRow = DataDisplayTableRow,
 > = DashboardDataTableFormatters<Row>;
 
-export type DataDisplayCardPriority = "high" | "medium" | "low";
-type DataDisplayCardAvatars = [string] | [string, string];
-export type DataDisplayCardIconKey =
-  | "missing"
-  | "timing"
-  | "opportunity"
-  | "risk";
+export type DataDisplayTilePriority = "high" | "medium" | "low";
+type DataDisplayTileAvatars = [string] | [string, string];
 
-export type DataDisplayCard = {
+export type DataDisplayTileDetail<
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
+> = {
+  timelineItems: DataDisplayTimelineItem[];
+  tableRows: Row[];
+};
+
+export type DataDisplayTile<
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
+> = {
   id: string;
   title: string;
   description?: string;
-  iconKey: DataDisplayCardIconKey;
+  icon: LucideIcon;
   dealLabel: string;
-  avatars: DataDisplayCardAvatars;
-  priority: DataDisplayCardPriority;
+  avatars: DataDisplayTileAvatars;
+  priority: DataDisplayTilePriority;
   priorityLabel: string;
   href?: AppPath;
+  detail?: DataDisplayTileDetail<Row>;
+};
+
+export type DataDisplayTileWithDetail<
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
+> = DataDisplayTile<Row> & {
+  description: string;
+  detail: DataDisplayTileDetail<Row>;
+};
+
+export type DataDisplayPageHero = {
+  title: string;
+  description: string;
+};
+
+export type DataDisplayDetailHero = {
+  id: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
 };
 
 type DataDisplaySectionInstanceBase = {
@@ -68,9 +93,9 @@ type DataDisplayTableSectionInstance<
   formatters?: DataDisplayTableFormatters<Row>;
 };
 
-type DataDisplayCardsSectionInstance = DataDisplaySectionInstanceBase & {
-  kind: "cards";
-  cards: DataDisplayCard[];
+type DataDisplayTilesSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "tiles";
+  tiles: DataDisplayTile<DataDisplayTableRow>[];
 };
 
 export type DataDisplaySectionInstance<
@@ -78,4 +103,8 @@ export type DataDisplaySectionInstance<
 > =
   | DataDisplayTimelineSectionInstance
   | DataDisplayTableSectionInstance<Row>
-  | DataDisplayCardsSectionInstance;
+  | DataDisplayTilesSectionInstance;
+
+export type DataDisplayDetailSectionInstance<
+  Row extends DataDisplayTableRow = DataDisplayTableRow,
+> = Exclude<DataDisplaySectionInstance<Row>, { kind: "tiles" }>;

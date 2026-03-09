@@ -2,12 +2,17 @@
 
 import { useState } from "react";
 import { CanvasPage } from "@/components/canvas/canvas-page";
+import { CanvasHero } from "@/components/canvas/canvas-hero";
+import { assertValidDataDisplaySections } from "@/components/data-display/data-display-guards";
 import type {
+  DataDisplayDetailHero,
+  DataDisplayDetailSectionInstance,
+  DataDisplayPageHero,
   DataDisplaySectionInstance,
   DataDisplayTableRow,
 } from "@/components/data-display/data-display-types";
-import { CardsSection } from "@/components/data-display/sections/cards-section";
 import { TableSection } from "@/components/data-display/sections/table-section";
+import { TileListSection } from "@/components/data-display/sections/tile-list-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
 import { SectionTabs } from "@/components/ui/section-tabs";
 
@@ -27,28 +32,41 @@ function renderSection<Row extends DataDisplayTableRow>(
           formatters={section.formatters}
         />
       );
-    case "cards":
-      return <CardsSection cards={section.cards} />;
+    case "tiles":
+      return <TileListSection tiles={section.tiles} />;
   }
 }
 
-type DataDisplayProps<Row extends DataDisplayTableRow> = {
-  title: string;
-  description: string;
-  sections: DataDisplaySectionInstance<Row>[];
+type DataDisplayBaseProps = {
   defaultSectionId?: string;
 };
 
-export function DataDisplay<Row extends DataDisplayTableRow = DataDisplayTableRow>({
-  title,
-  description,
-  sections,
-  defaultSectionId,
-}: DataDisplayProps<Row>) {
+type DataDisplayPageProps<Row extends DataDisplayTableRow> = DataDisplayBaseProps & {
+  mode?: "page";
+  hero: DataDisplayPageHero;
+  sections: DataDisplaySectionInstance<Row>[];
+};
+
+type DataDisplayDetailProps<Row extends DataDisplayTableRow> = DataDisplayBaseProps & {
+  mode: "detail";
+  hero: DataDisplayDetailHero;
+  sections: DataDisplayDetailSectionInstance<Row>[];
+};
+
+export type DataDisplayProps<Row extends DataDisplayTableRow = DataDisplayTableRow> =
+  | DataDisplayPageProps<Row>
+  | DataDisplayDetailProps<Row>;
+
+export function DataDisplay<Row extends DataDisplayTableRow = DataDisplayTableRow>(
+  props: DataDisplayProps<Row>,
+) {
+  const mode = props.mode ?? "page";
+  const { defaultSectionId } = props;
+  const sections = props.sections as DataDisplaySectionInstance<Row>[];
+
+  assertValidDataDisplaySections(mode, sections);
+
   const visibleSections = sections.slice(0, MAX_SECTION_COUNT);
-  if (visibleSections.length === 0) {
-    throw new Error("DataDisplay requires at least one section instance.");
-  }
 
   const [activeSectionId, setActiveSectionId] = useState(
     defaultSectionId ?? visibleSections[0].id,
@@ -62,8 +80,22 @@ export function DataDisplay<Row extends DataDisplayTableRow = DataDisplayTableRo
     label: section.label,
   }));
 
+  const heroElement =
+    props.mode === "detail" ? (
+      <CanvasHero
+        title={props.hero.title}
+        description={props.hero.description}
+        metaId={props.hero.id}
+        metaIcon={<props.hero.icon className="size-5.5 text-current" />}
+      />
+    ) : (
+      <CanvasHero title={props.hero.title} description={props.hero.description} />
+    );
+
   return (
-    <CanvasPage title={title} description={description}>
+    <CanvasPage>
+      {heroElement}
+
       <section className="space-y-4">
         <div className="flex items-center gap-6 border-b border-zinc-100">
           <SectionTabs
