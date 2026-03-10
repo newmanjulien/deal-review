@@ -1,6 +1,11 @@
 export type OptionalAppTier = "free" | "paid";
 
-export type OptionalAppId = "reminders" | "call-transcriber" | "rfps";
+export type OptionalAppId =
+  | "reminders"
+  | "call-transcriber"
+  | "rfps"
+  | "email"
+  | "proposals";
 
 export type OptionalApp = {
   id: OptionalAppId;
@@ -26,9 +31,23 @@ const appRecords: OptionalApp[] = [
   },
   {
     id: "rfps",
-    name: "RFPs",
+    name: "RFP helper",
     description:
       "Add your RFP, your assistant will help break it down into simple tasks. And delegate tasks to colleagues",
+    tier: "paid",
+  },
+  {
+    id: "proposals",
+    name: "Proposal generator",
+    description:
+      "Easily and quickly create quality proposals for potential clients. And get them approved in a simple way",
+    tier: "paid",
+  },
+  {
+    id: "email",
+    name: "1 email per day",
+    description:
+      "Start long term relationships by send 1 email per day to potential clients in your industry who you don't know yet",
     tier: "paid",
   },
 ];

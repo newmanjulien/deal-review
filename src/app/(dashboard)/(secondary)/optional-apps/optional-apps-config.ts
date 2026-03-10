@@ -1,4 +1,11 @@
-import { File, MessageCircle, PhoneCall, type LucideIcon } from "lucide-react";
+import {
+  File,
+  FileText,
+  Mail,
+  MessageCircle,
+  PhoneCall,
+  type LucideIcon,
+} from "lucide-react";
 import type { OptionalAppId, OptionalAppTier } from "./optional-apps-data";
 
 type OptionalAppSectionConfig = {
@@ -30,4 +37,6 @@ export const OPTIONAL_APP_ICONS: Record<OptionalAppId, LucideIcon> = {
   reminders: MessageCircle,
   "call-transcriber": PhoneCall,
   rfps: File,
+  email: Mail,
+  proposals: FileText,
 };
