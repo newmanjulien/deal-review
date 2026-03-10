@@ -3,6 +3,7 @@ export type { DataDisplayProps } from "./data-display";
 export type {
   DataDisplayDetailHero,
   DataDisplayDetailSectionInstance,
+  DataDisplayOrgChartNode,
   DataDisplayPageHero,
   DataDisplaySectionInstance,
   DataDisplaySectionKind,

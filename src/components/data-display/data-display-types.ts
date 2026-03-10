@@ -6,13 +6,29 @@ import type {
 import type { AppPath } from "@/types/domain/app-path";
 import type { IsoDateString } from "@/types/domain/date-time";
 
-export type DataDisplaySectionKind = "timeline" | "table" | "tiles" | "upload";
+export type DataDisplaySectionKind =
+  | "timeline"
+  | "table"
+  | "tiles"
+  | "upload"
+  | "org-chart";
 
 export type DataDisplayTimelineItem = {
   id: string;
   title: string;
   occurredOnIso: IsoDateString;
   body: string;
+};
+
+export type DataDisplayOrgChartNode = {
+  id: string;
+  name: string;
+  role: string;
+  lastContacted: {
+    by: string;
+    on: string;
+  };
+  directReports?: DataDisplayOrgChartNode[];
 };
 
 export type DataDisplayTableRow<
@@ -106,13 +122,19 @@ type DataDisplayUploadSectionInstance = DataDisplaySectionInstanceBase & {
   allowMultipleFiles?: boolean;
 };
 
+type DataDisplayOrgChartSectionInstance = DataDisplaySectionInstanceBase & {
+  kind: "org-chart";
+  root: DataDisplayOrgChartNode;
+};
+
 export type DataDisplaySectionInstance<
   Row extends DataDisplayTableRow = DataDisplayTableRow,
 > =
   | DataDisplayTimelineSectionInstance
   | DataDisplayTableSectionInstance<Row>
   | DataDisplayTilesSectionInstance
-  | DataDisplayUploadSectionInstance;
+  | DataDisplayUploadSectionInstance
+  | DataDisplayOrgChartSectionInstance;
 
 export type DataDisplayDetailSectionInstance<
   Row extends DataDisplayTableRow = DataDisplayTableRow,

@@ -15,6 +15,7 @@ import { TableSection } from "@/components/data-display/sections/table-section";
 import { TileListSection } from "@/components/data-display/sections/tile-list-section";
 import { TimelineSection } from "@/components/data-display/sections/timeline-section";
 import { UploadSection } from "@/components/data-display/sections/upload-section";
+import { OrgChartSection } from "@/components/data-display/sections/org-chart-section";
 import { SectionTabs } from "@/components/ui/section-tabs";
 
 const MAX_SECTION_COUNT = 3;
@@ -45,6 +46,8 @@ function renderSection<Row extends DataDisplayTableRow>(
           allowMultipleFiles={section.allowMultipleFiles}
         />
       );
+    case "org-chart":
+      return <OrgChartSection root={section.root} />;
   }
 }
 
