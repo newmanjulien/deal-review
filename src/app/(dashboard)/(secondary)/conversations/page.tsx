@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { CanvasWidePage } from "@/components/canvas/canvas-page";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { conversationsData } from "./conversations-data";
@@ -12,10 +12,20 @@ import {
   buildRowsFromBoardState,
   useConversationsBoardState,
 } from "./use-conversations-board-state";
-import { useConversationsRouteState } from "./use-conversations-route-state";
+import {
+  type ConversationView,
+  useConversationsRouteState,
+} from "./use-conversations-route-state";
 
-export default function ConversationsPage() {
-  const { desktopView, setDesktopView } = useConversationsRouteState();
+type ConversationsPageContentProps = {
+  desktopView: ConversationView;
+  setDesktopView: (view: ConversationView) => void;
+};
+
+function ConversationsPageContent({
+  desktopView,
+  setDesktopView,
+}: ConversationsPageContentProps) {
   const { boardState, setBoardState, persistBoardStateNow } =
     useConversationsBoardState();
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -41,5 +51,24 @@ export default function ConversationsPage() {
         )}
       </section>
     </CanvasWidePage>
+  );
+}
+
+function ConversationsPageWithRouteState() {
+  const { desktopView, setDesktopView } = useConversationsRouteState();
+
+  return (
+    <ConversationsPageContent
+      desktopView={desktopView}
+      setDesktopView={setDesktopView}
+    />
+  );
+}
+
+export default function ConversationsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ConversationsPageWithRouteState />
+    </Suspense>
   );
 }
