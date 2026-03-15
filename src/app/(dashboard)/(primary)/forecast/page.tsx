@@ -1,5 +1,3 @@
-"use client";
-
 import { CanvasHero } from "@/components/canvas/canvas-hero";
 import { CanvasPage } from "@/components/canvas/canvas-page";
 import { FORECAST_PAGE_CONFIG } from "./forecast-config";

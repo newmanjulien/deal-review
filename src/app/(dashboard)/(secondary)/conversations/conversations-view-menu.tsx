@@ -9,7 +9,7 @@ import {
   HeaderMenuSectionLabel,
 } from "@/app/(dashboard)/_chrome/header";
 import { useDashboardChromeUi } from "@/app/(dashboard)/_chrome/chrome-ui";
-import type { ConversationView } from "./use-conversations-route-state";
+import type { ConversationView } from "./conversations-route-state";
 
 const VIEW_MENU_ID = "desktop-conversations-view";
 
