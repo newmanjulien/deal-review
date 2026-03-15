@@ -5,7 +5,7 @@ import {
 
 export const KANBAN_STAGES: readonly ConversationStage[] = CONVERSATION_STAGES;
 
-export const KANBAN_COLUMN_WIDTH_PX = 320;
+export const KANBAN_COLUMN_WIDTH_PX = 310;
 export const KANBAN_COLUMN_GAP_PX = 12;
 export const KANBAN_CARD_WIDTH_PX = KANBAN_COLUMN_WIDTH_PX - 40;
 export const SCROLL_EDGE_EPSILON_PX = 4;

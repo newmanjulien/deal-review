@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import {
-  KANBAN_COLUMN_GAP_PX,
-  KANBAN_COLUMN_WIDTH_PX,
   SCROLL_EDGE_EPSILON_PX,
 } from "./conversations-kanban-constants";
 
@@ -92,24 +90,9 @@ export function useKanbanScrollControls({
     };
   }, []);
 
-  const scrollBoard = useCallback(
-    (direction: "left" | "right") => {
-      const element = scrollContainerRef.current;
-      if (!element) return;
-
-      const delta = KANBAN_COLUMN_WIDTH_PX + KANBAN_COLUMN_GAP_PX;
-      element.scrollBy({
-        left: direction === "right" ? delta : -delta,
-        behavior: "smooth",
-      });
-    },
-    [scrollContainerRef],
-  );
-
   return {
     canScrollLeft,
     canScrollRight,
-    scrollBoard,
     updateScrollState,
   };
 }

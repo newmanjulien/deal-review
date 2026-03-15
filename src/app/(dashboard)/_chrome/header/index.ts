@@ -1,4 +1,10 @@
 export { DashboardHeaderSlot } from "./dashboard-header-slot";
+export {
+  DASHBOARD_HEADER_ACTION_SLOTS,
+  DashboardHeaderActionPortal,
+  DashboardHeaderActionSlotsProvider,
+  type DashboardHeaderActionSlotName,
+} from "./dashboard-header-action-slots";
 export { HeaderLeadingControl } from "./header-leading-control";
 export { HEADER_MENU_CONFIG } from "./header-config";
 export { headerData } from "./header-data";

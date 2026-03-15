@@ -23,6 +23,7 @@ export function MobileHeader({
 }) {
   const chrome = useDashboardChromeModel();
   const { actions } = useDashboardChromeUi();
+  const header = chrome?.header;
 
   return (
     <MobileChromeHeaderShell
@@ -54,18 +55,24 @@ export function MobileHeader({
         </button>
       }
       center={
-        chrome ? (
-          <HeaderLeadingControl
-            leading={chrome.header.leadingControl}
-            className="!mr-0 !ml-0 inline-flex h-8 min-w-0 max-w-full items-center justify-center rounded-sm px-2 text-center text-xs font-medium tracking-wide text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
-            meetingDateMenuId="mobile-header-dates-popover-content"
-            meetingDateTriggerId="mobile-header-dates-popover-trigger"
-            meetingDateAlign="center"
-            meetingDateOpen={actions.isMenuOpen(MOBILE_MEETING_DATE_MENU_ID)}
-            onMeetingDateOpenChange={(open) =>
-              actions.setMenuOpen(MOBILE_MEETING_DATE_MENU_ID, open)
-            }
-          />
+        header ? (
+          header.variant === "contextual" ? (
+            <HeaderLeadingControl
+              leading={header.leadingControl}
+              className="!mr-0 !ml-0 inline-flex h-8 min-w-0 max-w-full items-center justify-center rounded-sm px-2 text-center text-xs font-medium tracking-wide text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+              meetingDateMenuId="mobile-header-dates-popover-content"
+              meetingDateTriggerId="mobile-header-dates-popover-trigger"
+              meetingDateAlign="center"
+              meetingDateOpen={actions.isMenuOpen(MOBILE_MEETING_DATE_MENU_ID)}
+              onMeetingDateOpenChange={(open) =>
+                actions.setMenuOpen(MOBILE_MEETING_DATE_MENU_ID, open)
+              }
+            />
+          ) : (
+            <span className="block min-w-0 max-w-full truncate px-2 text-center text-xs font-medium tracking-wide text-zinc-600">
+              {header.title}
+            </span>
+          )
         ) : null
       }
     />

@@ -1,37 +1,41 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { CanvasPageShell } from "@/components/canvas/canvas-page-shell";
 
 type CanvasPageContentProps = Pick<
   ComponentProps<typeof CanvasPageShell>,
-  "children" | "title" | "description"
+  "children" | "fillHeight"
 >;
+
+type CanvasPageProps = CanvasPageContentProps & {
+  hero?: ReactNode;
+};
 
 export function CanvasPage({
   children,
-  title,
-  description,
-}: CanvasPageContentProps) {
+  fillHeight,
+  hero,
+}: CanvasPageProps) {
   return (
-    <CanvasPageShell title={title} description={description}>
+    <CanvasPageShell hero={hero} fillHeight={fillHeight}>
       {children}
     </CanvasPageShell>
   );
 }
 
-export function CanvasOnlyPage(props: CanvasPageContentProps) {
+export function CanvasOnlyPage(props: CanvasPageProps) {
   return <CanvasPage {...props} />;
 }
 
 export function CanvasWidePage({
   children,
-  title,
-  description,
-}: CanvasPageContentProps) {
+  fillHeight,
+  hero,
+}: CanvasPageProps) {
   return (
     <CanvasPageShell
       contentMaxWidthClassName="max-w-8xl"
-      title={title}
-      description={description}
+      hero={hero}
+      fillHeight={fillHeight}
     >
       {children}
     </CanvasPageShell>

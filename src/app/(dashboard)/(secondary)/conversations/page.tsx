@@ -1,57 +1,35 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { CanvasWidePage } from "@/components/canvas/canvas-page";
-import { SectionTabs } from "@/components/ui/section-tabs";
 import { useMediaQuery } from "@/lib/use-media-query";
-import { CONVERSATIONS_PAGE_CONFIG } from "./conversations-config";
 import { conversationsData } from "./conversations-data";
 import { ConversationsSellerFilterMenu } from "./conversations-seller-filter-menu";
 import { ConversationsTable } from "./conversations-table";
+import { ConversationsViewMenu } from "./conversations-view-menu";
 import { ConversationsKanban } from "./kanban/conversations-kanban";
 import {
   buildRowsFromBoardState,
   useConversationsBoardState,
 } from "./use-conversations-board-state";
-
-type ConversationView = "table" | "kanban";
-const DESKTOP_VIEW_OPTIONS: Array<{ id: ConversationView; label: string }> = [
-  { id: "kanban", label: "Kanban" },
-  { id: "table", label: "Table" },
-];
+import { useConversationsRouteState } from "./use-conversations-route-state";
 
 export default function ConversationsPage() {
-  const [activeDesktopView, setActiveDesktopView] =
-    useState<ConversationView>("kanban");
+  const { desktopView, setDesktopView } = useConversationsRouteState();
   const { boardState, setBoardState, persistBoardStateNow } =
     useConversationsBoardState();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const effectiveView: ConversationView = isDesktop ? activeDesktopView : "table";
+  const effectiveView = isDesktop ? desktopView : "table";
   const tableRows = useMemo(
     () => (effectiveView === "table" ? buildRowsFromBoardState(boardState) : null),
     [boardState, effectiveView],
   );
 
   return (
-    <CanvasWidePage
-      title={CONVERSATIONS_PAGE_CONFIG.title}
-      description={CONVERSATIONS_PAGE_CONFIG.description}
-    >
-      <section className="space-y-4">
-        {isDesktop ? (
-          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-100">
-            <SectionTabs
-              tabs={DESKTOP_VIEW_OPTIONS}
-              activeTabId={activeDesktopView}
-              onTabChange={setActiveDesktopView}
-            />
-
-            <div className="flex items-center gap-2 pb-3">
-              <ConversationsSellerFilterMenu people={conversationsData.views.sellerPeople} />
-            </div>
-          </div>
-        ) : null}
-
+    <CanvasWidePage fillHeight>
+      <ConversationsSellerFilterMenu people={conversationsData.views.sellerPeople} />
+      <ConversationsViewMenu activeView={desktopView} onViewChange={setDesktopView} />
+      <section className="flex min-h-0 flex-1 flex-col">
         {effectiveView === "table" ? (
           <ConversationsTable rows={tableRows ?? []} />
         ) : (

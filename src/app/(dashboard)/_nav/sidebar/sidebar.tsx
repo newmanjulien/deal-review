@@ -36,22 +36,30 @@ export function Sidebar({ className }: { className?: string }) {
       )}
       aria-label="Dashboard sidebar"
     >
-      {isExpanded ? (
-        <div className="mb-4 ml-0.5 flex w-full items-center justify-between pr-0.5">
-          <Link
-            href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
-            aria-label="Go to since last meeting"
-            className="overflow-hidden rounded-sm"
-          >
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              width={20}
-              height={20}
-              className="size-6"
-              priority
-            />
-          </Link>
+      <div className="mb-4 ml-0.5 flex w-full items-center pr-0.5">
+        <Link
+          href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
+          aria-label="Go to since last meeting"
+          className="shrink-0 overflow-hidden rounded-sm"
+        >
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={20}
+            height={20}
+            className="size-6"
+            priority
+          />
+        </Link>
+
+        <div
+          className={cn(
+            "ml-auto flex shrink-0 items-center overflow-hidden transition-[max-width,opacity,transform] duration-200",
+            isExpanded
+              ? "max-w-24 translate-x-0 opacity-100"
+              : "pointer-events-none max-w-0 translate-x-1 opacity-0",
+          )}
+        >
           <div className="inline-flex h-6 origin-center scale-110 items-center gap-1 rounded-full border border-zinc-100 bg-zinc-50 px-1 text-zinc-100">
             <span className="inline-flex size-5 shrink-0 overflow-hidden rounded-full border border-zinc-100 bg-white">
               <Image
@@ -68,22 +76,7 @@ export function Sidebar({ className }: { className?: string }) {
             />
           </div>
         </div>
-      ) : (
-        <Link
-          href={DASHBOARD_ROUTE_PATHS["since-last-meeting"]}
-          aria-label="Go to since last meeting"
-          className="mb-4 overflow-hidden rounded-sm"
-        >
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={20}
-            height={20}
-            className="size-6"
-            priority
-          />
-        </Link>
-      )}
+      </div>
 
       <SidebarNav
         groups={chrome.nav.groups}

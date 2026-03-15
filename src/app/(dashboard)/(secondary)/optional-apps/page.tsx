@@ -1,6 +1,7 @@
 "use client";
 
 import type { SyntheticEvent } from "react";
+import { CanvasHero } from "@/components/canvas/canvas-hero";
 import { CanvasOnlyPage } from "@/components/canvas/canvas-page";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,8 +19,12 @@ export default function OptionalAppsPage() {
 
   return (
     <CanvasOnlyPage
-      title={OPTIONAL_APPS_PAGE_CONFIG.title}
-      description={OPTIONAL_APPS_PAGE_CONFIG.description}
+      hero={
+        <CanvasHero
+          title={OPTIONAL_APPS_PAGE_CONFIG.title}
+          description={OPTIONAL_APPS_PAGE_CONFIG.description}
+        />
+      }
     >
       <div className="space-y-6">
         {OPTIONAL_APP_SECTION_CONFIGS.map((section) => {

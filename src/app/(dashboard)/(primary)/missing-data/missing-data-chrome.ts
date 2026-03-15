@@ -29,6 +29,7 @@ export function resolveMissingDataDetailChrome(
   return {
     routeId: "missing-data-detail",
     header: {
+      variant: "contextual",
       leadingControl: {
         kind: "back-link",
         href: MISSING_DATA_ROUTE_HREF,

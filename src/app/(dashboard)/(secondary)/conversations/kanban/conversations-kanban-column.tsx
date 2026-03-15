@@ -86,7 +86,7 @@ export function ConversationsKanbanColumn({
       ref={setNodeRef}
       style={{ width: KANBAN_COLUMN_WIDTH_PX }}
       className={cn(
-        "flex h-[clamp(38rem,72dvh,56rem)] snap-start flex-col rounded-sm border border-zinc-200/80 bg-zinc-50/60 p-2.5 transition-colors",
+        "flex h-full min-h-0 snap-start flex-col rounded-sm border border-zinc-200/80 bg-zinc-50/60 p-2.5 transition-colors",
         isOver && "border-zinc-300 bg-zinc-100/60",
       )}
     >
@@ -107,7 +107,7 @@ export function ConversationsKanbanColumn({
       >
         <ol
           ref={(element) => onColumnListRefChange(stage, element)}
-          className="flex-1 space-y-2.5 overflow-y-auto pt-2 pr-0.5"
+          className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pt-2 pr-0.5"
         >
           {cardIds.length > 0 ? (
             cardIds.map((cardId) => {

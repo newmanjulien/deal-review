@@ -30,11 +30,25 @@ export type DashboardChromeBreadcrumb = {
   href?: AppPath;
 };
 
-export type DashboardChromeHeader = {
+type DashboardChromeHeaderBase = {
+  showOverflowMenu?: boolean;
+};
+
+export type DashboardChromeContextualHeader = DashboardChromeHeaderBase & {
+  variant: "contextual";
   leadingControl: DashboardChromeLeadingControl;
   breadcrumbs: DashboardChromeBreadcrumb[];
   sharedPeople?: HeaderPerson[];
 };
+
+export type DashboardChromeTitleHeader = DashboardChromeHeaderBase & {
+  variant: "title";
+  title: string;
+};
+
+export type DashboardChromeHeader =
+  | DashboardChromeContextualHeader
+  | DashboardChromeTitleHeader;
 
 export type DashboardChromeCapabilities = {
   questions: boolean;

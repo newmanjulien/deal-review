@@ -3,6 +3,10 @@ import { ChevronRight, Ellipsis, PanelLeft } from "lucide-react";
 import { useDashboardChromeUi } from "@/app/(dashboard)/_chrome/chrome-ui";
 import type { DashboardChromeModel } from "@/app/(dashboard)/_routes/dashboard-routes";
 import { DesktopChromeHeaderShell } from "@/components/chrome";
+import {
+  DASHBOARD_HEADER_ACTION_SLOTS,
+  DashboardHeaderActionHost,
+} from "./dashboard-header-action-slots";
 import { HeaderLeadingControl } from "./header-leading-control";
 import { SellerSwitchMenu } from "./seller-switch-menu";
 import { ShareMenu } from "./share-menu";
@@ -18,9 +22,10 @@ export function DashboardHeader({ chrome }: { chrome: DashboardChromeModel }) {
     state: { isSidebarExpanded },
     actions,
   } = useDashboardChromeUi();
-
-  const people = chrome.header.sharedPeople ?? [];
+  const { header } = chrome;
+  const people = header.variant === "contextual" ? header.sharedPeople ?? [] : [];
   const showPeopleActions = people.length > 0;
+  const showOverflowMenu = header.showOverflowMenu !== false;
 
   return (
     <DesktopChromeHeaderShell
@@ -38,47 +43,60 @@ export function DashboardHeader({ chrome }: { chrome: DashboardChromeModel }) {
             </span>
           </button>
 
-          <HeaderLeadingControl
-            leading={chrome.header.leadingControl}
-            meetingDateMenuId="desktop-header-dates-popover-content"
-            meetingDateTriggerId="desktop-header-dates-popover-trigger"
-            meetingDateAlign="start"
-            meetingDateOpen={actions.isMenuOpen(MENU_IDS.meetingDate)}
-            onMeetingDateOpenChange={(open) =>
-              actions.setMenuOpen(MENU_IDS.meetingDate, open)
-            }
-          />
+          {header.variant === "contextual" ? (
+            <>
+              <HeaderLeadingControl
+                leading={header.leadingControl}
+                meetingDateMenuId="desktop-header-dates-popover-content"
+                meetingDateTriggerId="desktop-header-dates-popover-trigger"
+                meetingDateAlign="start"
+                meetingDateOpen={actions.isMenuOpen(MENU_IDS.meetingDate)}
+                onMeetingDateOpenChange={(open) =>
+                  actions.setMenuOpen(MENU_IDS.meetingDate, open)
+                }
+              />
 
-          <nav aria-label="Header breadcrumbs" className="flex min-w-0 items-center">
-            {chrome.header.breadcrumbs.map((breadcrumb, index) => {
-              const isLast = index === chrome.header.breadcrumbs.length - 1;
+              <nav aria-label="Header breadcrumbs" className="flex min-w-0 items-center">
+                {header.breadcrumbs.map((breadcrumb, index) => {
+                  const isLast = index === header.breadcrumbs.length - 1;
 
-              return (
-                <span
-                  key={`${breadcrumb.label}-${index}`}
-                  className="flex min-w-0 items-center"
-                >
-                  <ChevronRight className="mr-2 h-3 w-3 text-zinc-200" />
-                  {breadcrumb.href && !isLast ? (
-                    <Link
-                      href={breadcrumb.href}
-                      className="mr-2 inline-flex items-center text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
+                  return (
+                    <span
+                      key={`${breadcrumb.label}-${index}`}
+                      className="flex min-w-0 items-center"
                     >
-                      {breadcrumb.label}
-                    </Link>
-                  ) : (
-                    <p
-                      className={`min-w-0 truncate text-xs font-medium tracking-wide ${
-                        isLast ? "text-zinc-900" : "mr-2 text-zinc-500"
-                      }`}
-                    >
-                      {breadcrumb.label}
-                    </p>
-                  )}
-                </span>
-              );
-            })}
-          </nav>
+                      <ChevronRight className="mr-2 h-3 w-3 text-zinc-200" />
+                      {breadcrumb.href && !isLast ? (
+                        <Link
+                          href={breadcrumb.href}
+                          className="mr-2 inline-flex items-center text-xs font-medium tracking-wide text-zinc-500 transition-colors hover:text-zinc-400"
+                        >
+                          {breadcrumb.label}
+                        </Link>
+                      ) : (
+                        <p
+                          className={`min-w-0 truncate text-xs font-medium tracking-wide ${
+                            isLast ? "text-zinc-900" : "mr-2 text-zinc-500"
+                          }`}
+                        >
+                          {breadcrumb.label}
+                        </p>
+                      )}
+                    </span>
+                  );
+                })}
+              </nav>
+            </>
+          ) : (
+            <>
+              <p className="mr-2 ml-1 min-w-0 truncate text-xs font-medium tracking-wide text-zinc-500">
+                {header.title}
+              </p>
+              <DashboardHeaderActionHost
+                slot={DASHBOARD_HEADER_ACTION_SLOTS.desktopLeadingAfterTitle}
+              />
+            </>
+          )}
         </>
       }
       trailing={
@@ -103,13 +121,18 @@ export function DashboardHeader({ chrome }: { chrome: DashboardChromeModel }) {
               />
             </>
           ) : null}
-          <button
-            type="button"
-            aria-label="More actions"
-            className="flex h-7 w-7 items-center justify-center rounded-sm border border-zinc-100 text-zinc-500 transition-colors hover:bg-zinc-100"
-          >
-            <Ellipsis className="h-3 w-3" />
-          </button>
+          <DashboardHeaderActionHost
+            slot={DASHBOARD_HEADER_ACTION_SLOTS.desktopTrailingBeforeOverflow}
+          />
+          {showOverflowMenu ? (
+            <button
+              type="button"
+              aria-label="More actions"
+              className="flex h-7 w-7 items-center justify-center rounded-sm border border-zinc-100 text-zinc-500 transition-colors hover:bg-zinc-100"
+            >
+              <Ellipsis className="h-3 w-3" />
+            </button>
+          ) : null}
         </>
       }
     />

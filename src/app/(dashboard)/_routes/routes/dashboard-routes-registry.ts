@@ -1,6 +1,5 @@
 import {
   Activity,
-  CircleOff,
   CircleQuestionMark,
   LayoutGrid,
   Lightbulb,
@@ -8,8 +7,6 @@ import {
 } from "lucide-react";
 import { FORECAST_PAGE_CONFIG } from "../../(primary)/forecast/forecast-config";
 import { forecastData } from "../../(primary)/forecast/forecast-data";
-import { MISSING_DATA_PAGE_CONFIG } from "../../(primary)/missing-data/missing-data-config";
-import { missingDataData } from "../../(primary)/missing-data/missing-data-data";
 import { OPPORTUNITIES_PAGE_CONFIG } from "../../(primary)/opportunities/opportunities-config";
 import { opportunitiesData } from "../../(primary)/opportunities/opportunities-data";
 import { SINCE_LAST_MEETING_PAGE_CONFIG } from "../../(primary)/since-last-meeting/since-last-meeting-config";
@@ -27,6 +24,7 @@ export const DASHBOARD_ROUTES = [
     default: true,
     chrome: {
       header: {
+        variant: "contextual",
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: SINCE_LAST_MEETING_PAGE_CONFIG.headerTitle }],
         sharedPeople: sinceLastMeetingData.views.sharedPeople,
@@ -45,6 +43,7 @@ export const DASHBOARD_ROUTES = [
     implemented: true,
     chrome: {
       header: {
+        variant: "contextual",
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: FORECAST_PAGE_CONFIG.headerTitle }],
         sharedPeople: forecastData.views.sharedPeople,
@@ -63,6 +62,7 @@ export const DASHBOARD_ROUTES = [
   //   implemented: true,
   //   chrome: {
   //     header: {
+  //       variant: "contextual",
   //       leadingControl: { kind: "meeting-date" },
   //       breadcrumbs: [{ label: MISSING_DATA_PAGE_CONFIG.headerTitle }],
   //       sharedPeople: missingDataData.views.sharedPeople,
@@ -81,6 +81,7 @@ export const DASHBOARD_ROUTES = [
     implemented: true,
     chrome: {
       header: {
+        variant: "contextual",
         leadingControl: { kind: "meeting-date" },
         breadcrumbs: [{ label: OPPORTUNITIES_PAGE_CONFIG.headerTitle }],
         sharedPeople: opportunitiesData.views.sharedPeople,
@@ -99,8 +100,8 @@ export const DASHBOARD_ROUTES = [
     implemented: true,
     chrome: {
       header: {
-        leadingControl: { kind: "meeting-date" },
-        breadcrumbs: [{ label: CONVERSATIONS_PAGE_CONFIG.headerTitle }],
+        variant: "title",
+        title: CONVERSATIONS_PAGE_CONFIG.headerTitle,
       },
       capabilities: { questions: false },
     },
@@ -116,8 +117,8 @@ export const DASHBOARD_ROUTES = [
     implemented: true,
     chrome: {
       header: {
-        leadingControl: { kind: "meeting-date" },
-        breadcrumbs: [{ label: OPTIONAL_APPS_PAGE_CONFIG.headerTitle }],
+        variant: "title",
+        title: OPTIONAL_APPS_PAGE_CONFIG.headerTitle,
       },
       capabilities: { questions: false },
     },

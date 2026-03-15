@@ -39,7 +39,7 @@ export function ConversationsKanban({
   onBoardCommit,
 }: ConversationsKanbanProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { canScrollLeft, canScrollRight, scrollBoard, updateScrollState } =
+  const { canScrollLeft, canScrollRight, updateScrollState } =
     useKanbanScrollControls({
       scrollContainerRef,
     });
@@ -94,15 +94,13 @@ export function ConversationsKanban({
       <ConversationsKanbanChrome
         canScrollLeft={canScrollLeft}
         canScrollRight={canScrollRight}
-        onScrollLeft={() => scrollBoard("left")}
-        onScrollRight={() => scrollBoard("right")}
       >
         <div
           ref={scrollContainerRef}
-          className="overflow-x-auto pb-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="h-full min-h-0 overflow-x-auto overflow-y-hidden pb-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           <div
-            className="grid min-h-[clamp(38rem,72dvh,56rem)] min-w-max grid-flow-col gap-3"
+            className="grid h-full min-w-max grid-flow-col gap-3"
             style={{ gridAutoColumns: KANBAN_COLUMN_WIDTH_PX }}
           >
             {KANBAN_STAGES.map((stage) => (
