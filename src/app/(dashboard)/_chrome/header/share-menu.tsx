@@ -30,13 +30,13 @@ export function ShareMenu({
       onOpenChange={onOpenChange}
       sectionLabel={HEADER_MENU_CONFIG.share.sectionLabel}
       containerClassName="mr-2 flex items-center"
-      triggerGroupClassName="-space-x-2"
+      triggerGroupClassName="-space-x-1"
       trigger={
         <button
           id={triggerId}
           type="button"
           aria-label="Share with team members"
-          className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"
+          className="relative z-10 inline-flex h-7 w-7 shrink-0 appearance-none items-center justify-center rounded-full border-[1.5px] border-dotted border-zinc-300 bg-white text-zinc-400 ring-1 ring-white transition-colors hover:bg-zinc-100"
         >
           <Plus className="h-3 w-3" />
         </button>
@@ -45,7 +45,7 @@ export function ShareMenu({
         selectedPeople.map((person) => (
           <span
             key={person.name}
-            className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border border-white"
+            className="inline-flex h-7 w-7 shrink-0 overflow-hidden rounded-full border-2 border-white"
           >
             <Image
               src={person.avatar}
