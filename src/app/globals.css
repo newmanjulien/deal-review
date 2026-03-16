@@ -104,16 +104,23 @@
 @layer components {
   .dashboard-canvas {
     padding: 0;
+    --dashboard-sidebar-width: 2.75rem;
+    --dashboard-sidebar-pad-left: 0.125rem;
+    --dashboard-sidebar-pad-right: 0rem;
+    --dashboard-canvas-gap: 0rem;
   }
 
   @media (min-width: 768px) {
     .dashboard-canvas {
-      padding: 0.25rem 0.25rem 0.25rem 0.6rem;
+      padding: 0.25rem 0.25rem 0.25rem 0.8rem;
     }
 
     .dashboard-canvas[data-sidebar-state="expanded"] {
-      padding-left: 0.4rem;
-      gap: 0.4rem;
+      padding-left: 0.7rem;
+      --dashboard-sidebar-width: 14rem;
+      --dashboard-sidebar-pad-left: 0.5rem;
+      --dashboard-sidebar-pad-right: 0.5rem;
+      --dashboard-canvas-gap: 0.7rem;
     }
   }
 

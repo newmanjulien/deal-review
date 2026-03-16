@@ -15,7 +15,7 @@ function LayoutClientShell({ children }: { children: ReactNode }) {
   return (
     <div className="h-dvh min-h-dvh overflow-hidden bg-zinc-50">
       <div
-        className="dashboard-canvas flex h-full min-h-0"
+        className="dashboard-canvas flex h-full min-h-0 md:gap-[var(--dashboard-canvas-gap)]"
         data-sidebar-state={isSidebarExpanded ? "expanded" : "collapsed"}
       >
         <Sidebar className="hidden md:flex" />

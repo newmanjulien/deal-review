@@ -30,8 +30,8 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <aside
       className={cn(
-        "flex shrink-0 self-stretch flex-col overflow-hidden pt-2.5 transition-[width,padding] duration-200",
-        isExpanded ? "w-56 items-stretch px-2" : "w-10 items-start pl-0.5",
+        "flex w-[var(--dashboard-sidebar-width)] shrink-0 self-stretch flex-col overflow-hidden pt-2.5 pl-[var(--dashboard-sidebar-pad-left)] pr-[var(--dashboard-sidebar-pad-right)] transition-[width,padding] duration-200",
+        isExpanded ? "items-stretch" : "items-start",
         className,
       )}
       aria-label="Dashboard sidebar"
