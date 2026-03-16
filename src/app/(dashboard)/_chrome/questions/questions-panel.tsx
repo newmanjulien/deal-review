@@ -28,7 +28,7 @@ export function QuestionsPanel({
     <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden border-l border-zinc-100 bg-white">
       <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
         <header className="space-y-1.5 pb-2">
-          <h2 className="text-sm text-zinc-900">
+          <h2 className="text-sm font-medium text-zinc-900">
             {QUESTIONS_PANEL_CONFIG.title}
           </h2>
           <p className="text-xs leading-relaxed tracking-wide text-zinc-500">

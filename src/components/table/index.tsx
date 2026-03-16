@@ -22,10 +22,13 @@ function DashboardTable({
     <div
       className={cn(
         "overflow-x-auto overflow-y-hidden rounded-sm border border-zinc-100 bg-white",
-        containerClassName
+        containerClassName,
       )}
     >
-      <Table className={cn("min-w-full border-collapse", className)} {...props} />
+      <Table
+        className={cn("min-w-full border-collapse", className)}
+        {...props}
+      />
     </div>
   );
 }
@@ -44,8 +47,8 @@ function DashboardTableHead({
   return (
     <TableHead
       className={cn(
-        "px-4 py-3 text-left text-xs font-medium tracking-wide text-zinc-500",
-        className
+        "px-4 py-3 text-left text-xs tracking-wide text-zinc-500",
+        className,
       )}
       {...props}
     />
@@ -56,7 +59,12 @@ function DashboardTableBody({
   className,
   ...props
 }: React.ComponentProps<typeof TableBody>) {
-  return <TableBody className={cn("divide-y divide-zinc-100", className)} {...props} />;
+  return (
+    <TableBody
+      className={cn("divide-y divide-zinc-100", className)}
+      {...props}
+    />
+  );
 }
 
 function DashboardTableRow({
@@ -122,11 +130,17 @@ function DashboardDataTable<Row>({
   emptyState,
 }: DashboardDataTableProps<Row>) {
   return (
-    <DashboardTable className={tableClassName} containerClassName={containerClassName}>
+    <DashboardTable
+      className={tableClassName}
+      containerClassName={containerClassName}
+    >
       <DashboardTableHeader className={headerClassName}>
         <DashboardTableRow>
           {columns.map((column) => (
-            <DashboardTableHead key={column.key} className={column.headClassName}>
+            <DashboardTableHead
+              key={column.key}
+              className={column.headClassName}
+            >
               {column.label}
             </DashboardTableHead>
           ))}
@@ -159,6 +173,4 @@ function DashboardDataTable<Row>({
   );
 }
 
-export {
-  DashboardDataTable,
-};
+export { DashboardDataTable };
